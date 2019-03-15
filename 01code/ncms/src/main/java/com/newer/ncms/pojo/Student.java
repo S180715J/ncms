@@ -2,7 +2,6 @@ package com.newer.ncms.pojo;
 
 import java.io.Serializable;
 
-
 /**
  * 学生信息实体类
  * 
@@ -21,20 +20,20 @@ public class Student implements Serializable {
 	private String password;// 密码
 	private String name;// 学生姓名
 	private String pinying;// 姓名拼音
-	private Integer sex;// 性别
+	private Dict sex;// 性别
 	private Clazz clazz;// 班级
-	private Integer specialty;// 专业方向
-	private Integer schoolarea;// 校区
+	private Dict specialty;// 专业方向
+	private Dict schoolarea;// 校区
 	private String nation;// 民族
 	private String idcard;// 身份证号码
-	private Integer edu;// 文化程度
+	private Dict edu;// 文化程度
 	private String endshool;// 毕业学校
 	private String contact;// 本人联系方式
 	private String homecontact;// 家庭联系方式
 	private String homeaddress;// 家庭住址
 	private String postcode;// 邮编
 	private String qq;// qq
-	private Integer isdebt;// 是否欠费
+	private Dict isdebt;// 是否欠费
 	private String jobcity;// 就业城市
 	private String jobcompany;// 就业企业
 	private Double jobsal;// 就业薪资
@@ -82,11 +81,11 @@ public class Student implements Serializable {
 		this.pinying = pinying;
 	}
 
-	public Integer getSex() {
+	public Dict getSex() {
 		return sex;
 	}
 
-	public void setSex(Integer sex) {
+	public void setSex(Dict sex) {
 		this.sex = sex;
 	}
 
@@ -98,19 +97,21 @@ public class Student implements Serializable {
 		this.clazz = clazz;
 	}
 
-	public Integer getSpecialty() {
+	public Dict getSpecialty() {
 		return specialty;
 	}
 
-	public void setSpecialty(Integer specialty) {
+	public void setSpecialty(Dict specialty) {
 		this.specialty = specialty;
 	}
 
-	public Integer getSchoolarea() {
+	
+
+	public Dict getSchoolarea() {
 		return schoolarea;
 	}
 
-	public void setSchoolarea(Integer schoolarea) {
+	public void setSchoolarea(Dict schoolarea) {
 		this.schoolarea = schoolarea;
 	}
 
@@ -130,11 +131,11 @@ public class Student implements Serializable {
 		this.idcard = idcard;
 	}
 
-	public Integer getEdu() {
+	public Dict getEdu() {
 		return edu;
 	}
 
-	public void setEdu(Integer edu) {
+	public void setEdu(Dict edu) {
 		this.edu = edu;
 	}
 
@@ -186,11 +187,11 @@ public class Student implements Serializable {
 		this.qq = qq;
 	}
 
-	public Integer getIsdebt() {
+	public Dict getIsdebt() {
 		return isdebt;
 	}
 
-	public void setIsdebt(Integer isdebt) {
+	public void setIsdebt(Dict isdebt) {
 		this.isdebt = isdebt;
 	}
 

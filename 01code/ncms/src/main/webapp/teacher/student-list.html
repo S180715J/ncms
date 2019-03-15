@@ -12,6 +12,7 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="stylesheet" href="../css/x-admin.css" media="all">
 <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+
 </head>
 <body>
 	<div class="x-nav">
@@ -25,7 +26,7 @@
 
 	<div class="x-body">
 		<form class="layui-form x-center" action="" style="width: 80%">
-		
+
 			<div class="layui-form-pane" style="margin-top: 15px;">
 				<div class="layui-form-item">
 					<label class="layui-form-label">日期范围</label>
@@ -48,9 +49,9 @@
 			</div>
 		</form>
 		<xblock>
-		
+
 		<button class="layui-btn"
-			onclick="admin_add('添加用户','admin-add.html','600','500')">
+			onclick="admin_add('添加用户','student-add.html','600','500')">
 			<i class="layui-icon">&#xe608;</i>添加
 		</button>
 		<button class="layui-btn layui-btn-danger" onclick="delAll()">
@@ -64,60 +65,153 @@
 			onclick="admin_add('添加用户','admin-add.html','600','500')">
 			<i class="layui-icon">&#xe608;</i>从Excel导入
 		</button>
-		<span class="x-right" style="line-height: 40px">共有数据：88 条</span></xblock>
-		<table class="layui-table"></table>
+		<span class="x-right" style="line-height: 40px" id="dataLength">共有数据：88
+			条</span></xblock>
+		<table id="table" lay-filter="test" ></table>
 
 		<div id="page"></div>
 	</div>
-	<script src="../lib/layui/layui.js" charset="utf-8"></script>
-	<script src="../js/x-layui.js" charset="utf-8"></script>
+	<!-- <script src="../lib/layui/layui.js" charset="utf-8"></script>
+	<script src="../js/x-layui.js" charset="utf-8"></script> -->
+	<script type="text/javascript" src="../layui/layui.js"></script>
+	<script type="text/javascript" src="../js/x-layui.js"></script>
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	
 	<script>
+		layui.use('table', function() {
+			var table = layui.table;
+			table.render({
+				elem : '#table',
+				height : 290,
+				url : 'http://localhost:8080/ncms/students', //数据接口
+				page : true, //开启分页
+				limit : 3,
+				cols : [ [ //表头
+				{
+					field : 'stuid',
+					title : '学生ID',
+					width : 80,
+					sort : true,
+					align : 'center',
+					style : 'font-size: 1px;'
+				}, {
+					field : 'stucode',
+					title : '学号',
+					align : 'center',
+					sort : true,
+					width : 80,
+					style : 'font-size: 1px;'
+
+				}, {
+					field : 'name',
+					title : '姓名',
+					width : 80,
+					align : 'center',
+					style : 'font-size: 1px;'
+				}, {
+					templet : '<div>{{d.sex.dictname}}</div>',
+					title : '性别',
+					width : 70,
+					align : 'center',
+					style : 'font-size: 1px;',
+				}, {
+					templet : '<div>{{d.clazz.code}}</div>',
+					title : '班级',
+					align : 'center',
+					width : 70,
+					style : 'font-size:10px;'
+				}, {
+					templet : '<div>{{d.specialty.dictname}}</div>',
+					title : '专业方向',
+					align : 'center',
+					width : 100,
+					style : 'font-size: 1px;'
+				}, {
+					templet : '<div>{{d.schoolarea.dictname}}</div>',
+					title : '校区',
+					width : 100,
+					align : 'center',
+					sort : true,
+					style : 'font-size: 1px;'
+				}, {
+					field : 'contact',
+					title : '联系方式 ',
+					width : 130,
+					align : 'center',
+					style : 'font-size: 1px;'
+				}, {
+					templet : '<div>{{d.isdebt.dictname}}</div>',
+					title : '缴费情况',
+					width : 100,
+					align : 'center',
+					style : 'font-size: 1px;'
+				}, {
+					field : 'jobcity',
+					title : '工作城市',
+					width : 100,
+					align : 'center',
+					sort : true,
+					style : 'font-size: 5px;'
+				}, {
+					field : 'jobcompany',
+					title : '公司',
+					width : 100,
+					align : 'center',
+					sort : true,
+					style : 'font-size: 5px;'
+				}, {
+					field : 'jobsal',
+					title : '工资',
+					width : 100,
+					align : 'center',
+					sort : true,
+					style : 'font-size: 1px;'
+				}, {
+					field : 'job',
+					title : '工作岗位',
+					width : 100,
+					align : 'center',
+					sort : true,
+					style : 'font-size: 1px;'
+				}, {
+					title : '查看详情',
+					width : 100,
+					align : 'center',
+					style : 'font-size: 1px;'
+				} ] ],
+				parseData : function(res) { //将原始数据解析成 table 组件所规定的数据
+					return {
+						"code" : res.status, //解析接口状态
+						"count" : res.totalrows, //解析数据长度
+						"data" : res.list
+
+					//解析数据列表
+					};
+					alert(res);
+				},
+				skin : 'line' //行边框风格
+				,
+				even : true //开启隔行背景
+				,
+				size : 'lg',
+				done : function(res, curr, count) {
+					//如果是异步请求数据方式，res即为你接口返回的信息。
+					//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+					//得到数据总量
+					$("#dataLength").text("共有数据：" + count + "条");
+				}
+			});
+		});
+	</script>
+
+
+	 	<script>
 		layui.use([ 'laydate', 'element', 'laypage', 'layer' ], function() {
 			$ = layui.jquery;//jquery
 			laydate = layui.laydate;//日期插件
-			lement = layui.element();//面包导航
+			//lement = layui.element();//面包导航
 			laypage = layui.laypage;//分页
 			layer = layui.layer;//弹出层
-
-			//以上模块根据需要引入
-
-			laypage({
-				cont : 'page',
-				pages : 100,
-				first : 1,
-				last : 100,
-				prev : '<em><</em>',
-				next : '<em>></em>'
-			});
-
-			var start = {
-				min : laydate.now(),
-				max : '2099-06-16 23:59:59',
-				istoday : false,
-				choose : function(datas) {
-					end.min = datas; //开始日选好后，重置结束日的最小日期
-					end.start = datas //将结束日的初始值设定为开始日
-				}
-			};
-
-			var end = {
-				min : laydate.now(),
-				max : '2099-06-16 23:59:59',
-				istoday : false,
-				choose : function(datas) {
-					start.max = datas; //结束日选好后，重置开始日的最大日期
-				}
-			};
-
-			document.getElementById('LAY_demorange_s').onclick = function() {
-				start.elem = this;
-				laydate(start);
-			}
-			document.getElementById('LAY_demorange_e').onclick = function() {
-				end.elem = this
-				laydate(end);
-			}
-
 		});
 
 		//批量删除提交
@@ -198,15 +292,7 @@
 				});
 			});
 		}
-	</script>
-	<script>
-		var _hmt = _hmt || [];
-		(function() {
-			var hm = document.createElement("script");
-			hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-			var s = document.getElementsByTagName("script")[0];
-			s.parentNode.insertBefore(hm, s);
-		})();
-	</script>
+	</script> 
+
 </body>
 </html>

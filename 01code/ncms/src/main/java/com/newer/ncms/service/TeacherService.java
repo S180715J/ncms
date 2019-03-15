@@ -5,25 +5,44 @@ package com.newer.ncms.service;
  *
  */
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.newer.ncms.mapper.TeacherMapper;
+import com.newer.ncms.model.Page;
 import com.newer.ncms.pojo.Student;
+
 @Service
 public class TeacherService {
 	@Autowired
 	private TeacherMapper teacherMapper;
-	
+
 	/**
 	 * 查询所有学生信息
-	 * @param index
+	 * 
+	 * @param curPage
 	 * @param limit
 	 * @return
 	 */
-	public List<Student> students(Integer index,Integer limit){
-		return teacherMapper.students(index,limit);
+	public Page<Student> students(String curPage, Integer limit) {
+		HashMap<String, Object> params = new HashMap<>();
+		// 获得总记录数
+		int totalrows = teacherMapper.studentTotal();
+		if (totalrows != 0) {
+			// 创建page对象
+			Page<Student> page = new Page<>(curPage, totalrows, limit);
+			// 获得起始索引
+			int index = (page.getCurPage() - 1) * limit;
+			params.put("index", index);
+			params.put("limit", limit);
+			// 根据条件查询员工信息
+			List<Student> list = teacherMapper.students(params);
+			page.setList(list);
+			return page;
+		}
+		return null;
 	}
 }

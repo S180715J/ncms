@@ -1,5 +1,6 @@
 package com.newer.ncms.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -17,10 +18,10 @@ import com.newer.ncms.pojo.Student;
  */
 @Repository
 public interface TeacherMapper {
+
 	/**
 	 * 查询所有学生信息
-	 * @param index
-	 * @param limit
+	 * @param params
 	 * @return 学生集合
 	 */
 	@Select("SELECT s.STUID,s.STUCODE,s.NAME,d.`DICNAME`AS SEX,c.`CODE`,\r\n" + 
@@ -35,16 +36,23 @@ public interface TeacherMapper {
 		@Result(property="stuid",column="stuid",javaType=Integer.class),
 		@Result(property="stucode",column="stucode",javaType=String.class),
 		@Result(property="name",column="name",javaType=String.class),
-		@Result(property="sex",column="sex",javaType=Integer.class),
-		@Result(property="clazz.code",column="code",javaType=Integer.class),
-		@Result(property="specialty",column="specialty",javaType=Integer.class),
-		@Result(property="schoolarea",column="schoolarea",javaType=Integer.class),
+		@Result(property="sex.dictname",column="sex",javaType=String.class),
+		@Result(property="clazz.code",column="code",javaType=String.class),
+		@Result(property="specialty.dictname",column="specialty",javaType=String.class),
+		@Result(property="schoolarea.dictname",column="schoolarea",javaType=String.class),
 		@Result(property="contact",column="contact",javaType=String.class),
-		@Result(property="isdebt",column="isdept",javaType=Integer.class),
+		@Result(property="isdebt.dictname",column="isdebt",javaType=String.class),
 		@Result(property="jobcity",column="jobcity",javaType=String.class),
 		@Result(property="jobcompany",column="jobcompany",javaType=String.class),
-		@Result(property="jobsal",column="jobsal",javaType=String.class),
+		@Result(property="jobsal",column="jobsal",javaType=Double.class),
 		@Result(property="job",column="job",javaType=String.class)
 	})
-	List<Student> students(@Param("index") Integer index,@Param("limit")Integer limit);
+	List<Student> students(HashMap<String, Object> params);
+	
+	/**
+	 * 查询所有学生的总数
+	 * @return
+	 */
+	@Select("SELECT COUNT(*) FROM T_STUDENT")
+	int studentTotal();
 }

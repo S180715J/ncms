@@ -1,3 +1,4 @@
+
 package com.newer.ncms.model;
 
 import java.util.List;
