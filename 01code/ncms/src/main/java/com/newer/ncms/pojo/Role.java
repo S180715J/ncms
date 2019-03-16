@@ -3,6 +3,10 @@ package com.newer.ncms.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * 角色实体类
  * @author ZhangXin
@@ -18,6 +22,8 @@ public class Role implements Serializable{
 	private String rolename;//角色名称
 	private String rolecode;//角色编码
 	private String roledesc;//角色描述
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date crtime;//创建时间
 	public Integer getRoleid() {
 		return roleid;

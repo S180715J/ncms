@@ -3,6 +3,10 @@ package com.newer.ncms.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * 频道实体类
  * 
@@ -21,6 +25,8 @@ public class Channel implements Serializable {
 	private String chanlnamepath;// 栏目路径
 	private Integer parentid;// 父栏目编号
 	private Integer chnlorder;// 排序号
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date crtime;// 创建时间
 
 	public Integer getChannelid() {

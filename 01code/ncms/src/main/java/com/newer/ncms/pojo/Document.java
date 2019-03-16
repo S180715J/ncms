@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 文档信息实体类
@@ -19,24 +22,30 @@ public class Document implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer docid;// 文档编号
-	private Integer docchannel;// 所属栏目
+	private Channel docchannel;// 所属栏目
 	private String doctitle;// 文档标题
 	private String docsubtitle;// 文档副标题
 	private String docabstract;// 内容摘要
 	private String docimage;// 微缩图片
-	private Integer istop;// 是否置顶 1是 0否
-	private Integer ishighlight;// 是否加精 1是 0否
+	private Dict istop;// 是否置顶 1是 0否
+	private Dict ishighlight;// 是否加精 1是 0否
 	private String docauthor; // 作者
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date docvalid;// 生效时间
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date docunvalid;// 失效时间
 	private String docsource;// 文档来源
 	private String url;// 外部链接地址
 	private String dochtmlcon;// 文章内容
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date docreltime;// 撰写时间
 	private User user;// 文档创建人
-	private Integer docstatus;// 文档状态
-	private Integer isdelete;// 是否已删除
-	private Doctype doctype;// 发布类型
+	private Dict docstatus;// 文档状态
+	private Dict isdelete;// 是否已删除
+	private Dict doctype;// 发布类型
 
 	public Integer getDocid() {
 		return docid;
@@ -46,11 +55,11 @@ public class Document implements Serializable {
 		this.docid = docid;
 	}
 
-	public Integer getDocchannel() {
+	public Channel getDocchannel() {
 		return docchannel;
 	}
 
-	public void setDocchannel(Integer docchannel) {
+	public void setDocchannel(Channel docchannel) {
 		this.docchannel = docchannel;
 	}
 
@@ -86,19 +95,19 @@ public class Document implements Serializable {
 		this.docimage = docimage;
 	}
 
-	public Integer getIstop() {
+	public Dict getIstop() {
 		return istop;
 	}
 
-	public void setIstop(Integer istop) {
+	public void setIstop(Dict istop) {
 		this.istop = istop;
 	}
 
-	public Integer getIshighlight() {
+	public Dict getIshighlight() {
 		return ishighlight;
 	}
 
-	public void setIshighlight(Integer ishighlight) {
+	public void setIshighlight(Dict ishighlight) {
 		this.ishighlight = ishighlight;
 	}
 
@@ -166,32 +175,32 @@ public class Document implements Serializable {
 		this.user = user;
 	}
 
-	public Integer getDocstatus() {
+	public Dict getDocstatus() {
 		return docstatus;
 	}
 
-	public void setDocstatus(Integer docstatus) {
+	public void setDocstatus(Dict docstatus) {
 		this.docstatus = docstatus;
 	}
 
-	public Integer getIsdelete() {
+	public Dict getIsdelete() {
 		return isdelete;
 	}
 
-	public void setIsdelete(Integer isdelete) {
+	public void setIsdelete(Dict isdelete) {
 		this.isdelete = isdelete;
+	}
+
+	public Dict getDoctype() {
+		return doctype;
+	}
+
+	public void setDoctype(Dict doctype) {
+		this.doctype = doctype;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	public Doctype getDoctype() {
-		return doctype;
-	}
-
-	public void setDoctype(Doctype doctype) {
-		this.doctype = doctype;
 	}
 
 	@Override

@@ -3,6 +3,10 @@ package com.newer.ncms.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * 后台用户信息实体类
  * 
@@ -21,12 +25,15 @@ public class User implements Serializable {
 	private String realname;// 用户真实姓名
 	private String nickname;// 昵称
 	private String password;// 密码
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date crtime;// 创建时间
-	private Integer isdelete;// 是否已删除
-	private Integer sex;// 性别 0为男 1为女
+	private Dict isdelete;// 是否已删除
+	private Dict sex;// 性别 0为男 1为女
 	private String phone;// 联系方式
 	private String email;// 邮箱
-	private Role role;//角色类
+	private Role role;// 角色类
+	private Dict dept;// 所属部门
 
 	public Integer getUserid() {
 		return userid;
@@ -76,19 +83,19 @@ public class User implements Serializable {
 		this.crtime = crtime;
 	}
 
-	public Integer getIsdelete() {
+	public Dict getIsdelete() {
 		return isdelete;
 	}
 
-	public void setIsdelete(Integer isdelete) {
+	public void setIsdelete(Dict isdelete) {
 		this.isdelete = isdelete;
 	}
 
-	public Integer getSex() {
+	public Dict getSex() {
 		return sex;
 	}
 
-	public void setSex(Integer sex) {
+	public void setSex(Dict sex) {
 		this.sex = sex;
 	}
 
@@ -107,7 +114,6 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 
 	public Role getRole() {
 		return role;
@@ -115,6 +121,14 @@ public class User implements Serializable {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public Dict getDept() {
+		return dept;
+	}
+
+	public void setDept(Dict dept) {
+		this.dept = dept;
 	}
 
 	public static long getSerialversionuid() {
@@ -125,7 +139,7 @@ public class User implements Serializable {
 	public String toString() {
 		return "User [userid=" + userid + ", username=" + username + ", realname=" + realname + ", nickname=" + nickname
 				+ ", password=" + password + ", crtime=" + crtime + ", isdelete=" + isdelete + ", sex=" + sex
-				+ ", phone=" + phone + ", email=" + email + ", role=" + role + "]";
+				+ ", phone=" + phone + ", email=" + email + ", role=" + role + ", dept=" + dept + "]";
 	}
 
 }
