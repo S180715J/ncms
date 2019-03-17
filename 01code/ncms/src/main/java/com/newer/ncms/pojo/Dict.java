@@ -15,7 +15,7 @@ public class Dict implements Serializable{
 	
 	private String dicttype;//字典大类
 	private String dictid;//字典小类
-	private String dictname;//字典名称
+	private String dicname;//字典名称
 	private Integer sortno;//排序号
 	private String remark;//备注
 	public String getDicttype() {
@@ -30,11 +30,11 @@ public class Dict implements Serializable{
 	public void setDictid(String dictid) {
 		this.dictid = dictid;
 	}
-	public String getDictname() {
-		return dictname;
+	public String getDicname() {
+		return dicname;
 	}
-	public void setDictname(String dictname) {
-		this.dictname = dictname;
+	public void setDicname(String dicname) {
+		this.dicname = dicname;
 	}
 	public Integer getSortno() {
 		return sortno;
@@ -53,9 +53,11 @@ public class Dict implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Dict [dicttype=" + dicttype + ", dictid=" + dictid + ", dictname=" + dictname + ", sortno=" + sortno
+		return "Dict [dicttype=" + dicttype + ", dictid=" + dictid + ", dicname=" + dicname + ", sortno=" + sortno
 				+ ", remark=" + remark + "]";
 	}
+
+	
 	
 	
 

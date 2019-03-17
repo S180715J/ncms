@@ -11,6 +11,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <link rel="stylesheet" href="./css/x-admin.css" media="all">
+<link rel="stylesheet" href="../layui/css/layui.css">
 </head>
 <body>
 
@@ -25,79 +26,107 @@
 			<i class="layui-icon">&#xe608;</i>添加
 		</button>
 		<button class="layui-btn layui-btn-warm">修改</button>
-		<span class="x-right" style="line-height: 40px">共有数据： 条</span></xblock>
+		<span  id="dataLength" class="x-right" style="line-height: 40px">共有数据：  条</span></xblock>
+		<table id="table" lay-filter="test"></table>
 
-		<table class="layui-table">
-			<thead>
-				<tr>
-					<th><input type="checkbox" name="" value=""></th>
-					<th>用户id</th>
-					<th>用户名</th>
-					<th>真实姓名</th>
-					<th>性别</th>
-					<th>所属校区</th>
-					<th>联系电话</th>
-					<th>家庭地址</th>
-					<th>邮箱</th>
-
-				</tr>
-			</thead>
-			<tbody>
-				<table class="layui-table" id="layui_table_id" lay-filter="dataTable"></table>
-			</tbody>
-		</table>
-
-		<div id="page"></div>
 	</div>
-	<script src="./lib/layui/layui.js" charset="utf-8"></script>
+
+	
+	<script src="../layui/layui.js" charset="utf-8"></script>
 	<script src="./js/x-layui.js" charset="utf-8"></script>
-	<script>
+	<script src="../js/jquery.min.js"></script>
+	
+    <script>
+		layui.use('table', function() {
+			var table = layui.table;
+			table.render({
+				elem : '#table',
+				height : 290,
+				url : 'http://localhost:8080/ncms/teacher', //数据接口
+				page : true, //开启分页
+				limit : 3,
+				cols : [ [ //表头
+				{
+					field : 'userid',
+					title : '用户ID',
+					width : 80,
+					sort : true,
+					align : 'center',
+					style : 'font-size: 1px;'
+				}, {
+					field : 'username',
+					title : '用户名',
+					align : 'center',
+					sort : true,
+					width : 120,
+					style : 'font-size: 1px;'
+
+				}, {
+					field : 'realname',
+					title : '真实姓名',
+					width : 120,
+					align : 'center',
+					style : 'font-size: 1px;'
+				}, {
+					templet :'<div>{{d.sex.dicname}}</div>',
+					title : '性别',
+					width : 70,
+					align : 'center',
+					style : 'font-size: 1px;',
+				}, {
+					templet : '<div>{{d.dept.dicname}}</div>',
+					title : '部门',
+					align : 'center',
+					width : 70,
+					style : 'font-size:10px;'
+				}, {
+					field :'phone',
+					title : '联系电话',
+					align : 'center',
+					width : 100,
+					style : 'font-size: 1px;'
+				}, {
+					field :'email',
+					title : '邮箱',
+					width : 120,
+					align : 'center',
+					sort : true,
+					style : 'font-size: 1px;'
+				
+				} ] ],
+				parseData : function(res) { //将原始数据解析成 table 组件所规定的数据
+					return {
+						"code" : res.status, //解析接口状态
+						"count" : res.totalrows, //解析数据长度
+						"data" : res.list
+
+					//解析数据列表
+					};
+					alert(res);
+				},
+				skin : 'line' //行边框风格
+				,
+				even : true //开启隔行背景
+				,
+				size : 'lg',
+				done : function(res, curr, count) {
+					//如果是异步请求数据方式，res即为你接口返回的信息。
+					//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+					//得到数据总量
+					$("#dataLength").text("共有数据：" + count + "条");
+				}
+			});
+		});
+	</script>
+
+
+	 	<script>
 		layui.use([ 'laydate', 'element', 'laypage', 'layer' ], function() {
 			$ = layui.jquery;//jquery
 			laydate = layui.laydate;//日期插件
-			lement = layui.element();//面包导航
+			//lement = layui.element();//面包导航
 			laypage = layui.laypage;//分页
 			layer = layui.layer;//弹出层
-
-			//以上模块根据需要引入
-
-			laypage({
-				cont : 'page',
-				pages : 100,
-				first : 1,
-				last : 100,
-				prev : '<em><</em>',
-				next : '<em>></em>'
-			});
-
-			var start = {
-				min : laydate.now(),
-				max : '2099-06-16 23:59:59',
-				istoday : false,
-				choose : function(datas) {
-					end.min = datas; //开始日选好后，重置结束日的最小日期
-					end.start = datas //将结束日的初始值设定为开始日
-				}
-			};
-
-			var end = {
-				min : laydate.now(),
-				max : '2099-06-16 23:59:59',
-				istoday : false,
-				choose : function(datas) {
-					start.max = datas; //结束日选好后，重置开始日的最大日期
-				}
-			};
-
-			document.getElementById('LAY_demorange_s').onclick = function() {
-				start.elem = this;
-				laydate(start);
-			}
-			document.getElementById('LAY_demorange_e').onclick = function() {
-				end.elem = this
-				laydate(end);
-			}
-
 		});
 
 		//批量删除提交
@@ -114,7 +143,55 @@
 			x_admin_show(title, url, w, h);
 		}
 
-		
+		/*停用*/
+		function admin_stop(obj, id) {
+			layer
+					.confirm(
+							'确认要停用吗？',
+							function(index) {
+								//发异步把用户状态进行更改
+								$(obj)
+										.parents("tr")
+										.find(".td-manage")
+										.prepend(
+												'<a style="text-decoration:none" onClick="admin_start(this,id)" href="javascript:;" title="启用"><i class="layui-icon">&#xe62f;</i></a>');
+								$(obj)
+										.parents("tr")
+										.find(".td-status")
+										.html(
+												'<span class="layui-btn layui-btn-disabled layui-btn-mini">已停用</span>');
+								$(obj).remove();
+								layer.msg('已停用!', {
+									icon : 5,
+									time : 1000
+								});
+							});
+		}
+
+		/*启用*/
+		function admin_start(obj, id) {
+			layer
+					.confirm(
+							'确认要启用吗？',
+							function(index) {
+								//发异步把用户状态进行更改
+								$(obj)
+										.parents("tr")
+										.find(".td-manage")
+										.prepend(
+												'<a style="text-decoration:none" onClick="admin_stop(this,id)" href="javascript:;" title="停用"><i class="layui-icon">&#xe601;</i></a>');
+								$(obj)
+										.parents("tr")
+										.find(".td-status")
+										.html(
+												'<span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>');
+								$(obj).remove();
+								layer.msg('已启用!', {
+									icon : 6,
+									time : 1000
+								});
+							});
+		}
 		//编辑
 		function admin_edit(title, url, id, w, h) {
 			x_admin_show(title, url, w, h);
@@ -130,94 +207,8 @@
 				});
 			});
 		}
-	</script>
-	
-            <!-- 分页 -->
-	<script >
-	layui.use('table', function() {
-		var table = layui.table;
-		table.render({
-			elem : '#table',
-			height : 300,
-			url : 'http://localhost:8080/ncms/pageList', //数据接口
-			page : true, //开启分页
-			limit : 4,
-			cols : [ [ //表头
-			{
-				field:'<div>{{createrFormat(d.user.name)}}</div>',
-				title : '用户名',
-				width : 120,
-				sort : true,
-				align : 'center',
-				style : 'font-size: 10px;'
-			}, {
-				templet:'<div>{{createrFormat(d.user.realname)}}</div>',
-				title : '真实姓名',
-				align : 'center',
-				width : 120,
-				style : 'font-size: 10px;'
-
-			}, {
-				field : 'sex',
-				title : '性别 ',
-				width : 155,
-				align : 'center',
-				sort : true,
-				style : 'font-size: 10px;'
-			}, {
-				field : 'schoolarea',
-				title : '所属校区',
-				width : 155,
-				align : 'center',
-				sort : true,
-				style : 'font-size: 10px;',
-			}, {
-				field : 'phone',
-				title : '联系电话',
-				align : 'center',
-				width : 130,
-				style : 'font-size:10px;'
-			}, {
-				field : 'email',
-				title : '邮箱',
-				align : 'center',
-				width : 120,
-				style : 'font-size: 10px;'
-			}] ],
-			parseData : function(res) { //将原始数据解析成 table 组件所规定的数据
-				return {
-					"code" : res.status, //解析接口状态
-					"count" : res.totalrows, //解析数据长度
-					"data" : res.list
-
-				//解析数据列表
-				};
-				alert(res);
-			},
-			skin : 'line' //行边框风格
-			,
-			even : true //开启隔行背景
-			,
-			size : 'lg',
-			done : function(res, curr, count) {
-				//如果是异步请求数据方式，res即为你接口返回的信息。
-				//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-				//得到数据总量
-				$("#dataLength").text("共有数据：" + count + "条");
-			}
-		});
-
-		
-
-	});
-	
-	
-	function createrFormat(o) {
-		return o;
-	}
-	
-	</script>
-	<script>
+	</script> 
+	<!-- <script>
 		var _hmt = _hmt || [];
 		(function() {
 			var hm = document.createElement("script");
@@ -225,6 +216,6 @@
 			var s = document.getElementsByTagName("script")[0];
 			s.parentNode.insertBefore(hm, s);
 		})();
-	</script>
+	</script> -->
 </body>
 </html>
