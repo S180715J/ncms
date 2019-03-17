@@ -12,17 +12,17 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="format-detection" content="telephone=no">
-        <link rel="stylesheet" href="./css/x-admin.css" media="all">
+        <link rel="stylesheet" href="../css/x-admin.css" media="all">
     </head>
     <body>
         <div class="layui-layout layui-layout-admin">
             <div class="layui-header header header-demo">
                 <div class="layui-main">
-                    <a class="logo" href="./index.html">
+                    <a class="logo" href="sadmin-index.html">
                         牛耳官微NCMS平台
                     </a>
                     <ul class="layui-nav" lay-filter="">
-                      <li class="layui-nav-item"></li>
+                      <li class="layui-nav-item"><img src="../images/logo.png" class="layui-circle" style="border: 2px solid #A9B7B7;" width="35px" alt=""></li>
                       <li class="layui-nav-item">
                         <a href="javascript:;">admin</a>
                         <dl class="layui-nav-child"> <!-- 二级菜单 -->
@@ -44,99 +44,54 @@
                 <div class="layui-side-scroll">
                     <ul class="layui-nav layui-nav-tree site-demo-nav" lay-filter="side">
                      
-                     
-                       
                         <li class="layui-nav-item">
                             <a class="javascript:;" href="javascript:;">
-                                <i class="layui-icon" style="top: 3px;">&#xe612;</i><cite>超级管理员</cite>
+                                <i class="layui-icon" style="top: 3px;">&#xe612;</i><cite>查看角色</cite>
                             </a>
                             <dl class="layui-nav-child">
                                 <dd class="">
-                                    <a href="javascript:;" _href="teacher/student-list.html">
-                                        <cite>员工列表</cite>
-                                    </a>
-                                </dd>
-                                <dd class="">
-                                    <a href="javascript:;" _href="./member-del.html">
-                                        <cite>删除会员</cite>
-                                    </a>
-                                </dd>
-                                <dd class="">
-                                    <a href="javascript:;" _href="./member-level.html">
-                                        <cite>等级管理</cite>
-                                    </a>
-                                </dd>
-                                <dd class="">
-                                    <a href="javascript:;" _href="./member-kiss.html">
-                                        <cite>积分管理</cite>
+                                    <a href="javascript:;" _href="sadmin-list.html">
+                                        <cite>查看系统角色</cite>
                                     </a>
                                 </dd>
                                 
-                                </dd>
                             </dl>
                         </li>
                         <li class="layui-nav-item">
                             <a class="javascript:;" href="javascript:;">
-                                <i class="layui-icon" style="top: 3px;">&#xe613;</i><cite>管理员</cite>
+                                <i class="layui-icon" style="top: 3px;">&#xe613;</i><cite>维护管理员</cite>
                             </a>
                             <dl class="layui-nav-child">
                                 <dd class="">
-                                    <a href="javascript:;" _href="./admin-list.html">
-                                        <cite>管理员列表</cite>
-                                    </a>
-                                </dd>
-                                <dd class="">
-                                    <a href="javascript:;" _href="./admin-role.html">
-                                        <cite>角色管理</cite>
-                                    </a>
-                                </dd>
-                                <dd class="">
-                                    <a href="javascript:;" _href="./admin-cate.html">
-                                        <cite>权限分类</cite>
-                                    </a>
-                                </dd>
-                                <dd class="">
-                                    <a href="javascript:;" _href="./admin-rule.html">
-                                        <cite>权限管理</cite>
+                                    <a href="javascript:;" _href="sadmin-audit.html">
+                                        <cite>维护管理员</cite>
                                     </a>
                                 </dd>
                             </dl>
                         </li>
-                     
                      
                        <li class="layui-nav-item">
                             <a class="javascript:;" href="javascript:;">
-                                <i class="layui-icon" style="top: 3px;">&#xe613;</i><cite>教师</cite>
+                                <i class="layui-icon" style="top: 3px;">&#xe613;</i><cite>审核内容</cite>
                             </a>
                             <dl class="layui-nav-child">
                                 <dd class="">
                                     <a href="javascript:;" _href="./admin-list.html">
-                                        <cite>管理员列表</cite>
+                                        <cite>待审核内容</cite>
                                     </a>
                                 </dd>
                                 <dd class="">
                                     <a href="javascript:;" _href="./admin-role.html">
-                                        <cite>角色管理</cite>
+                                        <cite>已审核内容</cite>
                                     </a>
                                 </dd>
                                 <dd class="">
                                     <a href="javascript:;" _href="./admin-cate.html">
-                                        <cite>权限分类</cite>
-                                    </a>
-                                </dd>
-                                <dd class="">
-                                    <a href="javascript:;" _href="./admin-rule.html">
-                                        <cite>权限管理</cite>
+                                        <cite>已驳回内容</cite>
                                     </a>
                                 </dd>
                             </dl>
                         </li>
-                     
-                     
-                     
-                     
-                     
-                     
                      
                         <li class="layui-nav-item" style="height: 30px; text-align: center">
                         </li>
@@ -148,7 +103,7 @@
                 <div class="x-slide_left"></div>
                 <ul class="layui-tab-title">
                     <li class="layui-this">
-                        我的桌面
+                    	我的桌面
                         <i class="layui-icon layui-unselect layui-tab-close">ဆ</i>
                     </li>
                 </ul>
@@ -161,16 +116,7 @@
             <div class="site-mobile-shade">
             </div>
         </div>
-        <script src="./lib/layui/layui.js" charset="utf-8"></script>
-        <script src="./js/x-admin.js"></script>
-        <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-        </script>
+        <script src="../lib/layui/layui.js" charset="utf-8"></script>
+        <script src="../js/x-admin.js"></script>
     </body>
 </html>

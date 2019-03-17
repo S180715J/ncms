@@ -16,8 +16,8 @@
 </head>
 <body>
 	<div class="x-nav">
-		<span class="layui-breadcrumb"> <a><cite>首页</cite></a> <a><cite>会员管理</cite></a>
-			<a><cite>管理员列表</cite></a>
+		<span class="layui-breadcrumb"> <a><cite>首页</cite></a> <a><cite>教师管理</cite></a>
+			<a><cite>学生信息</cite></a>
 		</span> <a class="layui-btn layui-btn-small"
 			style="line-height: 1.6em; margin-top: 3px; float: right"
 			href="javascript:location.replace(location.href);" title="刷新"><i
@@ -51,7 +51,7 @@
 		<xblock>
 
 		<button class="layui-btn"
-			onclick="admin_add('添加用户','student-add.html','600','500')">
+			onclick="admin_add('添加学生','student-add.html','600','500')">
 			<i class="layui-icon">&#xe608;</i>添加
 		</button>
 		<button class="layui-btn layui-btn-danger" onclick="delAll()">
@@ -69,21 +69,21 @@
 			条</span></xblock>
 		<table id="table" lay-filter="test" ></table>
 
-		<div id="page"></div>
 	</div>
 	<!-- <script src="../lib/layui/layui.js" charset="utf-8"></script>
 	<script src="../js/x-layui.js" charset="utf-8"></script> -->
 	<script type="text/javascript" src="../layui/layui.js"></script>
 	<script type="text/javascript" src="../js/x-layui.js"></script>
 	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/common.js"></script>
 	
 	<script>
 		layui.use('table', function() {
 			var table = layui.table;
 			table.render({
 				elem : '#table',
-				height : 290,
-				url : 'http://localhost:8080/ncms/students', //数据接口
+				height : 280,
+				url : HOST_URL+'students', //数据接口
 				page : true, //开启分页
 				limit : 3,
 				cols : [ [ //表头
@@ -109,7 +109,7 @@
 					align : 'center',
 					style : 'font-size: 1px;'
 				}, {
-					templet : '<div>{{d.sex.dictname}}</div>',
+					templet : '<div>{{d.sex.dicname}}</div>',
 					title : '性别',
 					width : 70,
 					align : 'center',
@@ -121,13 +121,13 @@
 					width : 70,
 					style : 'font-size:10px;'
 				}, {
-					templet : '<div>{{d.specialty.dictname}}</div>',
+					templet : '<div>{{d.specialty.dicname}}</div>',
 					title : '专业方向',
 					align : 'center',
 					width : 100,
 					style : 'font-size: 1px;'
 				}, {
-					templet : '<div>{{d.schoolarea.dictname}}</div>',
+					templet : '<div>{{d.schoolarea.dicname}}</div>',
 					title : '校区',
 					width : 100,
 					align : 'center',
@@ -140,7 +140,7 @@
 					align : 'center',
 					style : 'font-size: 1px;'
 				}, {
-					templet : '<div>{{d.isdebt.dictname}}</div>',
+					templet : '<div>{{d.isdebt.dicname}}</div>',
 					title : '缴费情况',
 					width : 100,
 					align : 'center',
@@ -198,6 +198,8 @@
 					//如果是异步请求数据方式，res即为你接口返回的信息。
 					//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
 					//得到数据总量
+					 $('th').css({'background-color': '#5792c6', 'color': '#fff','font-weight':'bold'});
+					 $('tr:hover').css({'background-color': '#5792c6', 'color': '#fff','font-weight':'bold'});
 					$("#dataLength").text("共有数据：" + count + "条");
 				}
 			});

@@ -699,7 +699,7 @@ a cite {
 }
 
 .layui-form-select dl dd:hover {
-	background-color: #f2f2f2
+	background-color: #5FB878;
 }
 
 .layui-form-select .layui-select-group dd {
@@ -707,7 +707,7 @@ a cite {
 }
 
 .layui-form-select dl dd.layui-this {
-	background-color: #5FB878;
+	background-color:#5FB878;
 	color: #fff
 }
 
@@ -762,7 +762,7 @@ a cite {
 }
 
 .layui-form-checkbox:hover {
-	border: 1px solid #c2c2c2
+	border: 1px solid #5fb878
 }
 
 .layui-form-checkbox span {
@@ -776,7 +776,7 @@ a cite {
 }
 
 .layui-form-checkbox:hover span {
-	background-color: #c2c2c2
+	background-color: #5fb878
 }
 
 .layui-form-checkbox i {
@@ -788,7 +788,7 @@ a cite {
 }
 
 .layui-form-checkbox:hover i {
-	color: #c2c2c2
+	color: #5fb878
 }
 
 .layui-form-checked,

@@ -1700,10 +1700,36 @@ a cite {
 	font-size: 18px
 }
 
-.layui-text a:not (.layui-btn ){
-	color: #01AAED
-}
+.layui-text
 
+ 
+
+a
+
+
+:not
+
+ 
+
+(
+.layui-btn
+
+ 
+
+){
+color
+
+
+:
+
+ 
+
+#01AAED
+
+
+
+
+}
 .layui-text a:not (.layui-btn ):hover {
 	text-decoration: underline
 }
@@ -1778,6 +1804,7 @@ a cite {
 	font-size: 18px;
 	vertical-align: bottom;
 	vertical-align: middle\9
+
 }
 
 .layui-btn-primary {
@@ -2098,6 +2125,7 @@ a cite {
 	-webkit-transform: rotate(180deg);
 	transform: rotate(180deg);
 	margin-top: -3px\9
+
 }
 
 :root .layui-form-selected .layui-edge {
@@ -2774,7 +2802,7 @@ a cite {
 	.layui-table-header, .layui-table-hover, .layui-table-mend,
 	.layui-table-patch, .layui-table-tool, .layui-table-total,
 	.layui-table-total tr, .layui-table[lay-even] tr:nth-child(even) {
-	background-color: #f2f2f2
+	background-color: #ff0000
 }
 
 .layui-table td, .layui-table th, .layui-table-col-set,
@@ -3200,7 +3228,7 @@ a cite {
 }
 
 .layui-table-page select {
-	height: 25px
+	height: 30px
 }
 
 .layui-table-patch .layui-table-cell {
@@ -4907,9 +4935,26 @@ to {
 
 100%{
 opacity
+
+
+
+
 :
-1;-webkit-transform
+
+
+
+
+1;
+-webkit-transform
+
+
+
+
 :scale(1)
+
+
+
+
 }
 }
 @
@@ -4921,11 +4966,37 @@ keyframes layui-scale { 0%{
 
 100%{
 opacity
+
+
+
+
 :
-1;-ms-transform
+
+
+
+
+1;
+-ms-transform
+
+
+
+
 :scale(1)
-;transform
+
+
+
+
+;
+transform
+
+
+
+
 :scale(1)
+
+
+
+
 }
 }
 .layui-anim-scale {
@@ -4941,19 +5012,61 @@ opacity
 
 80%{
 opacity
+
+
+
+
 :
+
+
+
+
 .8
-;-webkit-transform
+
+
+
+
+;
+-webkit-transform
+
+
+
+
 :scale
+
+
+
+
 (1
 .1
+
+
+
+
 )
 }
 100%{
 opacity
+
+
+
+
 :
-1;-webkit-transform
+
+
+
+
+1;
+-webkit-transform
+
+
+
+
 :scale(1)
+
+
+
+
 }
 }
 @
@@ -4964,19 +5077,61 @@ keyframes layui-scale-spring { 0%{
 
 80%{
 opacity
+
+
+
+
 :
+
+
+
+
 .8
-;transform
+
+
+
+
+;
+transform
+
+
+
+
 :scale
+
+
+
+
 (1
 .1
+
+
+
+
 )
 }
 100%{
 opacity
+
+
+
+
 :
-1;transform
+
+
+
+
+1;
+transform
+
+
+
+
 :scale(1)
+
+
+
+
 }
 }
 .layui-anim-scaleSpring {
@@ -4991,7 +5146,15 @@ opacity
 
 100%{
 opacity
+
+
+
+
 :
+
+
+
+
 1
 }
 }
@@ -5002,7 +5165,15 @@ keyframes layui-fadein { 0%{
 
 100%{
 opacity
+
+
+
+
 :
+
+
+
+
 1
 }
 }
@@ -5018,7 +5189,15 @@ opacity
 
 100%{
 opacity
+
+
+
+
 :
+
+
+
+
 0
 }
 }
@@ -5029,7 +5208,15 @@ keyframes layui-fadeout { 0%{
 
 100%{
 opacity
+
+
+
+
 :
+
+
+
+
 0
 }
 }

@@ -54,6 +54,8 @@
 				<option value="-1">请选择您的部门</option>
 			</select>
 			</div> 
+			
+
 		</div>
 
 		<div class="layui-form-item">
@@ -86,9 +88,11 @@
 			</div>
 		</div>
 	</form>
-	
+	<select name="dept" id="depts">
+		<option value="-1">请选择您的部门</option>
+	</select>
 	<script type="text/javascript" src="js/x-layui.js"></script>
-	<script type="text/javascript" src="lib/layui/layui.js"></script>
+	<script type="text/javascript" src="lib/layui/lay/dest/layui.all.js"></script>
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script>
 		const HOST_URL = "http://localhost:8080/ncms/";
@@ -96,16 +100,14 @@
 			// 显示部门下拉列表
 			$.ajax({
 				type : 'get',
-				url : 'http://localhost:8080/ncms/clazzs',
-				dataType :'json',
+				url : 'http://localhost:8080/ncms/dept',
+				//dataType : 'json',
 				success : function(data) {
-					var clazz = '';//所属专业下拉框
-					
-					$.each(data, function(i, a) {
-						clazz += '<option value="'+a.classid+'">' + a.code
-								+ '</option>'
-						$('#dept').html(clazz);
-								
+					$.each(data, function(i, item) {
+						var dept = '<option value="'+item.dictid+'">'
+								+ item.dicname + '</option>';
+						$('#dept').append(dept);
+
 					});
 				}
 			});

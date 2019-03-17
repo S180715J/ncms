@@ -41,7 +41,7 @@
 			var table = layui.table;
 			table.render({
 				elem : '#table',
-				height : 290,
+				height : 300,
 				url : 'http://localhost:8080/ncms/teacher', //数据接口
 				page : true, //开启分页
 				limit : 3,
@@ -49,7 +49,7 @@
 				{
 					field : 'userid',
 					title : '用户ID',
-					width : 80,
+					width : 150,
 					sort : true,
 					align : 'center',
 					style : 'font-size: 1px;'
@@ -58,37 +58,37 @@
 					title : '用户名',
 					align : 'center',
 					sort : true,
-					width : 120,
+					width : 150,
 					style : 'font-size: 1px;'
 
 				}, {
 					field : 'realname',
 					title : '真实姓名',
-					width : 120,
+					width : 150,
 					align : 'center',
 					style : 'font-size: 1px;'
 				}, {
 					templet :'<div>{{d.sex.dicname}}</div>',
 					title : '性别',
-					width : 70,
+					width : 120,
 					align : 'center',
 					style : 'font-size: 1px;',
 				}, {
 					templet : '<div>{{d.dept.dicname}}</div>',
 					title : '部门',
 					align : 'center',
-					width : 70,
+					width : 152,
 					style : 'font-size:10px;'
 				}, {
 					field :'phone',
 					title : '联系电话',
 					align : 'center',
-					width : 100,
+					width : 170,
 					style : 'font-size: 1px;'
 				}, {
 					field :'email',
 					title : '邮箱',
-					width : 120,
+					width : 200,
 					align : 'center',
 					sort : true,
 					style : 'font-size: 1px;'
@@ -113,6 +113,7 @@
 					//如果是异步请求数据方式，res即为你接口返回的信息。
 					//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
 					//得到数据总量
+					 $('th').css({'background-color': '#5792c6', 'color': '#fff','font-weight':'bold'});
 					$("#dataLength").text("共有数据：" + count + "条");
 				}
 			});

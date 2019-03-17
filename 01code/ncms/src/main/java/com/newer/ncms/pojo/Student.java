@@ -27,7 +27,7 @@ public class Student implements Serializable {
 	private String nation;// 民族
 	private String idcard;// 身份证号码
 	private Dict edu;// 文化程度
-	private String endshool;// 毕业学校
+	private String endschool;// 毕业学校
 	private String contact;// 本人联系方式
 	private String homecontact;// 家庭联系方式
 	private String homeaddress;// 家庭住址
@@ -39,7 +39,7 @@ public class Student implements Serializable {
 	private Double jobsal;// 就业薪资
 	private String job;// 就业岗位
 	private String remark;// 备注
-	private Integer isdelete;// 是否已删除
+	private Dict isdelete;// 是否已删除
 
 	public Integer getStuid() {
 		return stuid;
@@ -139,12 +139,14 @@ public class Student implements Serializable {
 		this.edu = edu;
 	}
 
-	public String getEndshool() {
-		return endshool;
+	
+
+	public String getEndschool() {
+		return endschool;
 	}
 
-	public void setEndshool(String endshool) {
-		this.endshool = endshool;
+	public void setEndschool(String endschool) {
+		this.endschool = endschool;
 	}
 
 	public String getContact() {
@@ -235,11 +237,13 @@ public class Student implements Serializable {
 		this.remark = remark;
 	}
 
-	public Integer getIsdelete() {
+	
+
+	public Dict getIsdelete() {
 		return isdelete;
 	}
 
-	public void setIsdelete(Integer isdelete) {
+	public void setIsdelete(Dict isdelete) {
 		this.isdelete = isdelete;
 	}
 
@@ -252,7 +256,7 @@ public class Student implements Serializable {
 		return "Student [stuid=" + stuid + ", stucode=" + stucode + ", password=" + password + ", name=" + name
 				+ ", pinying=" + pinying + ", sex=" + sex + ", clazz=" + clazz + ", specialty=" + specialty
 				+ ", schoolarea=" + schoolarea + ", nation=" + nation + ", idcard=" + idcard + ", edu=" + edu
-				+ ", endshool=" + endshool + ", contact=" + contact + ", homecontact=" + homecontact + ", homeaddress="
+				+ ", endshool=" + endschool + ", contact=" + contact + ", homecontact=" + homecontact + ", homeaddress="
 				+ homeaddress + ", postcode=" + postcode + ", qq=" + qq + ", isdebt=" + isdebt + ", jobcity=" + jobcity
 				+ ", jobcompany=" + jobcompany + ", jobsal=" + jobsal + ", job=" + job + ", remark=" + remark
 				+ ", isdelete=" + isdelete + "]";

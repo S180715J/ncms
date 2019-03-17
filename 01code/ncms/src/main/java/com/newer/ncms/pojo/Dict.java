@@ -30,6 +30,7 @@ public class Dict implements Serializable{
 	public void setDictid(String dictid) {
 		this.dictid = dictid;
 	}
+	
 	public String getDicname() {
 		return dicname;
 	}
@@ -56,8 +57,6 @@ public class Dict implements Serializable{
 		return "Dict [dicttype=" + dicttype + ", dictid=" + dictid + ", dicname=" + dicname + ", sortno=" + sortno
 				+ ", remark=" + remark + "]";
 	}
-
-	
 	
 	
 
