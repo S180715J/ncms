@@ -24,9 +24,9 @@
 						牛耳官微NCMS平台
 					</a>
 					<ul class="layui-nav" lay-filter="">
-						<li class="layui-nav-item"><img src="./images/logo.png" class="layui-circle" style="border: 2px solid #A9B7B7;" width="35px" alt=""></li>
+						<li class="layui-nav-item">欢迎！【<span id="showrole"></span>】</li>
 						<li class="layui-nav-item">
-							<a href="javascript:;">admin</a>
+							<a href="javascript:;"><span id="showname"></span></a>
 							<dl class="layui-nav-child">
 								<!-- 二级菜单 -->
 								<dd>
@@ -120,15 +120,28 @@
 
 		<script src="./lib/layui/layui.js" charset="utf-8"></script>
 		<script src="./js/x-admin.js"></script>
-		<script>
-			var _hmt = _hmt || [];
-			(function() {
-				var hm = document.createElement("script");
-				hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-				var s = document.getElementsByTagName("script")[0];
-				s.parentNode.insertBefore(hm, s);
-			})();
-		</script>
+		        <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jwt.js"></script>
+
+        
+        <script type="text/javascript">
+      //显示用户名和角色名
+		$(function() {
+			$.ajax({
+				type : 'post',
+				url:HOST_URL+'show',
+				headers : createAuthorizationTokenHeader(),
+				success : function(data) {
+					if (data != null || data != "") {
+						$("#showrole").text(data.role.rolename);
+						$("#showname").text(data.username);
+					}
+				}
+			});
+		});
+		
+        </script>
 	</body>
 
 </html>

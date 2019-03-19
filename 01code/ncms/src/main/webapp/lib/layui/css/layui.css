@@ -523,7 +523,7 @@ a cite {
 .layui-input,
 .layui-select,
 .layui-textarea {
-	height: 38px;
+	height: 34px;
 	line-height: 38px;
 	line-height: 36px\9;
 	border: 1px solid #e6e6e6;
@@ -1094,9 +1094,9 @@ a cite {
 }
 
 .layui-table tr:hover,
-.layui-table[lay-even] tr:nth-child(even) {
+/* .layui-table[lay-even] tr:nth-child(even) {
 	background-color: #f8f8f8
-}
+} */
 
 .layui-table[lay-skin=line],
 .layui-table[lay-skin=row] {

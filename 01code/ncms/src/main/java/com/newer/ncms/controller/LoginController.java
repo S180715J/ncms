@@ -1,7 +1,5 @@
 package com.newer.ncms.controller;
 
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-
 import java.util.LinkedHashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,14 +49,24 @@ public class LoginController {
 		return "0";
 	}
 
-	@RequestMapping(value = "/show", method = RequestMethod.GET)
+	/**
+	 * 返回数据显示用户名
+	 * 
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value = "/show", method = RequestMethod.POST)
 	public ResponseEntity<?> show(HttpServletRequest req) {
 		LinkedHashMap<String, Object> user = JwtTokenUtil.getObj(req);
+		// System.out.println("user=="+user);
 		if (user != null) {
 			User user2 = new User();
 			user2.setUsername((String) user.get("username"));
-			Role role = (Role) user.get("role");
-			user2.getRole().setRolename(role.getRolename());
+			LinkedHashMap<String, Object> role1 = (LinkedHashMap<String, Object>) user.get("role");
+			Role role = new Role();
+			role.setRoleid((Integer) role1.get("roleid"));
+			role.setRolename((String) role1.get("rolename"));
+			user2.setRole(role);
 			return new ResponseEntity<>(user2, HttpStatus.OK);
 		}
 		return null;

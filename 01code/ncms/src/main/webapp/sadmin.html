@@ -22,9 +22,9 @@
                         牛耳官微NCMS平台
                     </a>
                     <ul class="layui-nav" lay-filter="">
-                      <li class="layui-nav-item"></li>
+                      <li class="layui-nav-item">欢迎！【<span id="showrole"></span>】</li>
                       <li class="layui-nav-item">
-                        <a href="javascript:;">admin</a>
+                        <a href="javascript:;"><span id="showname"></span></a>
                         <dl class="layui-nav-child"> <!-- 二级菜单 -->
                           <dd><a href="">个人信息</a></dd>
                           <dd><a href="">切换帐号</a></dd>
@@ -118,5 +118,27 @@
         </div>
          <script src="./lib/layui/layui.js" charset="utf-8"></script>
         <script src="./js/x-admin.js"></script>
+                <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jwt.js"></script>
+
+        
+        <script type="text/javascript">
+      //显示用户名和角色名
+		$(function() {
+			$.ajax({
+				type : 'post',
+				url:HOST_URL+'show',
+				headers : createAuthorizationTokenHeader(),
+				success : function(data) {
+					if (data != null || data != "") {
+						$("#showrole").text(data.role.rolename);
+						$("#showname").text(data.username);
+					}
+				}
+			});
+		});
+		
+        </script>
     </body>
 </html>

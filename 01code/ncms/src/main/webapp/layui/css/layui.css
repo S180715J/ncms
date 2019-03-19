@@ -1905,8 +1905,8 @@ a cite {
 
 .layui-input, .layui-textarea {
 	display: block;
-	width: 100%;
-	padding-left: 10px
+	width: 98%;
+	padding-left: 5px
 }
 
 .layui-input:hover, .layui-textarea:hover {
@@ -2770,13 +2770,15 @@ a cite {
 	font-weight: 400
 }
 
-.layui-table tbody tr:hover, .layui-table thead tr, .layui-table-click,
+.layui-table tbody tr:hover, .layui-table thead tr,
 	.layui-table-header, .layui-table-hover, .layui-table-mend,
 	.layui-table-patch, .layui-table-tool, .layui-table-total,
 	.layui-table-total tr, .layui-table[lay-even] tr:nth-child(even) {
 	background-color: #e6e6e6
 }
-
+.layui-table-click {
+    background-color: #5792c6;
+}
 .layui-table td, .layui-table th, .layui-table-col-set,
 	.layui-table-fixed-r, .layui-table-grid-down, .layui-table-header,
 	.layui-table-page, .layui-table-tips-main, .layui-table-tool,
@@ -2816,8 +2818,8 @@ a cite {
 }
 
 .layui-table-view .layui-table[lay-size=lg] .layui-table-cell {
-	height: 40px;
-	line-height: 40px
+	height: 35px;
+	line-height: 35px
 }
 
 .layui-table[lay-size=sm] td, .layui-table[lay-size=sm] th {

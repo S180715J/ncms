@@ -114,7 +114,8 @@ $.ajax({
 							time : 2000
 						});
                     }else{
-                    	setJwtToken(data);
+                    	//alert('保存token数据:'+data);
+    					setJwtToken(data);
                     	if(roleid=="6"){
                     	window.location.href=HOST_URL+"sadmin.html";
                     	} else if(roleid=="7"){

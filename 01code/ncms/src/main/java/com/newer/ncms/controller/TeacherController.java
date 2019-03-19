@@ -1,18 +1,10 @@
 package com.newer.ncms.controller;
-
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +20,6 @@ import com.newer.ncms.pojo.Clazz;
 import com.newer.ncms.pojo.Dict;
 import com.newer.ncms.pojo.Student;
 import com.newer.ncms.service.TeacherService;
-import com.newer.ncms.utils.JwtTokenUtil;
 
 @RestController
 public class TeacherController {
@@ -68,7 +59,7 @@ public class TeacherController {
 		list.add(specialtys);
 		list.add(schoolareas);
 		list.add(educations);
-		//System.out.println(list);
+		// System.out.println(list);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
@@ -91,16 +82,44 @@ public class TeacherController {
 	 */
 	@RequestMapping(value = "/addStudent", method = RequestMethod.POST)
 	public String addStudent(Student student) {
-		System.out.println("addstudent==="+student);
+		System.out.println("addstudent===" + student);
 		int addStudent = teacherService.addStudent(student);
-		System.err.println("控制层"+addStudent);
+		System.err.println("控制层" + addStudent);
 		if (addStudent > 0) {
 			return "ok";
 		}
 		return null;
 	}
-	
-	
-	
+
+	/**
+	 * 删除学生
+	 * 
+	 * @param stuid
+	 * @return
+	 */
+	@RequestMapping(value = "/delStudent", method = RequestMethod.DELETE)
+	public String delStudent(@PathVariable("stuid") Integer stuid) {
+		int delStudent = teacherService.delStudent(stuid);
+		if (delStudent > 0) {
+			return "ok";
+		} else {
+			return "fail";
+		}
+
+	}
+
+	/**
+	 * 跟新学生
+	 * @param student
+	 * @return
+	 */
+	public String updStudent(Student student) {
+		int updStudent = teacherService.updStudent(student);
+		if (updStudent > 0) {
+			return "ok";
+		} else {
+			return "fail";
+		}
+	}
 
 }

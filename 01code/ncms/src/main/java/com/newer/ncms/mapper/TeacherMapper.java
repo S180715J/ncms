@@ -3,11 +3,13 @@ package com.newer.ncms.mapper;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.newer.ncms.pojo.Clazz;
@@ -87,13 +89,7 @@ public interface TeacherMapper {
 	@Select("SELECT DICTTYPE,DICTID,DICNAME,SORTNO,REMARK FROM t_dict WHERE DICTTYPE='education'")
 	List<Dict> educations();
 	
-	/**
-	 * 添加学生
-	 * @param student
-	 * @return
-	
-	@Select("INSERT INTO t_student(STUCODE,PASSWORD,NAME,PINYING,NATION,IDCARD,ENDSCHOOL,CONTACT,HOMECONTACT,HOMEADDRESS,POSTCODE,QQ,JOBCITY,JOBCOMPANY,JOBSAL,job,REMARK)VALUES(#{stucode},#{password},#{name},#{pinying},#{nation},#{idcard},#{endschool},#{contact},#{homecontact},#{homeaddress},#{postcode},#{qq},#{jobcity},#{jobcompany},#{jobsal},#{job},#{remark}")
-	int addStudent(Student student); */
+
 	
 	/**
 	 * 添加学生
@@ -103,6 +99,21 @@ public interface TeacherMapper {
 	@Insert("INSERT INTO t_student(STUCODE,PASSWORD,NAME,PINYING,SEX,CLASSID,SPECIALTY,SCHOOLAREA,NATION,IDCARD,EDU,ENDSCHOOL,CONTACT,HOMECONTACT,HOMEADDRESS,POSTCODE,QQ,ISDEBT,JOBCITY,JOBCOMPANY,JOBSAL,job,REMARK,isdelete)VALUES(#{stucode},#{password},#{name},#{pinying},#{sex.dictid},#{clazz.classid},#{specialty.dictid},#{schoolarea.dictid},#{nation},#{idcard},#{edu.dictid},#{endschool},#{contact},#{homecontact},#{homeaddress},#{postcode},#{qq},#{isdebt.dictid},#{jobcity},#{jobcompany},#{jobsal},#{job},#{remark},#{isdelete.dictid})")
 	int addStudent(Student student);
 	
+	/**
+	 * 删除学生
+	 * @param stuid
+	 * @return
+	 */
+	@Delete("DELETE FROM t_student WHERE stuid=#{stuid}")
+	int delStudent(Integer stuid);
+	
+	/**
+	 * 跟新学生信息
+	 * @param student
+	 * @return
+	 */
+	@Update("UPDATE t_student SET STUCODE=#{stucode},PASSWORD=#{password},NAME=#{name},PINYING=#{pinying},SEX=#{sex.dictid},CLASSID=#{clazz.classid},SPECIALTY=#{specialty.dictid},SCHOOLAREA=#{schoolarea.dictid},NATION=#{nation},IDCARD=#{idcard},EDU=#{edu.dictid},ENDSCHOOL=#{endschool},CONTACT=#{contact},HOMECONTACT=#{homecontact},HOMEADDRESS=#{homeaddress},POSTCODE=#{postcode},QQ=#{qq},ISDEBT=#{isdebt.dictid},JOBCITY=#{jobcity},JOBCOMPANY=#{jobcompany},JOBSAL=#{jobsal},job=#{job},REMARK=#{remark},isdelete=#{isdelete.dictid} WHERE STUID=#{stuid}")
+	int updStudent(Student student);
 	
 	
 	
