@@ -5,11 +5,14 @@ import java.util.List;
 
 import javax.xml.crypto.Data;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import com.newer.ncms.pojo.Dict;
+import com.newer.ncms.pojo.Role;
 import com.newer.ncms.pojo.User;
 
 /**
@@ -39,6 +42,8 @@ public interface AdminMapper {
 	})
 	List<User> tescher(HashMap<String, Object> params); 
 	
+	
+	
 	/**
 	 * 查询所有教师的总数
 	 * @return
@@ -46,24 +51,38 @@ public interface AdminMapper {
 	@Select("SELECT COUNT(*) FROM T_user where roleid=8")
 	int teacherTotal();
 	
+	/**
+	 * 查询所在校区
+	 * @return List<Dict>
+	 */
+	@Select("SELECT DICTTYPE,DICTID,DICNAME,SORTNO,REMARK FROM t_dict WHERE DICTTYPE='school_area'")
+	List<Dict> schoolareas();
+	
+	
+	/**
+	 * 查询角色
+	 * @return
+	 */
+	@Select("SELECT ROLEID,ROLENAME,ROLECODE,ROLEDESC,CRTIME FROM t_role")
+	List<Role> queryRole();
 	
 	/**
 	 * 添加教师
 	 * @param user
 	 * @return 
 	 */
-	@Select("INSERT INTO t_user(USERNAME,REALNAME,NICKNAME,PASSWORD,SEX,PHONE,EMAIL,ROLEID,DEPT)VALUES(#{username},#{realname},#{nickname},#{password},#{sex.dicname},#{phone},#{email},#{role.roleid},#{dept.dicname})")
-	@Results({
-		@Result(property="username",column="username",javaType=String.class),
-		@Result(property="realname",column="realname",javaType=String.class),
-		@Result(property="password",column="password",javaType=String.class),
-		@Result(property="sex.dicname",column="sex",javaType=String.class),
-		@Result(property="phone",column="phone",javaType=String.class),
-		@Result(property="email",column="email",javaType=String.class),
-		@Result(property="role.roleid",column="roleid",javaType=Integer.class),
-		@Result(property="dept.dicname",column="dept",javaType=String.class),
-		@Result(property="phone",column="phone",javaType=String.class)
-	})
+	@Insert("INSERT INTO t_user(USERNAME,REALNAME,NICKNAME,PASSWORD,SEX,PHONE,EMAIL,DEPT)VALUES(#{username},#{realname},#{nickname},#{password},#{sex.dictid},#{phone},#{email},#{dept.dictid})")
 	Integer addTescher(User user);
-
+ 
+	/**
+	 * 添加班级
+	 * @param classid
+	 * @param userid
+	 * @return
+	
+	@Insert("INSERT INTO t_class_user_rel(CLASSID,USERID)VALUES((SELECT CLASSID FROM t_class WHERE CLASSID=#{classid}),(SELECT USERID FROM t_user WHERE USERID=#{userid}))")
+	int addClazz(Integer classid,Integer userid) ;
+	 */
+	
+	
 }

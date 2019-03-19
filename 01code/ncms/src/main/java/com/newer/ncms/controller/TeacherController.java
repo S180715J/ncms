@@ -5,6 +5,8 @@ import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,7 @@ import com.newer.ncms.pojo.Clazz;
 import com.newer.ncms.pojo.Dict;
 import com.newer.ncms.pojo.Student;
 import com.newer.ncms.service.TeacherService;
+import com.newer.ncms.utils.JwtTokenUtil;
 
 @RestController
 public class TeacherController {
@@ -96,5 +99,8 @@ public class TeacherController {
 		}
 		return null;
 	}
+	
+	
+	
 
 }
