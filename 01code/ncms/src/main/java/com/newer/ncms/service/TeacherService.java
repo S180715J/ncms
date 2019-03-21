@@ -47,58 +47,52 @@ public class TeacherService {
 		}
 		return null;
 	}
-	
-	
+
 	/**
 	 * 查询班级编号和名称
+	 * 
 	 * @return List<Clazz>
 	 */
-	public List<Clazz> clazzs(){
+	public List<Clazz> clazzs() {
 		return teacherMapper.clazzs();
 	}
-	
-	
+
 	/**
 	 * 查询专业方向
+	 * 
 	 * @return List<Dict>
 	 */
-	public List<Dict> specialtys(){
+	public List<Dict> specialtys() {
 		return teacherMapper.specialtys();
 	}
-	
+
 	/**
 	 * 查询所在校区
+	 * 
 	 * @return List<Dict>
 	 */
-	public List<Dict> schoolareas(){
+	public List<Dict> schoolareas() {
 		return teacherMapper.schoolareas();
 	}
-	
-	
+
 	/**
 	 * 查询文化程度
+	 * 
 	 * @return List<Dict>
 	 */
-	public List<Dict> educations(){
+	public List<Dict> educations() {
 		return teacherMapper.educations();
 	}
-	
-	
+
 	/**
 	 * 添加学生
+	 * 
 	 * @param student
 	 * @return
 	 */
 	public int addStudent(Student student) {
 		return teacherMapper.addStudent(student);
 	}
-
-	
-	
-	
-	
-	
-	
 
 	/**
 	 * 删除学生
@@ -129,6 +123,5 @@ public class TeacherService {
 	public Student showStudent(Integer stuid) {
 		return teacherMapper.showStudent(stuid);
 	}
-
 
 }

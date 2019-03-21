@@ -6,33 +6,17 @@
 	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Document</title>
-
-<link rel="stylesheet" href="lib/layui/css/layui.css">
-<link rel="stylesheet" href="css/x-admin.css">
-
 <link rel="stylesheet" href="../layui/css/layui.css">
 <link rel="stylesheet" href="../css/x-admin.css">
-
-<link rel="stylesheet" href="../layui/css/layui.css">
-<link rel="stylesheet" href="../css/x-admin.css">
-
 
 </head>
 <body>
 	<form action="" class="layui-form">
-
-			<div class="layui-form-item">
-			<label class="layui-form-label">班级编号：</label>
-			<div class="layui-input-block">
-				<input type="text" id="code" name="code"
-					placeholder="请输入班级编号" autocomplete="off" class="layui-input">
-
 		<div class="layui-form-item">
 			<label class="layui-form-label">班级编号：</label>
 			<div class="layui-input-block">
 				<input type="text" id="code" name="code" placeholder="请输入班级编号"
 					autocomplete="off" class="layui-input">
-
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -60,20 +44,13 @@
 					placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off">
 			</div>
 		</div>
-
-         <div class="layui-form-item">
-
 		<div class="layui-form-item">
-
-		<div class="layui-form-item">
-
 			<label for="L_email" class="layui-form-label">结课日期：</label>
 			<div class="layui-input-block">
 				<input class="layui-input time" id="enddate" name="enddate"
 					placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off">
 			</div>
 		</div>
-
 
 		<div class="layui-form-item">
 			<label class="layui-form-label">开班人数：</label>
@@ -150,17 +127,10 @@
 			</div>
 		</div>
 	</form>
-
-	<script type="text/javascript" src="js/x-layui.js"></script>
-	<script type="text/javascript" src="../layui/layui.js"></script>
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="../js/common.js"></script>
-
 	<script src="js/x-layui.js"></script>
 	<script src="../layui/layui.js"></script>
 	<script src="js/jquery.min.js"></script>
 	<script src="../js/common.js"></script>
-
 
 	<script>
 		$(function() {
@@ -211,7 +181,6 @@
 			});
 		});
 
-
 		//给添加按钮绑定单击事件
 		$("#add").click(function() {
 			var code = $("#code").val();
@@ -229,13 +198,7 @@
 			var praisecount = $("#praisecount").val();
 			var misscount = $("#misscount").val();
 			$.ajax({
-
-				type :'post',
-
 				type : 'post',
-
-				type : 'post',
-
 				url : HOST_URL + 'addClass',
 				data : {
 					"code" : code,
@@ -247,22 +210,12 @@
 					"onlinecount" : onlinecount,
 					"status.dictid" : status,
 					"endcount" : endcount,
-
-					"examcount":examcount,
-					"passcount":passcount,
-					"jobcount":jobcount,
-					"praisecount":praisecount,
-					"misscount":misscount
-				}, 
-				//dataType :'text',
-
 					"examcount" : examcount,
 					"passcount" : passcount,
 					"jobcount" : jobcount,
 					"praisecount" : praisecount,
 					"misscount" : misscount
 				},
-
 				success : function(data) {
 					if (data == "ok") {
 						layer.msg('添加成功！', {

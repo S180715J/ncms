@@ -13,53 +13,16 @@
 <link rel="stylesheet" href="../css/x-admin.css" media="all">
 <link rel="stylesheet" href="../layui/css/layui.css" media="all">
 
-
  <script src="../lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script type="text/javascript" src="../js/x-layui.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
 
-
 </head>
-<body>
+<body style="margin-left: 20px">
 	<div class="x-nav">
 		<span class="layui-breadcrumb"> <a><cite>首页</cite></a> <a><cite>教师管理</cite></a>
-
-			<a><cite>学生信息</cite></a>
-		</span> <a class="layui-btn layui-btn-small"
-			style="line-height: 1.6em; margin-top: 3px; float: right"
-			href="javascript:location.replace(location.href);" title="刷新"><i
-			class="layui-icon" style="line-height: 30px">ဂ</i></a>
-	</div>
-
-	<div class="x-body">
-		<form class="layui-form x-center" action="" style="width: 80%">
-
-			<div class="layui-form-pane" style="margin-top: 15px;">
-				<div class="layui-form-item">
-					<label class="layui-form-label">日期范围</label>
-					<div class="layui-input-inline">
-						<input class="layui-input" placeholder="开始日" id="LAY_demorange_s">
-					</div>
-					<div class="layui-input-inline">
-						<input class="layui-input" placeholder="截止日" id="LAY_demorange_e">
-					</div>
-					<div class="layui-input-inline">
-						<input type="text" name="username" placeholder="请输入登录名"
-							autocomplete="off" class="layui-input">
-					</div>
-					<div class="layui-input-inline" style="width: 80px">
-						<button class="layui-btn" lay-submit="" lay-filter="sreach">
-							<i class="layui-icon">&#xe615;</i>
-						</button>
-					</div>
-				</div>
-			</div>
-		</form>
-		<xblock>
-
-
 			<a><cite>学生信息</cite></a> <span class="x-right"
 			style="line-height: 40px" id="dataLength">共有数据：88 条</span>
 	</div>
@@ -92,35 +55,22 @@
 	<!-- 添加工具条按钮-->
 	<script type="text/html" id="toolbarDemo">
   <div class="layui-btn-container">
-
 		<button class="layui-btn"
 			onclick="admin_add('添加学生','student-add.html','600','500')">
 			<i class="layui-icon">&#xe608;</i>添加
 		</button>
-		<button class="layui-btn layui-btn-danger" onclick="delAll()">
+
+		<button class="layui-btn layui-btn-danger" lay-event="delStu" id="delStu">
 			<i class="layui-icon">&#xe640;</i>删除
 		</button>
 		<button class="layui-btn"
-
-			onclick="admin_add('添加用户','admin-add.html','600','500')">
-			<i class="layui-icon">&#xe608;</i>修改
-
 			lay-event="editStu" id="editStu">
 			<i class="layui-icon">&#xe642;</i>修改
-
-			lay-event="editStu" id="editStu">
-			<i class="layui-icon">&#xe642;</i>修改
-
 		</button>
+
 		<button class="layui-btn"
 			onclick="admin_add('添加用户','admin-add.html','600','500')">
 			<i class="layui-icon">&#xe608;</i>从Excel导入
-
-		</button>
-		<span class="x-right" style="line-height: 40px" id="dataLength">共有数据：88
-			条</span></xblock>
-		<table id="table" lay-filter="test" ></table>
-
 		</button>	
  </div>
 </script>
@@ -128,35 +78,14 @@
 	</div>
 
 
-	</div>
-	<!-- <script src="../lib/layui/layui.js" charset="utf-8"></script>
-	<script src="../js/x-layui.js" charset="utf-8"></script> -->
-	<script type="text/javascript" src="../layui/layui.js"></script>
-	<script type="text/javascript" src="../js/x-layui.js"></script>
-	<script type="text/javascript" src="../js/jquery.min.js"></script>
-	<script type="text/javascript" src="../js/common.js"></script>
-	
 	<script>
 		layui.use('table', function() {
 			var table = layui.table;
 			table.render({
 				elem : '#table',
-
-				height : 280,
-				url : HOST_URL+'students', //数据接口
-				page : true, //开启分页
-				limit : 3,
-				cols : [ [ //表头
-				{
-
 				height : 450,
 				url : HOST_URL + 'students', //数据接口
 				page : true, //开启分页
-
-				height : 450,
-				url : HOST_URL + 'students', //数据接口
-				page : true, //开启分页
-
 				limit : 5,
 				toolbar : '#toolbarDemo',
 				totalRow : true,
@@ -165,7 +94,6 @@
 					type : 'checkbox',
 					fixed : 'left'
 				}, {
-
 					field : 'stuid',
 					title : '学生ID',
 					width : 80,
@@ -285,7 +213,11 @@
 					//如果是异步请求数据方式，res即为你接口返回的信息。
 					//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
 					//得到数据总量
-					 $('th').css({'background-color': '#5792c6', 'color': '#fff','font-weight':'bold'});
+					$('th').css({
+						'background-color' : '#5792c6',
+						'color' : '#fff',
+						'font-weight' : 'bold'
+					});
 					$("#dataLength").text("共有数据：" + count + "条");
 				}
 			});
@@ -395,39 +327,11 @@
 			
 			
 
-			//搜索
-			var $ = layui.$, active = {
-				    reload: function(){
-				      var demoReload = $('#demoReload');
-				      
-				      //执行重载
-				      table.reload('testReload', {
-				        page: {
-				          curr: 1 //重新从第 1 页开始
-				        }
-				        ,where: {
-				          key: {
-				            id: demoReload.val()
-				          }
-				        }
-				      });
-				    }
-				  };
-				  
-				  $('.demoTable .layui-btn').on('click', function(){
-				    var type = $(this).data('type');
-				    active[type] ? active[type].call(this) : '';
-				  });
-			
-			
-
-
 		});
 		
 		
 		
 	</script>
-
 	<script type="text/javascript">
 		//回显下拉框
 		$(function() {
@@ -474,8 +378,7 @@
 		});
 	</script>
 
-
-	 	<script>
+	<script>
 		layui.use([ 'laydate', 'element', 'laypage', 'layer' ], function() {
 			$ = layui.jquery;//jquery
 			laydate = layui.laydate;//日期插件
@@ -484,15 +387,6 @@
 			layer = layui.layer;//弹出层
 		});
 
-		//批量删除提交
-		function delAll() {
-			layer.confirm('确认要删除吗？', function(index) {
-				//捉到所有被选中的，发异步进行删除
-				layer.msg('删除成功', {
-					icon : 1
-				});
-			});
-		}
 		/*添加*/
 		function admin_add(title, url, w, h) {
 			x_admin_show(title, url, w, h);
@@ -502,23 +396,8 @@
 		function admin_edit(title, url, id, w, h) {
 			x_admin_show(title, url, w, h);
 		}
-D
-		/*删除*/
-		function admin_del(obj, id) {
-			layer.confirm('确认要删除吗？', function(index) {
-				//发异步删除数据
-				$(obj).parents("tr").remove();
-				layer.msg('已删除!', {
-					icon : 1,
-					time : 1000
-				});
-			});
-		}
-	</script> 
-
 
 	</script>
-
 
 </body>
 </html>

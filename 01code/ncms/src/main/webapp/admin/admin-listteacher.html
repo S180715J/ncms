@@ -14,11 +14,11 @@
 <link rel="stylesheet" href="../layui/css/layui.css">
 </head>
 <body>
-	<table class="layui-table" id="layui_table_id" lay-filter="dataTable"></table>
+
 	<div class="x-body">
 
-
-		<button class="layui-btn layui-btn-danger" id="del" onclick="delAll()">
+		<xblock>
+		<button class="layui-btn layui-btn-danger" onclick="delAll()">
 			<i class="layui-icon">&#xe640;</i>删除
 		</button>
 		<button class="layui-btn"
@@ -26,30 +26,27 @@
 			<i class="layui-icon">&#xe608;</i>添加
 		</button>
 		<button class="layui-btn layui-btn-warm">修改</button>
-		<span id="dataLength" class="x-right" style="line-height: 40px">共有数据：
-			条</span>
-		</xblock>
-		<table id="test" lay-filter="test"></table>
+		<span  id="dataLength" class="x-right" style="line-height: 40px">共有数据：  条</span></xblock>
+		<table id="table" lay-filter="test"></table>
 
 	</div>
 
-
+	
 	<script src="../layui/layui.js" charset="utf-8"></script>
 	<script src="./js/x-layui.js" charset="utf-8"></script>
 	<script src="../js/jquery.min.js"></script>
-	<script src="../js/common.js"></script>
 	
-	<script>
+    <script>
 		layui.use('table', function() {
 			var table = layui.table;
 			table.render({
-				elem : '#test',
-				height : 400,
-				url : HOST_URL + 'teacher', //数据接口
+				elem : '#table',
+				height : 300,
+				url : 'http://localhost:8080/ncms/teacher', //数据接口
 				page : true, //开启分页
-				limit : 5,
+				limit : 3,
 				cols : [ [ //表头
-					/* {type: 'checkbox', fixed: 'left'},  */ {
+				{
 					field : 'userid',
 					title : '用户ID',
 					width : 150,
@@ -71,7 +68,7 @@
 					align : 'center',
 					style : 'font-size: 1px;'
 				}, {
-					templet : '<div>{{d.sex.dicname}}</div>',
+					templet :'<div>{{d.sex.dicname}}</div>',
 					title : '性别',
 					width : 120,
 					align : 'center',
@@ -83,19 +80,19 @@
 					width : 152,
 					style : 'font-size:10px;'
 				}, {
-					field : 'phone',
+					field :'phone',
 					title : '联系电话',
 					align : 'center',
 					width : 170,
 					style : 'font-size: 1px;'
 				}, {
-					field : 'email',
+					field :'email',
 					title : '邮箱',
 					width : 200,
 					align : 'center',
 					sort : true,
 					style : 'font-size: 1px;'
-
+				
 				} ] ],
 				parseData : function(res) { //将原始数据解析成 table 组件所规定的数据
 					return {
@@ -116,20 +113,90 @@
 					//如果是异步请求数据方式，res即为你接口返回的信息。
 					//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
 					//得到数据总量
-					$('th').css({
-						'background-color' : '#5792c6',
-						'color' : '#fff',
-						'font-weight' : 'bold'
-					});
+					 $('th').css({'background-color': '#5792c6', 'color': '#fff','font-weight':'bold'});
 					$("#dataLength").text("共有数据：" + count + "条");
 				}
-				
 			});
 		});
-		
-		</script >
+	</script>
 
-		<script >
+
+	 	<script>
+		layui.use([ 'laydate', 'element', 'laypage', 'layer' ], function() {
+			$ = layui.jquery;//jquery
+			laydate = layui.laydate;//日期插件
+			//lement = layui.element();//面包导航
+			laypage = layui.laypage;//分页
+			layer = layui.layer;//弹出层
+		});
+
+		//批量删除提交
+		function delAll() {
+			layer.confirm('确认要删除吗？', function(index) {
+				//捉到所有被选中的，发异步进行删除
+				layer.msg('删除成功', {
+					icon : 1
+				});
+			});
+		}
+		/*添加*/
+		function admin_add(title, url, w, h) {
+			x_admin_show(title, url, w, h);
+		}
+
+		/*停用*/
+		function admin_stop(obj, id) {
+			layer
+					.confirm(
+							'确认要停用吗？',
+							function(index) {
+								//发异步把用户状态进行更改
+								$(obj)
+										.parents("tr")
+										.find(".td-manage")
+										.prepend(
+												'<a style="text-decoration:none" onClick="admin_start(this,id)" href="javascript:;" title="启用"><i class="layui-icon">&#xe62f;</i></a>');
+								$(obj)
+										.parents("tr")
+										.find(".td-status")
+										.html(
+												'<span class="layui-btn layui-btn-disabled layui-btn-mini">已停用</span>');
+								$(obj).remove();
+								layer.msg('已停用!', {
+									icon : 5,
+									time : 1000
+								});
+							});
+		}
+
+		/*启用*/
+		function admin_start(obj, id) {
+			layer
+					.confirm(
+							'确认要启用吗？',
+							function(index) {
+								//发异步把用户状态进行更改
+								$(obj)
+										.parents("tr")
+										.find(".td-manage")
+										.prepend(
+												'<a style="text-decoration:none" onClick="admin_stop(this,id)" href="javascript:;" title="停用"><i class="layui-icon">&#xe601;</i></a>');
+								$(obj)
+										.parents("tr")
+										.find(".td-status")
+										.html(
+												'<span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>');
+								$(obj).remove();
+								layer.msg('已启用!', {
+									icon : 6,
+									time : 1000
+								});
+							});
+		}
+		//编辑
+		function admin_edit(title, url, id, w, h) {
+			x_admin_show(title, url, w, h);
+		}
 		/*删除*/
 		function admin_del(obj, id) {
 			layer.confirm('确认要删除吗？', function(index) {
@@ -141,27 +208,8 @@
 				});
 			});
 		}
-		
-		/*添加*/
-		function admin_add(title, url, w, h) {
-			x_admin_show(title, url, w, h);
-		}
-		
-		</script>
-	
-    
-
-
-	<script>
-		layui.use([ 'laydate', 'element', 'laypage', 'layer' ], function() {
-			$ = layui.jquery;//jquery
-			laydate = layui.laydate;//日期插件
-			//lement = layui.element();//面包导航
-			laypage = layui.laypage;//分页
-			layer = layui.layer;//弹出层
-		});
-	</script>
-	<script>
+	</script> 
+	<!-- <script>
 		var _hmt = _hmt || [];
 		(function() {
 			var hm = document.createElement("script");
@@ -169,6 +217,6 @@
 			var s = document.getElementsByTagName("script")[0];
 			s.parentNode.insertBefore(hm, s);
 		})();
-	</script>
+	</script> -->
 </body>
 </html>
