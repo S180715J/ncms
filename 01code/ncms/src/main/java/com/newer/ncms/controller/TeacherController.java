@@ -1,4 +1,5 @@
 package com.newer.ncms.controller;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,23 +99,48 @@ public class TeacherController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delStudent", method = RequestMethod.DELETE)
-	public String delStudent(@PathVariable("stuid") Integer stuid) {
-		int delStudent = teacherService.delStudent(stuid);
-		if (delStudent > 0) {
-			return "ok";
-		} else {
-			return "fail";
+	public String delStudent(String ids) {
+		// System.out.println(ids);
+		String id[] = ids.split(",");
+		int[] arr = new int[id.length];
+		for (int i = 0; i < id.length; i++) {
+			arr[i] = Integer.parseInt(id[i]);
+			int delStudent = teacherService.delStudent(arr[i]);
+			if (delStudent <= 0) {
+				return "fail";
+			}
 		}
+
+		return "ok";
+
+	}
+
+	/**
+	 * 修改学生信息回显数据
+	 * @param stuid
+	 * @return
+	 */
+	@RequestMapping(value = "/showStudent/{stuid}", method = RequestMethod.GET)
+	public ResponseEntity<?> showStudent(@PathVariable("stuid")Integer stuid) {
+		
+		Student showStudent = teacherService.showStudent(stuid);
+		if (showStudent != null) {
+			return new ResponseEntity<>(showStudent, HttpStatus.OK);
+		}
+		return null;
 
 	}
 
 	/**
 	 * 跟新学生
+	 * 
 	 * @param student
 	 * @return
 	 */
+	@RequestMapping(value = "/updStudent", method = RequestMethod.PUT)
 	public String updStudent(Student student) {
 		int updStudent = teacherService.updStudent(student);
+		System.out.println(student);
 		if (updStudent > 0) {
 			return "ok";
 		} else {

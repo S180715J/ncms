@@ -13,9 +13,7 @@
 <link rel="stylesheet" href="../css/x-admin.css" media="all">
 <link rel="stylesheet" href="../layui/css/layui.css" media="all">
 
-
-<!-- <script src="../lib/layui/layui.js" charset="utf-8"></script>
-	<script src="../js/x-layui.js" charset="utf-8"></script> -->
+ <script src="../lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script type="text/javascript" src="../js/x-layui.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
@@ -38,24 +36,26 @@
 		</div>
 		所属校区：
 		<div class="layui-inline">
-			<select id="schoolarea" name="id" autocomplete="off" style="width: 175px;height: 40px;align: center;"></select>
+			<select id="schoolarea" name="id" autocomplete="off"
+				style="width: 175px; height: 40px; align: center;"></select>
 		</div>
 		所属班级：
 		<div class="layui-inline">
-			<select id="clazz" name="id" autocomplete="off" style="width: 175px;height: 40px;align: center;"></select>
+			<select id="clazz" name="id" autocomplete="off"
+				style="width: 175px; height: 40px; align: center;"></select>
 		</div>
 		专业方向：
 		<div class="layui-inline">
-			<select id="specialty" name="id" autocomplete="off" style="width: 175px;height: 40px;align: center;"></select>
+			<select id="specialty" name="id" autocomplete="off"
+				style="width: 175px; height: 40px; align: center;"></select>
 		</div>
 		<button class="layui-btn" data-type="reload">搜索</button>
 	</div>
 
-
+	<!-- 添加工具条按钮-->
 	<script type="text/html" id="toolbarDemo">
-
   <div class="layui-btn-container">
-<button class="layui-btn"
+		<button class="layui-btn"
 			onclick="admin_add('添加学生','student-add.html','600','500')">
 			<i class="layui-icon">&#xe608;</i>添加
 		</button>
@@ -65,14 +65,13 @@
 		</button>
 		<button class="layui-btn"
 			lay-event="editStu" id="editStu">
-			<i class="layui-icon">&#xe608;</i>修改
+			<i class="layui-icon">&#xe642;</i>修改
 		</button>
 
 		<button class="layui-btn"
 			onclick="admin_add('添加用户','admin-add.html','600','500')">
 			<i class="layui-icon">&#xe608;</i>从Excel导入
-		</button>
-		
+		</button>	
  </div>
 </script>
 	<table id="table" lay-filter="test"></table>
@@ -84,17 +83,17 @@
 			var table = layui.table;
 			table.render({
 				elem : '#table',
-				height : 360,
+				height : 450,
 				url : HOST_URL + 'students', //数据接口
 				page : true, //开启分页
-				limit : 3,
+				limit : 5,
 				toolbar : '#toolbarDemo',
 				totalRow : true,
 				cols : [ [ //表头
-			    {
-					type: 'checkbox', 
-					fixed: 'left'
-				},{
+				{
+					type : 'checkbox',
+					fixed : 'left'
+				}, {
 					field : 'stuid',
 					title : '学生ID',
 					width : 80,
@@ -107,26 +106,28 @@
 					align : 'center',
 					sort : true,
 					width : 80,
-					style : 'font-size: 1px;'
-
+					style : 'font-size: 1px;',
+					edit : 'text'
 				}, {
 					field : 'name',
 					title : '姓名',
 					width : 80,
 					align : 'center',
-					style : 'font-size: 1px;'
+					style : 'font-size: 1px;',
+					edit : 'text'
 				}, {
 					templet : '<div>{{d.sex.dicname}}</div>',
 					title : '性别',
 					width : 70,
 					align : 'center',
-					style : 'font-size: 1px;',
+					style : 'font-size: 1px;'
 				}, {
 					templet : '<div>{{d.clazz.code}}</div>',
 					title : '班级',
 					align : 'center',
 					width : 70,
-					style : 'font-size:10px;'
+					style : 'font-size:10px;',
+					edit : 'text'
 				}, {
 					templet : '<div>{{d.specialty.dicname}}</div>',
 					title : '专业方向',
@@ -145,47 +146,54 @@
 					title : '联系方式 ',
 					width : 130,
 					align : 'center',
-					style : 'font-size: 1px;'
+					style : 'font-size: 1px;',
+					edit : 'text'
 				}, {
 					templet : '<div>{{d.isdebt.dicname}}</div>',
 					title : '缴费情况',
 					width : 100,
 					align : 'center',
-					style : 'font-size: 1px;'
+					style : 'font-size: 1px;',
+					edit : 'text'
 				}, {
 					field : 'jobcity',
 					title : '工作城市',
 					width : 100,
 					align : 'center',
 					sort : true,
-					style : 'font-size: 5px;'
+					style : 'font-size: 5px;',
+					edit : 'text'
 				}, {
 					field : 'jobcompany',
 					title : '公司',
 					width : 100,
 					align : 'center',
 					sort : true,
-					style : 'font-size: 5px;'
+					style : 'font-size: 5px;',
+					edit : 'text'
 				}, {
 					field : 'jobsal',
 					title : '工资',
 					width : 100,
 					align : 'center',
 					sort : true,
-					style : 'font-size: 1px;'
+					style : 'font-size: 1px;',
+					edit : 'text'
 				}, {
 					field : 'job',
 					title : '工作岗位',
 					width : 100,
 					align : 'center',
 					sort : true,
-					style : 'font-size: 1px;'
+					style : 'font-size: 1px;',
+					edit : 'text'
 				}, {
 					title : '查看详情',
 					width : 100,
 					align : 'center',
 					style : 'font-size: 1px;'
-				} ] ],
+				}  ] ],
+				id: 'testReload',
 				parseData : function(res) { //将原始数据解析成 table 组件所规定的数据
 					return {
 						"code" : res.status, //解析接口状态
@@ -213,26 +221,119 @@
 					$("#dataLength").text("共有数据：" + count + "条");
 				}
 			});
-			
+
 			//工具栏事件
-			  table.on('toolbar(test)', function(obj){
-			    var checkStatus = table.checkStatus(obj.config.id);
-			    switch(obj.event){
-			      case 'delStu':
-			        var data = checkStatus.data;
-			        layer.alert(JSON.stringify(data));
-			      break;
-			      case 'updStu':
-			        var data = checkStatus.data;
-			        layer.msg('选中了：'+ data.length + ' 个');
-			      break;
-			    };
-			  });
+			table.on('toolbar(test)', function(obj) {
+				var checkStatus = table.checkStatus(obj.config.id);
+				switch (obj.event) {
+				case 'delStu':
+					var data = checkStatus.data;
+					if (data != "") {
+						var ids = "";
+						for (var i = 0; i < data.length; i++) {
+							ids += data[i].stuid + ",";
+						}
+						layer.confirm('确认要删除id为' + ids + '的学生吗',
+								function(index) {
+									$.ajax({
+										type : 'delete',
+										url : HOST_URL + 'delStudent',
+										data : {
+											"ids" : ids
+										},
+										dataType : 'text',
+										success : function(data) {
+											if (data == "ok") {
+												layer.msg("删除成功！");
+												location.reload();
+											}
+										}
+									});
+								});
+					} else {
+						layer.msg("请选择要删除的学生", {
+							icon : 5,
+							offset : 'auto',
+							anim : 0,
+							time : 1500,
+							shade: [0.8, '#393D49']
+						});
+					}
+					break;
+				case 'editStu':
+					var data = checkStatus.data;
+					if(data.length!=1){
+						layer.msg("请勾选一位学生", {
+							icon : 7,
+							offset : 'auto',
+							anim : 0,
+							time : 1500,
+							shade: [0.8, '#393D49']
+						});
+					}else{
+						layer.confirm('您要修改id为'+data[0].stuid+'姓名为'+data[0].name+'的学生吗？',function(index){
+							 layer.close(layer.index);
+							//弹出窗口
+							layer.open({
+								type:2,
+								title:'编辑学生信息',
+								content:'student-edit.html?stuid='+data[0].stuid,
+								area:['600px','500px'],
+								maxmin:true
+							});
+							
+							
+						});
+					}
+					break;
+				}
+				;
+			});
+
+/* 			//监听单元格编辑
+			table.on('edit(test)', function(obj) {
+				var value = obj.value //得到修改后的值
+				, data = obj.data //得到所在行所有键值
+				, field = obj.field; //得到字段
+				layer.msg('[ID: ' + data.stuid + '] ' + field + ' 字段更改为：'
+						+ value);
+			}); */
+			
+			
+
+			//搜索
+			var $ = layui.$, active = {
+				    reload: function(){
+				      var demoReload = $('#demoReload');
+				      
+				      //执行重载
+				      table.reload('testReload', {
+				        page: {
+				          curr: 1 //重新从第 1 页开始
+				        }
+				        ,where: {
+				          key: {
+				            id: demoReload.val()
+				          }
+				        }
+				      });
+				    }
+				  };
+				  
+				  $('.demoTable .layui-btn').on('click', function(){
+				    var type = $(this).data('type');
+				    active[type] ? active[type].call(this) : '';
+				  });
+			
+			
 
 		});
+		
+		
+		
 	</script>
 	<script type="text/javascript">
-	//回显下拉框
+		//回显下拉框
 		$(function() {
 			$.ajax({
 				type : 'get',
@@ -272,6 +373,7 @@
 					});
 				}
 			});
+			
 
 		});
 	</script>
@@ -290,70 +392,11 @@
 			x_admin_show(title, url, w, h);
 		}
 
-		/*停用*/
-		function admin_stop(obj, id) {
-			layer
-					.confirm(
-							'确认要停用吗？',
-							function(index) {
-								//发异步把用户状态进行更改
-								$(obj)
-										.parents("tr")
-										.find(".td-manage")
-										.prepend(
-												'<a style="text-decoration:none" onClick="admin_start(this,id)" href="javascript:;" title="启用"><i class="layui-icon">&#xe62f;</i></a>');
-								$(obj)
-										.parents("tr")
-										.find(".td-status")
-										.html(
-												'<span class="layui-btn layui-btn-disabled layui-btn-mini">已停用</span>');
-								$(obj).remove();
-								layer.msg('已停用!', {
-									icon : 5,
-									time : 1000
-								});
-							});
-		}
-
-		/*启用*/
-		function admin_start(obj, id) {
-			layer
-					.confirm(
-							'确认要启用吗？',
-							function(index) {
-								//发异步把用户状态进行更改
-								$(obj)
-										.parents("tr")
-										.find(".td-manage")
-										.prepend(
-												'<a style="text-decoration:none" onClick="admin_stop(this,id)" href="javascript:;" title="停用"><i class="layui-icon">&#xe601;</i></a>');
-								$(obj)
-										.parents("tr")
-										.find(".td-status")
-										.html(
-												'<span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>');
-								$(obj).remove();
-								layer.msg('已启用!', {
-									icon : 6,
-									time : 1000
-								});
-							});
-		}
 		//编辑
 		function admin_edit(title, url, id, w, h) {
 			x_admin_show(title, url, w, h);
 		}
-		/*删除*/
-		function admin_del(obj, id) {
-			layer.confirm('确认要删除吗？', function(index) {
-				//发异步删除数据
-				$(obj).parents("tr").remove();
-				layer.msg('已删除!', {
-					icon : 1,
-					time : 1000
-				});
-			});
-		}
+
 	</script>
 
 </body>

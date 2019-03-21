@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>添加学生</title>
+<title>编辑学生信息</title>
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport"
@@ -17,7 +17,19 @@
 
 <body>
 	<div class="x-body">
-		<form class="layui-form" id="form">
+		<form class="layui-form">
+		<div class="layui-form-item">
+				<label for="username" class="layui-form-label"> <span
+					class="x-red">*</span>学生&nbsp;&nbsp;&nbsp;ID
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" id="stuid" name="stuid" required=""
+						lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+				
+			</div>
+		
+		
 			<div class="layui-form-item">
 				<label for="username" class="layui-form-label"> <span
 					class="x-red">*</span>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号
@@ -31,16 +43,6 @@
 				</div>
 			</div>
 
-			<div class="layui-form-item">
-				<label for="L_pass" class="layui-form-label"> <span
-					class="x-red">*</span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码
-				</label>
-				<div class="layui-input-inline">
-					<input type="password" id="password" name="pass" required=""
-						lay-verify="pass" autocomplete="off" class="layui-input">
-				</div>
-				<div class="layui-form-mid layui-word-aux">6到16个字符</div>
-			</div>
 
 			<div class="layui-form-item">
 				<label for="username" class="layui-form-label"> <span
@@ -275,8 +277,8 @@
 
 						<div class="layui-form-item">
 							<label for="L_repass" class="layui-form-label"> </label>
-							<button class="layui-btn" type="button" id="add">
-								增加</button>
+							<button class="layui-btn" type="button" id="edit">
+								修改</button>
 						</div>
 		</form>
 	</div>
@@ -286,6 +288,7 @@
 	<script type="text/javascript" src="../js/common.js"></script>
 	<script type="text/javascript">
 		$(function() {
+			//显示所属专业、所属院校、文化水平下拉框
 			$.ajax({
 				type : 'get',
 				url : HOST_URL+'list',
@@ -313,6 +316,7 @@
 					})
 				}
 			});
+			//显示班级下拉框
 			$.ajax({
 				type : 'get',
 				url : HOST_URL+'clazzs',
@@ -330,9 +334,57 @@
 			});
 
 		});
-		$("#add").click(function(){
+		
+		//用于获取页面加载所需要的数据
+		function loadStuById() {
+			var url = location.search; //h获取url中“？”后面的字符串
+			var stuid = -1;
+			if(url.indexOf("?") != -1) {
+				var str = url.substr(1); //stuid==
+				var strs = str.split("=");
+				stuid = strs[1];
+			}
+
+			if(stuid != -1) {
+				$.ajax({
+					type: "get",
+					url: HOST_URL+'showStudent/'+stuid,
+					dataType: 'json',
+					success: function(data) {
+						stucode=$("#stuid").attr('value', data.stuid);
+					    stucode=$("#stucode").attr('value', data.stucode);
+						name=$("#name").attr('value', data.name);
+						pinying=$("#pinying").attr('value', data.pinying);
+						sex=$("input[type=radio][name='sex'][value='"+data.sex.dictid+"']").attr("checked",'checked');
+						clazz=$("#clazz").find("option[value='"+clazz.classid+"']").attr("selected",true);
+						specialty=$("#specialty option:selected").attr('value', data.specialty.dicname);
+						schoolarea=$("#schoolarea option:selected").attr('value', data.schoolarea);
+						nation=$("#nation").attr('value', data.nation);
+						edu=$("#edu option:selected").attr('value', data.edu.dicname);
+						idcard=$("#idcard").attr('value', data.idcard);
+						contact=$("#contact").attr('value', data.contact);
+					    homecontact=$("#homecontact").attr('value', data.homecontact);
+						homeaddress=$("#homeaddress").attr('value', data.homeaddress);
+						qq=$("#qq").attr('value', data.qq);
+						isdebt=$("input[type=radio][name='isdebt'][value='"+data.isdebt+"']").attr("checked",'checked')
+						jobcity=$("#jobcity").attr('value', data.jobcity);
+						jobcompany=$("#jobcompany").attr('value', data.jobcompany);
+						jobsal=$("#jobsal").attr('value', data.jobsal);
+						job=$("#job").attr('value', data.job);
+						remark=$("#remark").attr('value', data.remark);
+						isdelete=$("input[type=radio][name='isdelete'][value='"+data.isdelete.dictid+"']").attr("checked",'checked')
+						endschool=$("#endschool").attr('value', data.endschool);
+						postcode=$("#postcode").attr('value', data.postcode);
+					}
+				});
+			}
+		};
+		
+		loadStuById();
+		 //修改事件
+		$("#edit").click(function(){
+			var stuid=$("#stuid").val();
 			var stucode=$("#stucode").val();
-			var password=$("#password").val();
 			var name=$("#name").val();
 			var pinying=$("#pinying").val();
 			var sex=$("input[name='sex']:checked").val();
@@ -355,14 +407,13 @@
 			var isdelete=$("input[name='isdelete']:checked").val();
 			var endschool=$("#endschool").val();
 			var postcode=$("#postcode").val();
-			//alert("add");
 			 $.ajax({
-					type:'post',
-					url:HOST_URL+'addStudent',
+					type:'put',
+					url:HOST_URL+'updStudent',
 					//contentType:'application/json;charset=utf-8',
 					data:{
+						"stuid":stuid,
 						"stucode":stucode,
-						"password":password,
 						"name":name,
 						"pinying":pinying,
 						"sex.dictid":sex,
@@ -388,20 +439,9 @@
 					},
 					dataType:'text',
 					success:function(data){
-						//alert(data);
 						if(data=="ok"){
-							//layer.msg('添加成功！',{time:1000,icon: 1});
-							layer.confirm('您已成功添加学生信息，是否需要继续添加？', {
-								  btn: ['需要','不需要'] //按钮
-								}, function(){
-									document.getElementById("form").reset();
-									 layer.close(layer.index);
-								}, function(){
-									parent.location.reload();
-								});
-
-							//location.href="http://localhost:8080/ncms/teacher/student-list.html";
-							
+							layer.msg('修改成功！',{time:2000,icon: 1});
+							parent.location.reload();
 						}
 					}
 				}); 
@@ -454,15 +494,7 @@
 
 		});
 	</script>
-	<script>
-		var _hmt = _hmt || [];
-		(function() {
-			var hm = document.createElement("script");
-			hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-			var s = document.getElementsByTagName("script")[0];
-			s.parentNode.insertBefore(hm, s);
-		})();
-	</script>
+	
 </body>
 
 </html>

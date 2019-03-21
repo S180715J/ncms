@@ -114,4 +114,14 @@ public class TeacherService {
 		return teacherMapper.updStudent(student);
 	}
 
+	/**
+	 * 回显修改学生信息
+	 * 
+	 * @param stuid
+	 * @return
+	 */
+	public Student showStudent(Integer stuid) {
+		return teacherMapper.showStudent(stuid);
+	}
+
 }
