@@ -59,14 +59,14 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">联系电话</label>
 			<div class="layui-input-block">
-				<input type="text" name="phone" placeholder="请输入" autocomplete="off"
+				<input id="phone" type="text" name="phone" placeholder="请输入" autocomplete="off"
 					class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">邮箱：</label>
 			<div class="layui-input-block">
-				<input type="text" name="email" placeholder="请输入" autocomplete="off"
+				<input id="email" type="text" name="email" placeholder="请输入" autocomplete="off"
 					class="layui-input">
 			</div>
 		</div>
@@ -98,15 +98,16 @@
 	<script type="text/javascript" src="js/x-layui.js"></script>
 	<script type="text/javascript" src="lib/layui//layui.js"></script>
 	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/common.js"></script>
 	<script>
-		const HOST_URL = "http://localhost:8080/ncms/";
 		$(function() {
 			// 显示部门下拉列表
 			$.ajax({
 				type : 'get',
-				url : 'http://localhost:8080/ncms/dept',
+				url : HOST_URL+'dept',
 				dataType :'json',
 				success : function(data) {
+					//alert(data);
 					var dept = '';
 					$.each(data, function(i, item) {
 						dept += '<option value="'+item.dictid+'">'
@@ -117,10 +118,10 @@
 				}
 			});
 		});
-		
+		//显示职称下拉框
 		$.ajax({
 			type : 'get',
-			url : 'http://localhost:8080/ncms/role',
+			url : HOST_URL+'role',
 			dataType :'json',
 			success : function(data) {
 				//alert(data);
@@ -145,10 +146,10 @@
 			var phone = $("#phone").val();
 			var email = $("#email").val();
 			var role =  $("#role option:selected").val();
-			//alert(role);
+			
 			$.ajax({
 				type :'post',
-				url :'http://localhost:8080/ncms/addTeacher',
+				url :HOST_URL+'addTeacher',
 				data:{
 					"username" : username,
 					"password" : password,
@@ -157,7 +158,8 @@
 					"sex.dictid" : sex,
 					"dept.dictid" : dept,
 					"phone" : phone,
-					"email" : email
+					"email" : email,
+					"role.roleid":role
 				},
 				dataType : 'text',
 				success:function(data) {
@@ -168,8 +170,10 @@
 							icon : 1
 						});
 						parent.location.reload();
+						
 					}
 				}
+				
 			});
 
 		});

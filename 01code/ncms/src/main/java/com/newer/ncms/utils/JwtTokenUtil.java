@@ -86,13 +86,12 @@ public class JwtTokenUtil {
 	 */
 	public LinkedHashMap<String, Object> getObj(HttpServletRequest req) {
 		// 从请求头中获取token
-		String token = req.getHeader("Authorization");
-		 //System.out.println("传入验证的token----" + token);
+		String token = req.getHeader(tokenHeader);
+		// System.out.println("传入验证的token----" + token);
 		try {
 			Claims claims = parseJWT(token);
 			@SuppressWarnings("unchecked")
 			LinkedHashMap<String, Object> user = (LinkedHashMap<String, Object>) claims.get("user");
-			//System.err.println(user);
 			return user;
 		} catch (Exception e) {
 			e.printStackTrace();

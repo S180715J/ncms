@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<<<<<<< HEAD
+<link rel="stylesheet" href="lib/layui/css/layui.css">
+<link rel="stylesheet" href="css/x-admin.css">
+=======
+<link rel="stylesheet" href="../layui/css/layui.css">
+<link rel="stylesheet" href="../css/x-admin.css">
+>>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
+</head>
+<body>
+	<form action="" class="layui-form">
+<<<<<<< HEAD
+			<div class="layui-form-item">
+			<label class="layui-form-label">班级编号：</label>
+			<div class="layui-input-block">
+				<input type="text" id="code" name="code"
+					placeholder="请输入班级编号" autocomplete="off" class="layui-input">
+=======
+		<div class="layui-form-item">
+			<label class="layui-form-label">班级编号：</label>
+			<div class="layui-input-block">
+				<input type="text" id="code" name="code" placeholder="请输入班级编号"
+					autocomplete="off" class="layui-input">
+>>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">所属校区：</label>
+			<div class="layui-input-block">
+				<select name="schoolarea" id="schoolarea" lay-filter="aihao">
+					<option value="">请选择校区</option>
+
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">专业方向：</label>
+			<div class="layui-input-block">
+				<select name="specialty" id="specialty" lay-filter="aihao">
+					<option value="">请选择专业方向</option>
+
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label for="L_email" class="layui-form-label">开课日期：</label>
+			<div class="layui-input-block">
+				<input class="layui-input time" id="begindate" name="begindate"
+					placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off">
+			</div>
+		</div>
+<<<<<<< HEAD
+         <div class="layui-form-item">
+=======
+		<div class="layui-form-item">
+>>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+			<label for="L_email" class="layui-form-label">结课日期：</label>
+			<div class="layui-input-block">
+				<input class="layui-input time" id="enddate" name="enddate"
+					placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off">
+			</div>
+		</div>
+<<<<<<< HEAD
+	
+=======
+
+>>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+		<div class="layui-form-item">
+			<label class="layui-form-label">开班人数：</label>
+			<div class="layui-input-block">
+				<input type="text" id="initcount" name="initcount"
+					placeholder="请输入开班人数" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">在读人数：</label>
+			<div class="layui-input-block">
+				<input type="text" id="onlinecount" name="inlinecount"
+					placeholder="请输入在读人数" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">班级状态：</label>
+			<div class="layui-input-block">
+				<select name="status" id="status" lay-filter="aihao">
+					<option value="">请选择班级状态</option>
+
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">结课人数：</label>
+			<div class="layui-input-block">
+				<input type="text" id="endcount" name="endcount"
+					placeholder="请输入结课人数" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">考试人数：</label>
+			<div class="layui-input-block">
+				<input type="text" id="examcount" name="examcount"
+					placeholder="请输入考试人数" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">考试通过率：</label>
+			<div class="layui-input-block">
+				<input type="text" id="passcount" name="passcount"
+					placeholder="请输入就业通过率" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">就业人数：</label>
+			<div class="layui-input-block">
+				<input type="text" id="jobcount" name="jobcount"
+					placeholder="请输入就业人数" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">口碑人数：</label>
+			<div class="layui-input-block">
+				<input id="praisecount" type="text" name="praisecount"
+					placeholder="请输入口碑人数" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">流失人数：</label>
+			<div class="layui-input-block">
+				<input id="misscount" type="text" name="misscount"
+					placeholder="请输入流失人数" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" id="add" type="button">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+<<<<<<< HEAD
+	<script type="text/javascript" src="js/x-layui.js"></script>
+	<script type="text/javascript" src="../layui/layui.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/common.js"></script>
+=======
+	<script src="js/x-layui.js"></script>
+	<script src="../layui/layui.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="../js/common.js"></script>
+
+>>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+	<script>
+		$(function() {
+			//显示下拉框
+			$.ajax({
+				type : 'get',
+				url : HOST_URL + 'merge',
+				dataType : 'json',
+				success : function(data) {
+					var specialty = '';//所属专业方向下拉框
+					var schoolarea = '';//所属院校下拉框
+					var status = '';//班级状态下拉框
+					//alert(specialty);
+					$.each(data, function(i, obj) {
+						$.each(obj, function(i, d) {
+							if (d.dicttype == 'specialty') {
+								specialty += '<option value="'+d.dictid+'">'
+										+ d.dicname + '</option>'
+								$('#specialty').html(specialty);
+							} else if (d.dicttype == 'school_area') {
+								schoolarea += '<option value="'+d.dictid+'">'
+										+ d.dicname + '</option>'
+								$('#schoolarea').html(schoolarea);
+							} else if (d.dicttype == 'class_status') {
+								status += '<option value="'+d.dictid+'">'
+										+ d.dicname + '</option>'
+								$('#status').html(status);
+							}
+						});
+					});
+				}
+			});
+			//显示职称下拉框
+			$.ajax({
+				type : 'get',
+				url : HOST_URL + 'role',
+				dataType : 'json',
+				success : function(data) {
+					//alert(data);
+					var role = '';
+					$.each(data, function(i, item) {
+						role += '<option value="'+item.roleid+'">'
+								+ item.rolename + '</option>';
+						$('#role').html(role);
+
+					});
+				}
+			});
+		});
+
+<<<<<<< HEAD
+		
+=======
+>>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+		//给添加按钮绑定单击事件
+		$("#add").click(function() {
+			var code = $("#code").val();
+			var schoolarea = $("#schoolarea option:selected").val();
+			var specialty = $("#specialty option:selected").val();
+			var begindate = $("#begindate").val();
+			var enddate = $("#enddate").val();
+			var initcount = $("#initcount").val();
+			var onlinecount = $("#onlinecount").val();
+			var status = $("#status option:selected").val();
+			var endcount = $("#endcount").val();
+			var examcount = $("#examcount").val();
+			var passcount = $("#passcount").val();
+			var jobcount = $("#jobcount").val();
+			var praisecount = $("#praisecount").val();
+			var misscount = $("#misscount").val();
+			$.ajax({
+<<<<<<< HEAD
+				type :'post',
+=======
+				type : 'post',
+>>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+				url : HOST_URL + 'addClass',
+				data : {
+					"code" : code,
+					"schoolarea.dictid" : schoolarea,
+					"specialty.dictid" : specialty,
+					"begindate" : begindate,
+					"enddate" : enddate,
+					"initcount" : initcount,
+					"onlinecount" : onlinecount,
+					"status.dictid" : status,
+					"endcount" : endcount,
+<<<<<<< HEAD
+					"examcount":examcount,
+					"passcount":passcount,
+					"jobcount":jobcount,
+					"praisecount":praisecount,
+					"misscount":misscount
+				}, 
+				//dataType :'text',
+=======
+					"examcount" : examcount,
+					"passcount" : passcount,
+					"jobcount" : jobcount,
+					"praisecount" : praisecount,
+					"misscount" : misscount
+				},
+>>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+				success : function(data) {
+					if (data == "ok") {
+						layer.msg('添加成功！', {
+							icon : 1
+						});
+						parent.location.reload();
+
+					}
+				}
+
+			});
+
+		});
+	</script>
+	<script type="text/javascript">
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			//墨绿主题
+			laydate.render({
+				elem : '.time',
+				theme : 'molv',
+				format : 'yyyy-MM-dd HH:mm:ss',
+				type : 'datetime',
+				change : function(value, date) { //监听日期被切换
+					lay('.time').html(value);
+				}
+			});
+		});
+	</script>
+
+	<script>
+		layui.use('form', function() {
+			var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+
+			//……
+
+			//但是，如果你的HTML是动态生成的，自动渲染就会失效
+			//因此你需要在相应的地方，执行下述方法来手动渲染，跟这类似的还有 element.init();
+			// form.render();
+		});
+	</script>
+</body>
+</html>
+

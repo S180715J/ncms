@@ -1,18 +1,22 @@
 package com.newer.ncms.mapper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.crypto.Data;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import com.newer.ncms.pojo.Clazz;
 import com.newer.ncms.pojo.Dict;
 import com.newer.ncms.pojo.Role;
+import com.newer.ncms.pojo.Student;
 import com.newer.ncms.pojo.User;
 
 /**
@@ -58,7 +62,19 @@ public interface AdminMapper {
 	@Select("SELECT DICTTYPE,DICTID,DICNAME,SORTNO,REMARK FROM t_dict WHERE DICTTYPE='school_area'")
 	List<Dict> schoolareas();
 	
+	/**
+	 * 查询专业方向
+	 * @return
+	 */
+	@Select("SELECT DICTTYPE,DICTID,DICNAME,SORTNO,REMARK FROM t_dict WHERE DICTTYPE='specialty'")
+	List<Dict> specialty();
 	
+	/**
+	 * 查询班级状态
+	 * @return
+	 */
+	@Select("SELECT DICTTYPE,DICTID,DICNAME,SORTNO,REMARK FROM t_dict WHERE DICTTYPE='class_status'")
+	List<Dict> classStatus();
 	/**
 	 * 查询角色
 	 * @return
@@ -71,18 +87,60 @@ public interface AdminMapper {
 	 * @param user
 	 * @return 
 	 */
-	@Insert("INSERT INTO t_user(USERNAME,REALNAME,NICKNAME,PASSWORD,SEX,PHONE,EMAIL,DEPT)VALUES(#{username},#{realname},#{nickname},#{password},#{sex.dictid},#{phone},#{email},#{dept.dictid})")
-	Integer addTescher(User user);
- 
+	@Insert("INSERT INTO t_user(USERNAME,REALNAME,NICKNAME,PASSWORD,CRTIME,SEX,PHONE,EMAIL,ROLEID,DEPT)VALUES(#{username},#{realname},#{nickname},#{password},#{crtime},#{sex.dictid},#{phone},#{email},#{role.roleid},#{dept.dictid})")
+	Integer addTeacher(User user);
+	
+	
+	/**
+	 * 根据id删除教师
+	 * @param userid
+	 * @return
+	 */
+	@Delete("DELETE  FROM t_user WHERE USERID=#{userid}")
+	Integer deleteTeacher(Integer userid);
+	
+	/**
+	 * 查询班级
+	 * @param cparams
+	 * @return
+	 */
+	@Select("select c.`CLASSID`,c.`CODE`,d.`DICNAME` SCHOOLAREA,d1.`DICNAME` SPECIALTY,c.`BEGINDATE`,c.`ENDDATE`,c.`INITCOUNT`,c.`ONLINECOUNT`,d2.`DICNAME` STATUS,c.`ENDCOUNT`,c.`EXAMCOUNT`,c.`PASSCOUNT`,c.`JOBCOUNT`,c.`PRAISECOUNT`,c.`MISSCOUNT`,d3.`DICNAME` ISDELETE from t_class c\r\n" + 
+			"left join t_dict d on c.`SCHOOLAREA`=d.`DICTID` and d.`DICTTYPE`='school_area'\r\n" + 
+			"LEFT JOIN t_dict d1 ON c.`SPECIALTY`=d1.`DICTID` AND d1.`DICTTYPE`='specialty'\r\n" + 
+			"LEFT JOIN t_dict d2 ON c.`STATUS`=d2.`DICTID` and d2.`DICTTYPE`='class_status'\r\n" + 
+			"LEFT JOIN t_dict d3 ON c.`ISDELETE`=d3.`DICTID` AND d3.`DICTTYPE`='isdelete' LIMIT #{index},#{limit}")
+	@Results({
+		@Result(property="classid",column="classid",javaType=Integer.class),
+		@Result(property="code",column="code",javaType=String.class),
+		@Result(property="schoolarea.dicname",column="schoolarea",javaType=String.class),
+		@Result(property="specialty.dicname",column="specialty",javaType=String.class),
+		@Result(property="begindate",column="begindate",javaType=Date.class),
+		@Result(property="enddate",column="enddate",javaType=Date.class),
+		@Result(property="initcount",column="initcount",javaType=Integer.class),
+		@Result(property="onlinecount",column="onlinecount",javaType=Integer.class),
+		@Result(property="status.dicname",column="status",javaType=String.class),
+		@Result(property="endcount",column="endcount",javaType=Integer.class),
+		@Result(property="examcount",column="examcount",javaType=Integer.class),
+		@Result(property="passcount",column="passcount",javaType=String.class),
+		@Result(property="jobcount",column="jobcount",javaType=Integer.class),
+		@Result(property="praisecount",column="praisecount",javaType=Integer.class),
+		@Result(property="misscount",column="misscount",javaType=Integer.class)
+	}) 
+	List<Clazz> clazz(HashMap<String, Object> params); 
+	
+	/**
+	 * 查询班级总数
+	 * @return
+	 */
+	@Select("SELECT COUNT(*) FROM t_class")
+	int clazzTotal();
+	
 	/**
 	 * 添加班级
 	 * @param classid
-	 * @param userid
 	 * @return
-	
-	@Insert("INSERT INTO t_class_user_rel(CLASSID,USERID)VALUES((SELECT CLASSID FROM t_class WHERE CLASSID=#{classid}),(SELECT USERID FROM t_user WHERE USERID=#{userid}))")
-	int addClazz(Integer classid,Integer userid) ;
 	 */
-	
+	@Insert("INSERT INTO t_class(CODE,SCHOOLAREA,SPECIALTY,BEGINDATE,ENDDATE,INITCOUNT,ONLINECOUNT,STATUS,ENDCOUNT,EXAMCOUNT,PASSCOUNT,JOBCOUNT,PRAISECOUNT,MISSCOUNT)VALUES(#{code},#{schoolarea.dictid},#{specialty.dictid},#{begindate},#{enddate},#{initcount},#{onlinecount},#{status.dictid},#{endcount},#{examcount},#{passcount},#{jobcount},#{praisecount},#{misscount})")
+	Integer addClass(Clazz clazz);
 	
 }

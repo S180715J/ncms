@@ -33,5 +33,4 @@ public interface LoginMapper {
 		@Result(property = "role.rolename", column = "rolename", javaType = String.class),
 		@Result(property = "dept.dictid", column = "dept", javaType = String.class) })
 	User login(User user);
-
 }
