@@ -1,3 +1,26 @@
+HELP.md
+/target/
+!.mvn/wrapper/maven-wrapper.jar
 
-02document/08项目计划/XXX项目计划(模板).mpp
-02document/08项目计划/XXX项目计划(模板).mpp
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/build/

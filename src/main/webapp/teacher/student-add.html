@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>添加学生</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="../css/x-admin.css" media="all">
+<link rel="stylesheet" href="../lib/layui/css/layui.css">
+</head>
+
+<body>
+	<div class="x-body">
+		<form class="layui-form" id="form">
+			<div class="layui-form-item">
+				<label for="username" class="layui-form-label"> <span
+					class="x-red">*</span>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" id="stucode" name="stucode" required=""
+						lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-form-mid layui-word-aux">
+					<span class="x-red">*</span>请输入唯一的学号
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label for="L_pass" class="layui-form-label"> <span
+					class="x-red">*</span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码
+				</label>
+				<div class="layui-input-inline">
+					<input type="password" id="password" name="pass" required=""
+						lay-verify="pass" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-form-mid layui-word-aux">6到16个字符</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label for="username" class="layui-form-label"> <span
+					class="x-red">*</span>学生姓名
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" id="name" name="name" required=""
+						lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label for="username" class="layui-form-label">拼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;音
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" id="pinying" name="pinying" required=""
+						autocomplete="off" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item" pane="">
+				<label class="layui-form-label">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</label>
+				<div class="layui-input-block">
+					<input type="radio" name="sex" id="sex" value="1" title="男"
+						checked=""> <input type="radio" name="sex" id="sex"
+						value="2" title="女">
+				</div>
+			</div> 
+
+
+
+			<div class="layui-form-item">
+				<label for="role" class="layui-form-label"> <span
+					class="x-red">*</span>班&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级
+				</label>
+				<div class="layui-input-inline">
+					<select name="clazz" id="clazz" lay-verify="required">
+						<option value="">请选择班级</option>
+					</select>
+				</div>
+			</div>
+
+
+			<div class="layui-form-item">
+				<label for="role" class="layui-form-label"> <span
+					class="x-red">*</span>专业方向
+				</label>
+				<div class="layui-input-inline">
+					<select id="specialty" lay-verify="required">
+						<option value="">请选择专业方向</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label for="role" class="layui-form-label"> <span
+					class="x-red">*</span>所在校区
+				</label>
+				<div class="layui-input-inline">
+					<select id="schoolarea" lay-verify="required">
+						<option value="">请选择校区</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label for="username" class="layui-form-label"></span>民&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;族
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" id="nation" name="nation" required=""
+						autocomplete="off" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label for="role" class="layui-form-label"> <span
+					class="x-red">*</span>文化程度
+				</label>
+				<div class="layui-input-inline">
+					<select id="edu" lay-verify="required">
+						<option value="">请选择文化程度</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label for="username" class="layui-form-label"> <span
+					class="x-red">*</span>身份证号
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" name="idcard" id="idcard" lay-verify="identity"
+						placeholder="" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label for="username" class="layui-form-label"> <span
+					class="x-red">*</span>毕业院校
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" id="endschool" name="endschool" required=""
+						lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label"><span class="x-red">*</span>本人手机</label>
+					<div class="layui-input-inline">
+						<input type="tel" name="phone" id="contact"
+							lay-verify="required|phone" autocomplete="off"
+							class="layui-input">
+					</div>
+				</div>
+
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">家人电话</label>
+						<div class="layui-input-inline">
+							<input type="tel" id="homecontact" name="tel"
+								lay-verify="required|phone" autocomplete="off"
+								class="layui-input">
+						</div>
+					</div>
+
+
+					<div class="layui-form-item">
+						<label for="username" class="layui-form-label"> <span
+							class="x-red">*</span>家庭住址
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="homeaddress" name="homeaddress"
+								required="" lay-verify="required" autocomplete="off"
+								class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label for="username" class="layui-form-label"> <span
+							class="x-red">*</span>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="postcode" name="postcode" required=""
+								lay-verify="required" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label for="username" class="layui-form-label"> <span
+							class="x-red">*</span>QQ号码
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="qq" name="homecontact" required=""
+								lay-verify="required" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-form-item" pane="">
+						<label class="layui-form-label">是否欠费</label>
+						<div class="layui-input-block">
+							<input type="radio" name="isdebt" id="isdebt" value="1" title="是"
+								checked=""> <input type="radio" name="isdebt"
+								id="isdebt" value="0" title="否">
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label for="username" class="layui-form-label"> <span
+							class="x-red">*</span>就业城市
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="jobcity" name="jobcity" required=""
+								lay-verify="required" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+
+					<div class="layui-form-item">
+						<label for="username" class="layui-form-label"> <span
+							class="x-red">*</span>就业企业
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="jobcompany" name="jobcompany" required=""
+								lay-verify="required" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+
+					<div class="layui-form-item">
+						<label for="username" class="layui-form-label"> <span
+							class="x-red">*</span>就业薪资
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="jobsal" name="jobsal" required=""
+								lay-verify="required" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+
+					<div class="layui-form-item">
+						<label for="username" class="layui-form-label"> <span
+							class="x-red">*</span>就业岗位
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="job" name="job" required=""
+								lay-verify="required" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+
+					<div class="layui-form-item">
+						<label for="username" class="layui-form-label"> </span>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="remark" name="remark" required=""
+								autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+
+
+					<div class="layui-form-item" pane="">
+						<label class="layui-form-label">是否删除</label>
+						<div class="layui-input-block">
+							<input type="radio" name="isdelete" id="isdelete" value="1"
+								title="是" checked=""> <input type="radio"
+								name="isdelete" id="isdelete" value="0" title="否">
+						</div>
+
+
+
+						<div class="layui-form-item">
+							<label for="L_repass" class="layui-form-label"> </label>
+							<button class="layui-btn" type="button" id="add">
+								增加</button>
+						</div>
+		</form>
+	</div>
+	<script src="../lib/layui/layui.js" charset="utf-8"></script>
+	<script src="../js/x-layui.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/common.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$.ajax({
+				type : 'get',
+				url : HOST_URL+'list',
+				dataType : 'json',
+				success : function(data) {
+					var specialtys = '';//所属专业下拉框
+					var schoolarea = '';//所属院校下拉框
+					var edu= '';//文化水平下拉框
+					$.each(data, function(i, obj) {
+						$.each(obj, function(i, d) {
+							if (d.dicttype == 'specialty') {
+								specialtys += '<option value="'+d.dictid+'">'
+										+ d.dicname + '</option>'
+								$('#specialty').html(specialtys);
+							} else if (d.dicttype == 'school_area') {
+								schoolarea += '<option value="'+d.dictid+'">'
+										+ d.dicname + '</option>'
+								$('#schoolarea').html(schoolarea);
+							} else if (d.dicttype == 'education') {
+								edu += '<option value="'+d.dictid+'">'
+										+ d.dicname + '</option>'
+								$('#edu').html(edu);
+							}
+						})
+					})
+				}
+			});
+			$.ajax({
+				type : 'get',
+				url : HOST_URL+'clazzs',
+				dataType : 'json',
+				success : function(data) {
+					var clazz = '';//所属专业下拉框
+					
+					$.each(data, function(i, a) {
+						clazz += '<option value="'+a.classid+'">' + a.code
+								+ '</option>'
+						$('#clazz').html(clazz);
+								
+					});
+				}
+			});
+
+		});
+		$("#add").click(function(){
+			var stucode=$("#stucode").val();
+			var password=$("#password").val();
+			var name=$("#name").val();
+			var pinying=$("#pinying").val();
+			var sex=$("input[name='sex']:checked").val();
+			var clazz=$("#clazz option:selected").val();
+			var specialty=$("#specialty option:selected").val();
+			var schoolarea=$("#schoolarea option:selected").val();
+			var nation=$("#nation").val();
+			var edu=$("#edu option:selected").val();
+			var idcard=$("#idcard").val();
+			var contact=$("#contact").val();
+			var homecontact=$("#homecontact").val();
+			var homeaddress=$("#homeaddress").val();
+			var qq=$("#qq").val();
+			var isdebt=$("input[name='isdebt']:checked").val();
+			var jobcity=$("#jobcity").val();
+			var jobcompany=$("#jobcompany").val();
+			var jobsal=$("#jobsal").val();
+			var job=$("#job").val();
+			var remark=$("#remark").val();
+			var isdelete=$("input[name='isdelete']:checked").val();
+			var endschool=$("#endschool").val();
+			var postcode=$("#postcode").val();
+			//alert("add");
+			 $.ajax({
+					type:'post',
+					url:HOST_URL+'addStudent',
+					//contentType:'application/json;charset=utf-8',
+					data:{
+						"stucode":stucode,
+						"password":password,
+						"name":name,
+						"pinying":pinying,
+						"sex.dictid":sex,
+						"clazz.classid":clazz,
+						"specialty.dictid":specialty,
+						"schoolarea.dictid":schoolarea,
+						"nation":nation,
+						"edu.dictid":edu,
+						"idcard":idcard,
+						"homecontact":homecontact,
+						"homeaddress":homeaddress,
+						"qq":qq,
+						"isdebt.dictid":isdebt,
+						"jobcity":jobcity,
+						"jobcompany":jobcompany,
+						"jobsal":jobsal,
+						"job":job,
+						"remark":remark,
+						"isdelete.dictid":isdelete,
+						"endschool":endschool,
+						"postcode":postcode,
+						"contact":contact,
+					},
+					dataType:'text',
+					success:function(data){
+						//alert(data);
+						if(data=="ok"){
+							//layer.msg('添加成功！',{time:1000,icon: 1});
+							layer.confirm('您已成功添加学生信息，是否需要继续添加？', {
+								  btn: ['需要','不需要'] //按钮
+								}, function(){
+									document.getElementById("form").reset();
+									 layer.close(layer.index);
+								}, function(){
+									parent.location.reload();
+								});
+
+							//location.href="http://localhost:8080/ncms/teacher/student-list.html";
+							
+						}
+					}
+				}); 
+			
+		});
+		
+		
+	</script>
+	<script>
+		layui.use([ 'form', 'layer' ], function() {
+			$ = layui.jquery;
+			var form = layui.form(), layer = layui.layer;
+
+			//自定义验证规则
+			form.verify({
+				nikename : function(value) {
+					if (value.length < 5) {
+						return '昵称至少得5个字符啊';
+					}
+				},
+				pass : [ /(.+){6,12}$/, '密码必须6到12位' ],
+				repass : function(value) {
+					if ($('#L_pass').val() != $('#L_repass').val()) {
+						return '两次密码不一致';
+					}
+				}
+			});
+
+			/* //监听提交
+			form.on('submit(add)', function(data) {
+				var form=layui.form;
+					var jsonStr=JSON.stringify(data.field);
+					alert("shuju=="+jsonStr);
+					 $.ajax({
+						type:'post',
+						url:'http://localhost:8080/ncms/addStudent',
+						contentType:'application/json;charset=utf-8',
+						data:jsonStr,
+						dataType:'text',
+						success:function(data){
+							if(data=='ok'){
+								layer.msg('添加成功！',{time:1000,icon: 1});
+								parent.location.reload();
+							}
+						}
+						
+					}); 
+				return false;
+			}); */
+
+		});
+	</script>
+	<script>
+		var _hmt = _hmt || [];
+		(function() {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+</body>
+
+</html>
