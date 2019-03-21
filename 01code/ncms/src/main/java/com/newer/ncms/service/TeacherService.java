@@ -92,14 +92,13 @@ public class TeacherService {
 	public int addStudent(Student student) {
 		return teacherMapper.addStudent(student);
 	}
-<<<<<<< HEAD
+
 	
 	
 	
 	
 	
 	
-=======
 
 	/**
 	 * 删除学生
@@ -131,5 +130,5 @@ public class TeacherService {
 		return teacherMapper.showStudent(stuid);
 	}
 
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
 }

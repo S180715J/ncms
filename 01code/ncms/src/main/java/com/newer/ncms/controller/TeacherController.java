@@ -1,10 +1,8 @@
 package com.newer.ncms.controller;
 
-<<<<<<< HEAD
 import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 
-=======
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,11 +100,7 @@ public class TeacherController {
 		}
 		return null;
 	}
-<<<<<<< HEAD
-	
-	
-	
-=======
+
 
 	/**
 	 * 删除学生
@@ -125,7 +119,27 @@ public class TeacherController {
 			if (delStudent <= 0) {
 				return "fail";
 			}
+
 		}
+
+		return "ok";
+
+	}
+
+	/**
+	 * 修改学生信息回显数据
+	 * @param stuid
+	 * @return
+	 */
+	@RequestMapping(value = "/showStudent/{stuid}", method = RequestMethod.GET)
+	public ResponseEntity<?> showStudent(@PathVariable("stuid")Integer stuid) {
+		
+		Student showStudent = teacherService.showStudent(stuid);
+		if (showStudent != null) {
+			return new ResponseEntity<>(showStudent, HttpStatus.OK);
+
+		}
+		return null;
 
 		return "ok";
 
@@ -163,6 +177,6 @@ public class TeacherController {
 			return "fail";
 		}
 	}
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
 
 }

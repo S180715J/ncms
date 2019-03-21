@@ -6,30 +6,33 @@
 	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Document</title>
-<<<<<<< HEAD
+
 <link rel="stylesheet" href="lib/layui/css/layui.css">
 <link rel="stylesheet" href="css/x-admin.css">
-=======
+
 <link rel="stylesheet" href="../layui/css/layui.css">
 <link rel="stylesheet" href="../css/x-admin.css">
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
+<link rel="stylesheet" href="../layui/css/layui.css">
+<link rel="stylesheet" href="../css/x-admin.css">
+
 
 </head>
 <body>
 	<form action="" class="layui-form">
-<<<<<<< HEAD
+
 			<div class="layui-form-item">
 			<label class="layui-form-label">班级编号：</label>
 			<div class="layui-input-block">
 				<input type="text" id="code" name="code"
 					placeholder="请输入班级编号" autocomplete="off" class="layui-input">
-=======
+
 		<div class="layui-form-item">
 			<label class="layui-form-label">班级编号：</label>
 			<div class="layui-input-block">
 				<input type="text" id="code" name="code" placeholder="请输入班级编号"
 					autocomplete="off" class="layui-input">
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -57,22 +60,21 @@
 					placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off">
 			</div>
 		</div>
-<<<<<<< HEAD
+
          <div class="layui-form-item">
-=======
+
 		<div class="layui-form-item">
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
+		<div class="layui-form-item">
+
 			<label for="L_email" class="layui-form-label">结课日期：</label>
 			<div class="layui-input-block">
 				<input class="layui-input time" id="enddate" name="enddate"
 					placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off">
 			</div>
 		</div>
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
 		<div class="layui-form-item">
 			<label class="layui-form-label">开班人数：</label>
 			<div class="layui-input-block">
@@ -148,18 +150,18 @@
 			</div>
 		</div>
 	</form>
-<<<<<<< HEAD
+
 	<script type="text/javascript" src="js/x-layui.js"></script>
 	<script type="text/javascript" src="../layui/layui.js"></script>
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="../js/common.js"></script>
-=======
+
 	<script src="js/x-layui.js"></script>
 	<script src="../layui/layui.js"></script>
 	<script src="js/jquery.min.js"></script>
 	<script src="../js/common.js"></script>
 
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
 	<script>
 		$(function() {
 			//显示下拉框
@@ -209,10 +211,7 @@
 			});
 		});
 
-<<<<<<< HEAD
-		
-=======
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
 		//给添加按钮绑定单击事件
 		$("#add").click(function() {
 			var code = $("#code").val();
@@ -230,11 +229,13 @@
 			var praisecount = $("#praisecount").val();
 			var misscount = $("#misscount").val();
 			$.ajax({
-<<<<<<< HEAD
+
 				type :'post',
-=======
+
 				type : 'post',
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
+				type : 'post',
+
 				url : HOST_URL + 'addClass',
 				data : {
 					"code" : code,
@@ -246,7 +247,7 @@
 					"onlinecount" : onlinecount,
 					"status.dictid" : status,
 					"endcount" : endcount,
-<<<<<<< HEAD
+
 					"examcount":examcount,
 					"passcount":passcount,
 					"jobcount":jobcount,
@@ -254,14 +255,14 @@
 					"misscount":misscount
 				}, 
 				//dataType :'text',
-=======
+
 					"examcount" : examcount,
 					"passcount" : passcount,
 					"jobcount" : jobcount,
 					"praisecount" : praisecount,
 					"misscount" : misscount
 				},
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
 				success : function(data) {
 					if (data == "ok") {
 						layer.msg('添加成功！', {

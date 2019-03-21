@@ -13,20 +13,19 @@
 <link rel="stylesheet" href="../css/x-admin.css" media="all">
 <link rel="stylesheet" href="../layui/css/layui.css" media="all">
 
-<<<<<<< HEAD
-=======
+
  <script src="../lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script type="text/javascript" src="../js/x-layui.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
 
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
 </head>
 <body>
 	<div class="x-nav">
 		<span class="layui-breadcrumb"> <a><cite>首页</cite></a> <a><cite>教师管理</cite></a>
-<<<<<<< HEAD
+
 			<a><cite>学生信息</cite></a>
 		</span> <a class="layui-btn layui-btn-small"
 			style="line-height: 1.6em; margin-top: 3px; float: right"
@@ -60,7 +59,7 @@
 		</form>
 		<xblock>
 
-=======
+
 			<a><cite>学生信息</cite></a> <span class="x-right"
 			style="line-height: 40px" id="dataLength">共有数据：88 条</span>
 	</div>
@@ -93,7 +92,7 @@
 	<!-- 添加工具条按钮-->
 	<script type="text/html" id="toolbarDemo">
   <div class="layui-btn-container">
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
 		<button class="layui-btn"
 			onclick="admin_add('添加学生','student-add.html','600','500')">
 			<i class="layui-icon">&#xe608;</i>添加
@@ -102,30 +101,32 @@
 			<i class="layui-icon">&#xe640;</i>删除
 		</button>
 		<button class="layui-btn"
-<<<<<<< HEAD
+
 			onclick="admin_add('添加用户','admin-add.html','600','500')">
 			<i class="layui-icon">&#xe608;</i>修改
-=======
+
 			lay-event="editStu" id="editStu">
 			<i class="layui-icon">&#xe642;</i>修改
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
+			lay-event="editStu" id="editStu">
+			<i class="layui-icon">&#xe642;</i>修改
+
 		</button>
 		<button class="layui-btn"
 			onclick="admin_add('添加用户','admin-add.html','600','500')">
 			<i class="layui-icon">&#xe608;</i>从Excel导入
-<<<<<<< HEAD
+
 		</button>
 		<span class="x-right" style="line-height: 40px" id="dataLength">共有数据：88
 			条</span></xblock>
 		<table id="table" lay-filter="test" ></table>
-=======
+
 		</button>	
  </div>
 </script>
 	<table id="table" lay-filter="test"></table>
 	</div>
 
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
 
 	</div>
 	<!-- <script src="../lib/layui/layui.js" charset="utf-8"></script>
@@ -140,17 +141,22 @@
 			var table = layui.table;
 			table.render({
 				elem : '#table',
-<<<<<<< HEAD
+
 				height : 280,
 				url : HOST_URL+'students', //数据接口
 				page : true, //开启分页
 				limit : 3,
 				cols : [ [ //表头
 				{
-=======
+
 				height : 450,
 				url : HOST_URL + 'students', //数据接口
 				page : true, //开启分页
+
+				height : 450,
+				url : HOST_URL + 'students', //数据接口
+				page : true, //开启分页
+
 				limit : 5,
 				toolbar : '#toolbarDemo',
 				totalRow : true,
@@ -159,7 +165,7 @@
 					type : 'checkbox',
 					fixed : 'left'
 				}, {
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
 					field : 'stuid',
 					title : '学生ID',
 					width : 80,
@@ -283,8 +289,6 @@
 					$("#dataLength").text("共有数据：" + count + "条");
 				}
 			});
-<<<<<<< HEAD
-=======
 
 			//工具栏事件
 			table.on('toolbar(test)', function(obj) {
@@ -391,15 +395,39 @@
 			
 			
 
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+			//搜索
+			var $ = layui.$, active = {
+				    reload: function(){
+				      var demoReload = $('#demoReload');
+				      
+				      //执行重载
+				      table.reload('testReload', {
+				        page: {
+				          curr: 1 //重新从第 1 页开始
+				        }
+				        ,where: {
+				          key: {
+				            id: demoReload.val()
+				          }
+				        }
+				      });
+				    }
+				  };
+				  
+				  $('.demoTable .layui-btn').on('click', function(){
+				    var type = $(this).data('type');
+				    active[type] ? active[type].call(this) : '';
+				  });
+			
+			
+
+
 		});
 		
 		
 		
 	</script>
-<<<<<<< HEAD
 
-=======
 	<script type="text/javascript">
 		//回显下拉框
 		$(function() {
@@ -445,7 +473,7 @@
 
 		});
 	</script>
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
 
 	 	<script>
 		layui.use([ 'laydate', 'element', 'laypage', 'layer' ], function() {
@@ -474,7 +502,7 @@
 		function admin_edit(title, url, id, w, h) {
 			x_admin_show(title, url, w, h);
 		}
-<<<<<<< HEAD
+D
 		/*删除*/
 		function admin_del(obj, id) {
 			layer.confirm('确认要删除吗？', function(index) {
@@ -487,10 +515,10 @@
 			});
 		}
 	</script> 
-=======
+
 
 	</script>
->>>>>>> ea281c31b78122ace57a2b3aff3e3f42f81c6a48
+
 
 </body>
 </html>
