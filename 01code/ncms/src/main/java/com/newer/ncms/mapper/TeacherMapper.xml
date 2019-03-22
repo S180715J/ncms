@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.ncms.mapper.TeacherMapper">
+
+	<!-- 查询总记录数 -->
+	<select id="getTotalRecordNo" resultType="int">
+		SELECT COUNT(*) FROM T_STUDENT
+		<where>
+			<if test="name != null">
+				name LIKE #{name}
+			</if>
+			<if test="code != null">
+				AND "clazz.code"  = #{code.code}
+			</if>
+			<if test="schoolarea != null">
+				AND "schoolarea.dicname" = #{schoolarea}
+			</if>
+			<if test="specialty != null">
+				AND "specialty.dicname"= #{specialty}
+			</if>  
+		</where>
+
+	</select>
+
+	<!-- 查询数据集合 -->
+	<select id="queryStudent" resultType="com.newer.ncms.pojo.Student">
+		SELECT s.STUID,s.STUCODE,s.NAME,d.`DICNAME`AS
+		"sex.dicname",c.`CODE`AS"clazz.code",
+		d2.`DICNAME`AS
+		"specialty.dicname",d3.`DICNAME` AS
+		"schoolarea.dicname",s.`CONTACT`,d4.`DICNAME`As "isdebt.dicname",
+		s.`JOBCITY`,s.`JOBCOMPANY`,s.`JOBSAL`,s.`JOB` FROM t_student s
+		LEFT
+		JOIN t_class c ON s.`CLASSID`=c.`CLASSID`
+		LEFT JOIN t_dict d ON
+		s.`SEX`=d.`DICTID` AND d.`DICTTYPE`='sex'
+		LEFT JOIN T_DICT d2 ON
+		s.`SPECIALTY`=d2.`DICTID` AND
+		d2.`DICTTYPE`='specialty'
+		LEFT JOIN T_DICT
+		d3 ON s.`SCHOOLAREA`=d3.`DICTID` AND
+		d3.`DICTTYPE`='school_area'
+		LEFT
+		JOIN T_DICT d4 ON s.`ISDEBT`=d4.`DICTID` AND d4.`DICTTYPE`='isdebt'
+		<where>
+			<if test="name != null">
+				name LIKE #{name}
+			</if>
+ 			<if test="code != null">
+				AND "clazz.code"  = #{code}
+			</if>
+			<if test="schoolarea != null">
+				AND "schoolarea.dicname" = #{schoolarea}
+			</if>
+			<if test="specialty != null">
+				AND "specialty.dicname"= #{specialty}
+			</if>  
+		</where>
+
+		LIMIT #{index},#{limit}
+	</select>
+
+</mapper>

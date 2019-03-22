@@ -13,49 +13,65 @@
 <link rel="stylesheet" href="../css/x-admin.css" media="all">
 <link rel="stylesheet" href="../layui/css/layui.css" media="all">
 
-<script src="../lib/layui/layui.js" charset="utf-8"></script>
+ <script src="../lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script type="text/javascript" src="../js/x-layui.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
-
+	<script type="text/javascript">
+	layui.config({
+		base: 'layui_exts/'
+	}).extend({
+		excel: 'excel'
+	});
+	</script>
 </head>
 <body style="margin-left: 20px">
 	<div class="x-nav">
 		<span class="layui-breadcrumb"> <a><cite>首页</cite></a> <a><cite>教师管理</cite></a>
 			<a><cite>学生信息</cite></a> <span class="x-right"
-			style="line-height: 40px" id="dataLength"></span>
+			style="line-height: 40px" id="dataLength">共有数据：88 条</span>
 	</div>
 
 
-	<div class="demoTable">
+	<!-- <div class="demoTable">
 		姓名：
 		<div class="layui-inline">
-			<input class="layui-input" name="name" id="name" autocomplete="off">
+			<input class="layui-input" name="id" id="demoReload"
+				autocomplete="off">
 		</div>
 		所属校区：
 		<div class="layui-inline">
-			<select id="schoolarea" name="schoolarea" autocomplete="off"
-				style="width: 175px; height: 40px; align: center;">
-			</select>
+			<select id="schoolarea" name="id" autocomplete="off"
+				style="width: 175px; height: 40px; align: center;"></select>
 		</div>
 		所属班级：
 		<div class="layui-inline">
-			<select id="code" name="code" autocomplete="off"
+			<select id="clazz" name="id" autocomplete="off"
 				style="width: 175px; height: 40px; align: center;"></select>
 		</div>
 		专业方向：
 		<div class="layui-inline">
-			<select id="specialty" name="specialty" autocomplete="off"
-				style="width: 175px; height: 40px; align: center;">
-				
-				</select>
+			<select id="specialty" name="id" autocomplete="off"
+				style="width: 175px; height: 40px; align: center;"></select>
 		</div>
 		<button class="layui-btn" data-type="reload">搜索</button>
-		<button class="layui-btn" id="exit">取消</button>
-	</div>
+	</div> -->
+	
+	<div class="demoTable">
+  搜索ID：
+  <div class="layui-inline">
+    <input class="layui-input" name="id" id="dataReload" autocomplete="off">
+  </div>
+  <button class="layui-btn" data-type="reload">搜索</button>
+</div>
 
-
+<div class="layui-form-item">
+					<div class="layui-form-label">导入操作</div>
+					<div class="layui-form-block">
+						<input type="file" class="layui-btn layui-btn-primary" id="LAY-excel-import-excel" multiple="multiple">
+					</div>
+				</div>
 
 	<!-- 添加工具条按钮-->
 	<script type="text/html" id="toolbarDemo">
@@ -84,14 +100,12 @@
 
 
 	<script>
-	//var temp=0;
-	//alert(temp);
 		layui.use('table', function() {
 			var table = layui.table;
 			table.render({
 				elem : '#table',
 				height : 450,
-				url :HOST_URL + 'queryStudent', //数据接口
+				url : HOST_URL + 'students', //数据接口
 				page : true, //开启分页
 				limit : 5,
 				toolbar : '#toolbarDemo',
@@ -194,8 +208,13 @@
 					sort : true,
 					style : 'font-size: 1px;',
 					edit : 'text'
-				} ] ],
-				id : 'testReload',
+				}, {
+					title : '查看详情',
+					width : 100,
+					align : 'center',
+					style : 'font-size: 1px;'
+				}  ] ],
+				id: 'testReload',
 				parseData : function(res) { //将原始数据解析成 table 组件所规定的数据
 					return {
 						"code" : res.status, //解析接口状态
@@ -223,164 +242,73 @@
 					$("#dataLength").text("共有数据：" + count + "条");
 				}
 			});
-
-			//工具栏事件
-			table.on('toolbar(test)', function(obj) {
-				var checkStatus = table.checkStatus(obj.config.id);
-				switch (obj.event) {
-				case 'delStu':
-					var data = checkStatus.data;
-					if (data != "") {
-						var ids = "";
-						for (var i = 0; i < data.length; i++) {
-							ids += data[i].stuid + ",";
-						}
-						layer.confirm('确认要删除id为' + ids + '的学生吗',
-								function(index) {
-									$.ajax({
-										type : 'delete',
-										url : HOST_URL + 'delStudent',
-										data : {
-											"ids" : ids
-										},
-										dataType : 'text',
-										success : function(data) {
-											if (data == "ok") {
-												layer.msg("删除成功！");
-												location.reload();
-											}
-										}
-									});
-								});
-					} else {
-						layer.msg("请选择要删除的学生", {
-							icon : 5,
-							offset : 'auto',
-							anim : 0,
-							time : 1500,
-							shade : [ 0.8, '#393D49' ]
-						});
-					}
-					break;
-				case 'editStu':
-					var data = checkStatus.data;
-					if (data.length != 1) {
-						layer.msg("请勾选一位学生", {
-							icon : 7,
-							offset : 'auto',
-							anim : 0,
-							time : 1500,
-							shade : [ 0.8, '#393D49' ]
-						});
-					} else {
-						layer.confirm('您要修改id为' + data[0].stuid + '姓名为'
-								+ data[0].name + '的学生吗？', function(index) {
-							layer.close(layer.index);
-							//弹出窗口
-							layer.open({
-								type : 2,
-								title : '编辑学生信息',
-								content : 'student-edit.html?stuid='
-										+ data[0].stuid,
-								area : [ '600px', '500px' ],
-								maxmin : true
-							});
-
-						});
-					}
-					break;
-				}
-			});
-
-			/* 			//监听单元格编辑
-			 table.on('edit(test)', function(obj) {
-			 var value = obj.value //得到修改后的值
-			 , data = obj.data //得到所在行所有键值
-			 , field = obj.field; //得到字段
-			 layer.msg('[ID: ' + data.stuid + '] ' + field + ' 字段更改为：'
-			 + value);
-			 }); */
-
-			/*  var student={
-					"name":name
-			};
-			student.specialty={
-					"dicname":specialty
-			}
-			student.schoolarea={
-					"dicname":schoolarea
-			}
-			student.clazz={
-					"code":code
-			}  */
-
-		function query(){
-			 var name = $('#name').val();
-			var code = $('#code option:selected').text();
-			var specialty = $("#specialty option:selected").text();
-			var schoolarea = $("#schoolarea option:selected").text();
 			
-			$.ajax({
-				type : 'get',
-				url : HOST_URL + 'queryStudent',
-				data : {
-					"name" : name,
-					"specialty.dicname":specialty,
-				    "schoolarea.dicname":schoolarea,
-					"clazz.code":code  
-				},
-				dataType : 'json',
-				success : function(data) {
-				}
-			});
-			}
+			 // 点击获取数据
+			      var  active = {
+			   reload: function () {
+			              var dataReload=$('#dataReload');
+			             
+			                 var index = layer.msg('查询中，请稍候...',{icon: 16,time:false,shade:0});
+			                  setTimeout(function(){
+			                   table.reload('testReload', {
+			                	   page:{
+			                		   curr:1
+			                	   }
+			                         ,where: {
+			                            stuid:dataReload.val()
+			                        }
+			                     });
+			                    layer.close(index);
+			                 },800);
+			             
+			         },
+			     };
+			 
+					  
+					  $('.demoTable .layui-btn').on('click', function(){
+					    var type = $(this).data('type');
+					    active[type] ? active[type].call(this) : '';
+					  });
 			
-			// 点击获取数据
-			var active = {
-				reload : function() {
-					var name = $('#name').val();
-					var code = $('#code option:selected').text();
-					var specialty = $("#specialty option:selected").text();
-					var schoolarea = $("#schoolarea option:selected").text();
-					var index = layer.msg('查询中，请稍候...', {
-						icon : 16,
-						time : false,
-						shade : 0
-					});
-					setTimeout(function() {
-						table.reload('testReload', {
-							page : {
-								curr : 1
-							},
-							where : {
-								'name' : name
-							    ,'<div>{{d.clazz.code}}</div>':code
-							   ,'<div>{{d.specialty.dicname}}</div>':specialty
-							   ,'<div>{{d.schoolarea.dicname}}</div>':schoolarea  
-							}
-						});
-						layer.close(index);
-					}, 800);
 
-				}
-			}
-			$('.demoTable .layui-btn').on('click', function() {
-				temp=1;
-				query();
-				var type = $(this).data('type');
-				active[type] ? active[type].call(this) : '';
-				//temp=0;
-			});
 			
-			$('#exit').on('click', function() {
-				location.reload();
-			});
-			
+
+		
 
 		});
+		
+		
+		
 	</script>
-
-
+	<script type="text/html" id="LAY-excel-export-ans">
+	{{# layui.each(d.data, function(index, item){ }}
+		<blockquote class="layui-elem-quote">{{d.files[index].name}}</blockquote>
+		<div class="layui-tab">
+		  <ul class="layui-tab-title">
+		  	{{# layui.each(item, function(sheetname, content) { }}
+			    <li>{{sheetname}}</li>
+		  	{{# }); }}
+		  </ul>
+		  <div class="layui-tab-content">
+		  	{{# layui.each(item, function(sheetname, content) { }}
+			    <div class="layui-tab-item">
+						<table class="layui-table">
+							{{# layui.each(content, function(index, value) { }}
+								<tr>
+									{{# layui.each(value, function(key, val) { }}
+									<td>{{val}}</td>
+									{{# });}}
+								</tr>
+							{{# });}}
+						</table>
+						<pre class="layui-code">{{JSON.stringify(content, null, 2)}}</pre>
+					</div>
+		  	{{# }); }}
+		  </div>
+		</div>
+	{{# }) }}
+</script>
+	
 	<script type="text/javascript">
 		//回显下拉框
 		$(function() {
@@ -389,9 +317,9 @@
 				url : HOST_URL + 'list',
 				dataType : 'json',
 				success : function(data) {
-					var specialtys = '<option selected="selected"  value=""></option>';//所属专业下拉框
-					var schoolarea = '<option selected="selected"  value=""></option>';//所属院校下拉框
-					var edu ='<option selected="selected"  value=""></option>';//文化水平下拉框
+					var specialtys = '';//所属专业下拉框
+					var schoolarea = '';//所属院校下拉框
+					var edu = '';//文化水平下拉框
 					$.each(data, function(i, obj) {
 						$.each(obj, function(i, d) {
 							if (d.dicttype == 'specialty') {
@@ -412,16 +340,17 @@
 				url : HOST_URL + 'clazzs',
 				dataType : 'json',
 				success : function(data) {
-					var clazz = '<option selected="selected"  value=""></option>';//所属专业下拉框
+					var clazz = '';//所属专业下拉框
 
 					$.each(data, function(i, a) {
 						clazz += '<option value="'+a.classid+'">' + a.code
 								+ '</option>'
-						$('#code').html(clazz);
+						$('#clazz').html(clazz);
 
 					});
 				}
 			});
+			
 
 		});
 	</script>
@@ -444,6 +373,7 @@
 		function admin_edit(title, url, id, w, h) {
 			x_admin_show(title, url, w, h);
 		}
+
 	</script>
 
 </body>

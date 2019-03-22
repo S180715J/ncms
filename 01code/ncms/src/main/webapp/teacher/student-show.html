@@ -357,9 +357,8 @@
 						pinying=$("#pinying").attr('value', data.pinying);
 						sex=$("input[type=radio][name='sex'][value='"+data.sex.dictid+"']").attr("checked",'checked');
 						clazz=$("#clazz").find("option[value='"+clazz.classid+"']").attr("selected",'true');
-						//alert(data.specialty.dictid);
-						specialty=$("#specialty").find("option[value='"+specialty.dictid+"']").attr("selected",'true');
-						specialty=$("#specialty option:selected").attr('value', data.specialty.dictid);
+						
+						specialty=$("#specialty option:selected").attr('value', data.specialty.dicname);
 						schoolarea=$("#schoolarea option:selected").attr('value', data.schoolarea);
 						nation=$("#nation").attr('value', data.nation);
 						edu=$("#edu option:selected").attr('value', data.edu.dicname);

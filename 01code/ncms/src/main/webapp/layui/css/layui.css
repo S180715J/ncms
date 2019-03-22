@@ -3137,7 +3137,7 @@ a cite {
 
 .layui-table-page, .layui-table-total {
 	border-width: 1px 0 0;
-	margin-bottom: -1px;
+	margin-bottom: -45px;
 	overflow: hidden
 }
 
