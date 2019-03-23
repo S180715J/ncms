@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<link rel="stylesheet" href="lib/layui/css/layui.css">
+<link rel="stylesheet" href="css/x-admin.css">
+
+</head>
+<body>
+	<form action="" class="layui-form">
+	<div class="layui-form-item">
+			<label class="layui-form-label">用户id:</label>
+			<div class="layui-input-block">
+				<input type="text" id="userid" placeholder="请输入"
+					autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户名</label>
+			<div class="layui-input-block">
+				<input type="text" id="username" placeholder="请输入"
+					autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">姓名：</label>
+			<div class="layui-input-block">
+				<input type="text" id="realname" name="realname" placeholder="请输入"
+					autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">昵称：</label>
+			<div class="layui-input-block">
+				<input type="text" id="nickname" name="nickname" placeholder="请输入"
+					autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">性别：</label>
+			<div class="layui-input-block">
+				<input type="radio" name="sex" value="1" title="男" checked=""> <input
+					type="radio" name="sex" value="2" title="女" >
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">部门：</label>
+			<div class="layui-input-block">
+				<select name="dept" id="dept" lay-filter="aihao">
+					<option value="">请选择您的部门</option>
+
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">联系电话</label>
+			<div class="layui-input-block">
+				<input type="text" name="phone" id="phone" placeholder="请输入" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">邮箱：</label>
+			<div class="layui-input-block">
+				<input type="text" name="email" id="email" placeholder="请输入" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">职称：</label>
+			<div class="layui-input-block">
+				<select name="role" id="role" lay-filter="roleid">
+					<option value="">请选择您的职称</option>
+
+				</select>
+			</div>
+		</div>
+		
+
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" id="edit" type="button">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="js/x-layui.js"></script>
+	<script type="text/javascript" src="lib/layui//layui.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script src="../js/common.js"></script>
+	<script>
+		$(function() {
+			// 显示部门下拉列表
+			$.ajax({
+				type : 'get',
+				url : HOST_URL + 'merge',
+				dataType : 'json',
+				success : function(data) {
+					var dept = '';
+					$.each(data, function(i, obj) {
+						$.each(obj, function(i, d) {
+							if (d.dicttype == 'school_area') {
+								dept += '<option value="'+d.dictid+'">'
+										+ d.dicname + '</option>'
+								$('#dept').html(dept);
+							}
+						});
+					});
+				}
+			});
+			//显示职称下拉列表
+		$.ajax({
+			type : 'get',
+			url : HOST_URL+'role',
+			dataType :'json',
+			success : function(data) {
+				//alert(data);
+				var role = '';
+				$.each(data, function(i, item) {
+					role += '<option value="'+item.roleid+'">'
+							+ item.rolename + '</option>';
+					$('#role').html(role);
+
+				});
+			}
+		});
+	
+		//用于获取页面加载所需要的数据
+		function loadStuById() {
+			var url = location.search; //h获取url中“？”后面的字符串
+			var userid = -1;
+			if(url.indexOf("?") != -1) {
+				var str = url.substr(1); 
+				var strs = str.split("=");
+				userid = strs[1];
+			}
+			// 修改回显数据
+		if(userid != -1) {
+			$.ajax({
+				type: "get",
+				url: HOST_URL+'showTeacher/'+userid,
+				dataType: 'json',
+				success: function(data) {
+					userid=$("#userid").attr('value', data.userid);
+					username=$("#username").attr('value',data.username);
+					realname=$("#realname").attr('value', data.realname);
+					nickname=$("#nickname").attr('value', data.nickname);
+					sex=$("input[type=radio][name='sex'][value='"+data.sex.dictid+"']").attr("checked",'checked');
+					dept=$("#dept").find("option[value='"+data.dept.dictid+"']").attr("selected",true);
+					phone=$("#phone").attr('value', data.phone);
+					email=$("#email").attr('value', data.email);
+					//role=$("#role option:selected").attr('value', data.role.roleid);
+					role=$("#role").find("option[value='"+data.role.roleid+"']").attr("selected",true);
+					
+					
+				}
+			
+			});
+			
+		}
+	
+		}
+	loadStuById();
+	 //修改事件
+	$("#edit").click(function(){
+		var userid=$("#userid").val();
+		var username=$("#username").val();
+		var realname=$("#realname").val();
+		var nickname=$("#nickname").val();
+		var sex=$("input[name='sex']:checked").val();
+		var dept=$("#dept option:selected").val();
+		var phone=$("#phone").val();
+		var email=$("#email").val();
+		var role=$("#role option:selected").val();
+
+		 $.ajax({
+				type:'put',
+				url:HOST_URL+'upTeacher',
+				data:{
+					"userid":userid,
+					"username":username,
+					"realname":realname,
+					"nickname":nickname,
+					"sex.dictid":sex,
+					"dept.dictid":dept,
+					"phone":phone,
+					"email":email,
+					"role.roleid":role,
+					
+				},
+				dataType:'text',
+				success:function(data){
+					if(data=="ok"){
+						layer.msg('修改成功！',{time:2000,icon: 1});
+						parent.location.reload();
+					}
+				}
+			}); 
+		
+	});
+		});
+	
+	</script>
+	<script>
+		layui.use('form', function() {
+			var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+
+			//……
+
+			//但是，如果你的HTML是动态生成的，自动渲染就会失效
+			//因此你需要在相应的地方，执行下述方法来手动渲染，跟这类似的还有 element.init();
+			// form.render();
+		});
+	</script>
+</body>
+</html>
+

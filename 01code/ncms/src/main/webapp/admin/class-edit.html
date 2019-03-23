@@ -11,8 +11,14 @@
 
 </head>
 <body>
-
-	<form action="text-align:center" class="layui-form">
+	<form action="" class="layui-form">
+	<div class="layui-form-item">
+			<label class="layui-form-label">班级id：</label>
+			<div class="layui-input-block">
+				<input type="text" id="classid" name="classid" placeholder="请输入班级id"
+					autocomplete="off" class="layui-input">
+			</div>
+		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">班级编号：</label>
 			<div class="layui-input-block">
@@ -123,7 +129,7 @@
 		</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
-				<button class="layui-btn" id="add" type="button">立即提交</button>
+				<button class="layui-btn" id="edit" type="button">立即提交</button>
 				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 			</div>
 		</div>
@@ -164,28 +170,73 @@
 					});
 				}
 			});
-		
+			
 
-		//给添加按钮绑定单击事件
-		$("#add").click(function() {
-			var code = $("#code").val();
-			var schoolarea = $("#schoolarea option:selected").val();
-			var specialty = $("#specialty option:selected").val();
-			var begindate = $("#begindate").val();
-			var enddate = $("#enddate").val();
-			var initcount = $("#initcount").val();
-			var onlinecount = $("#onlinecount").val();
-			var status = $("#status option:selected").val();
-			var endcount = $("#endcount").val();
-			var examcount = $("#examcount").val();
-			var passcount = $("#passcount").val();
-			var jobcount = $("#jobcount").val();
-			var praisecount = $("#praisecount").val();
-			var misscount = $("#misscount").val();
+		//用于获取页面加载所需要的数据
+		function loadStuById() {
+			var url = location.search; //h获取url中“？”后面的字符串
+			var userid = -1;
+			if(url.indexOf("?") != -1) {
+				var str = url.substr(1); 
+				var strs = str.split("=");
+				userid = strs[1];
+			}
+			// 修改回显数据
+		if(userid != -1) {
 			$.ajax({
-				type : 'post',
-				url : HOST_URL + 'addClass',
-				data : {
+				type: "get",
+				url: HOST_URL+'showClass/'+userid,
+				dataType: 'json',
+				success: function(data) {
+					classid=$("#classid").attr('value', data.classid);
+					code=$("#code").attr('value',data.code);
+					schoolarea=$("#schoolarea").find("option[value='"+data.schoolarea.dictid+"']").attr("selected",true);
+					specialty=$("#specialty").find("option[value='"+data.specialty.dictid+"']").attr("selected",true);
+					begindate=$("#begindate").attr('value',data.begindate);
+					enddate=$("#enddate").attr('value', data.enddate);
+					initcount=$("#initcount").attr('value', data.initcount);
+					onlinecount=$("#onlinecount").attr('value', data.onlinecount);
+					//status=$("#status option:selected").attr('value', data.status);
+					status=$("#status").find("option[value='"+data.status.dictid+"']").attr("selected",true);
+					
+					
+					endcount=$("#endcount").attr('value', data.endcount);
+					examcount=$("#examcount").attr('value', data.examcount);
+					passcount=$("#passcount").attr('value', data.passcount);
+					jobcount=$("#jobcount").attr('value', data.jobcount);
+					praisecount=$("#praisecount").attr('value', data.praisecount);
+					misscount=$("#misscount").attr('value', data.misscount);
+				}
+			
+			});
+			
+		}
+	
+		}
+	loadStuById();
+	 //修改事件
+	$("#edit").click(function(){
+		var classid = $("#classid").val();
+		var code = $("#code").val();
+		var schoolarea = $("#schoolarea option:selected").val();
+		var specialty = $("#specialty option:selected").val();
+		var begindate = $("#begindate").val();
+		var enddate = $("#enddate").val();
+		var initcount = $("#initcount").val();
+		var onlinecount = $("#onlinecount").val();
+		var status = $("#status option:selected").val();
+		var endcount = $("#endcount").val();
+		var examcount = $("#examcount").val();
+		var passcount = $("#passcount").val();
+		var jobcount = $("#jobcount").val();
+		var praisecount = $("#praisecount").val();
+		var misscount = $("#misscount").val();
+
+		 $.ajax({
+				type:'put',
+				url:HOST_URL+'upClass',
+				data:{
+					"classid":classid,
 					"code" : code,
 					"schoolarea.dictid" : schoolarea,
 					"specialty.dictid" : specialty,
@@ -200,20 +251,21 @@
 					"jobcount" : jobcount,
 					"praisecount" : praisecount,
 					"misscount" : misscount
+					
 				},
-				success : function(data) {
-					if (data == "ok") {
-						layer.msg('添加成功！', {
-							icon : 1
-						});
+				dataType:'text',
+				success:function(data){
+					if(data=="ok"){
+						layer.msg('修改成功！',{time:2000,icon: 1});
 						parent.location.reload();
-
 					}
 				}
-
-			});
-
+			}); 
+		
+	});
 		});
+		
+	
 	</script>
 	<script type="text/javascript">
 		layui.use('laydate', function() {

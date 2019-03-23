@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>学生信息列表</title>
+<title>牛耳ncms管理平台</title>
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport"
@@ -10,25 +10,17 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
-<link rel="stylesheet" href="../css/x-admin.css" media="all">
-<link rel="stylesheet" href="../layui/css/layui.css" media="all">
-
- <script src="../lib/layui/layui.js" charset="utf-8"></script>
-<script type="text/javascript" src="../layui/layui.js"></script>
-<script type="text/javascript" src="../js/x-layui.js"></script>
-<script type="text/javascript" src="../js/jquery.min.js"></script>
-<script type="text/javascript" src="../js/common.js"></script>
-
+<link rel="stylesheet" href="./css/x-admin.css" media="all">
+<link rel="stylesheet" href="../layui/css/layui.css">
 </head>
 <body style="margin-left: 20px">
-	<div class="x-nav">
+<div class="x-nav">
 		<span class="layui-breadcrumb"> <a><cite>首页</cite></a> <a><cite>教师管理</cite></a>
-			<a><cite>学生信息</cite></a> <span class="x-right"
+			<a><cite>教师列表</cite></a> <span class="x-right"
 			style="line-height: 40px" id="dataLength">共有数据：88 条</span>
+			</span>
 	</div>
-
-
-	<div class="demoTable">
+<div class="demoTable">
 		姓名：
 		<div class="layui-inline">
 			<input class="layui-input" name="id" id="demoReload"
@@ -39,24 +31,16 @@
 			<select id="schoolarea" name="id" autocomplete="off"
 				style="width: 175px; height: 40px; align: center;"></select>
 		</div>
-		所属班级：
-		<div class="layui-inline">
-			<select id="clazz" name="id" autocomplete="off"
-				style="width: 175px; height: 40px; align: center;"></select>
-		</div>
-		专业方向：
-		<div class="layui-inline">
-			<select id="specialty" name="id" autocomplete="off"
-				style="width: 175px; height: 40px; align: center;"></select>
-		</div>
 		<button class="layui-btn" data-type="reload">搜索</button>
 	</div>
+		</div>
+		
 
-	<!-- 添加工具条按钮-->
+<!-- 添加工具条按钮-->
 	<script type="text/html" id="toolbarDemo">
-  <div class="layui-btn-container">
+    <div class="layui-btn-container">
 		<button class="layui-btn"
-			onclick="admin_add('添加学生','student-add.html','600','500')">
+			onclick="admin_add('添加学生','teacher-add.html','600','500')">
 			<i class="layui-icon">&#xe608;</i>添加
 		</button>
 
@@ -67,133 +51,89 @@
 			lay-event="editStu" id="editStu">
 			<i class="layui-icon">&#xe642;</i>修改
 		</button>
-
-		<button class="layui-btn"
-			onclick="admin_add('添加用户','admin-add.html','600','500')">
-			<i class="layui-icon">&#xe608;</i>从Excel导入
-		</button>	
+	
  </div>
 </script>
-	<table id="table" lay-filter="test"></table>
-	
 
+<table id="table" lay-filter="test"></table>
+
+
+
+	<script src="../layui/layui.js" charset="utf-8"></script>
+	<script src="./js/x-layui.js" charset="utf-8"></script>
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/common.js"></script>
 
 	<script>
 		layui.use('table', function() {
 			var table = layui.table;
 			table.render({
 				elem : '#table',
-				height : 450,
-				url : HOST_URL + 'students', //数据接口
+				height : 500,
+				url : HOST_URL + 'teacher', //数据接口
 				page : true, //开启分页
 				limit : 5,
 				toolbar : '#toolbarDemo',
 				totalRow : true,
 				cols : [ [ //表头
+
 				{
-					type : 'checkbox',
-					fixed : 'left'
+					checkbox : true,
+					fixed : true
 				}, {
-					field : 'stuid',
-					title : '学生ID',
-					width : 80,
+					field : 'userid',
+					title : '用户ID',
+					width : 150,
 					sort : true,
 					align : 'center',
 					style : 'font-size: 1px;'
 				}, {
-					field : 'stucode',
-					title : '学号',
+					field : 'username',
+					title : '用户名',
 					align : 'center',
 					sort : true,
-					width : 80,
+					width : 150,
 					style : 'font-size: 1px;',
 					edit : 'text'
+
 				}, {
-					field : 'name',
-					title : '姓名',
-					width : 80,
+					field : 'realname',
+					title : '真实姓名',
+					width : 150,
 					align : 'center',
 					style : 'font-size: 1px;',
 					edit : 'text'
 				}, {
 					templet : '<div>{{d.sex.dicname}}</div>',
 					title : '性别',
-					width : 70,
+					width : 120,
 					align : 'center',
-					style : 'font-size: 1px;'
+					style : 'font-size: 1px;',
+					edit : 'text'
 				}, {
-					templet : '<div>{{d.clazz.code}}</div>',
-					title : '班级',
+					templet : '<div>{{d.dept.dicname}}</div>',
+					title : '部门',
 					align : 'center',
-					width : 70,
+					width : 152,
 					style : 'font-size:10px;',
 					edit : 'text'
 				}, {
-					templet : '<div>{{d.specialty.dicname}}</div>',
-					title : '专业方向',
+					field : 'phone',
+					title : '联系电话',
 					align : 'center',
-					width : 100,
-					style : 'font-size: 1px;'
-				}, {
-					templet : '<div>{{d.schoolarea.dicname}}</div>',
-					title : '校区',
-					width : 100,
-					align : 'center',
-					sort : true,
-					style : 'font-size: 1px;'
-				}, {
-					field : 'contact',
-					title : '联系方式 ',
-					width : 130,
-					align : 'center',
+					width : 170,
 					style : 'font-size: 1px;',
 					edit : 'text'
 				}, {
-					templet : '<div>{{d.isdebt.dicname}}</div>',
-					title : '缴费情况',
-					width : 100,
-					align : 'center',
-					style : 'font-size: 1px;',
-					edit : 'text'
-				}, {
-					field : 'jobcity',
-					title : '工作城市',
-					width : 100,
-					align : 'center',
-					sort : true,
-					style : 'font-size: 5px;',
-					edit : 'text'
-				}, {
-					field : 'jobcompany',
-					title : '公司',
-					width : 100,
-					align : 'center',
-					sort : true,
-					style : 'font-size: 5px;',
-					edit : 'text'
-				}, {
-					field : 'jobsal',
-					title : '工资',
-					width : 100,
+					field : 'email',
+					title : '邮箱',
+					width : 200,
 					align : 'center',
 					sort : true,
 					style : 'font-size: 1px;',
 					edit : 'text'
-				}, {
-					field : 'job',
-					title : '工作岗位',
-					width : 100,
-					align : 'center',
-					sort : true,
-					style : 'font-size: 1px;',
-					edit : 'text'
-				}, {
-					title : '查看详情',
-					width : 100,
-					align : 'center',
-					style : 'font-size: 1px;'
-				}  ] ],
-				id: 'testReload',
+
+				} ] ],
 				parseData : function(res) { //将原始数据解析成 table 组件所规定的数据
 					return {
 						"code" : res.status, //解析接口状态
@@ -229,17 +169,17 @@
 				case 'delStu':
 					var data = checkStatus.data;
 					if (data != "") {
-						var ids = "";
+						var userid = "";
 						for (var i = 0; i < data.length; i++) {
-							ids += data[i].stuid + ",";
+							userid += data[i].userid + ",";
 						}
-						layer.confirm('确认要删除id为' + ids + '的学生吗',
+						layer.confirm('确认要删除id为' + userid + '的教师吗？',
 								function(index) {
 									$.ajax({
 										type : 'delete',
-										url : HOST_URL + 'delStudent',
+										url : HOST_URL + 'delTeacher',
 										data : {
-											"ids" : ids
+											"userid" : userid
 										},
 										dataType : 'text',
 										success : function(data) {
@@ -271,13 +211,13 @@
 							shade: [0.8, '#393D49']
 						});
 					}else{
-						layer.confirm('您要修改id为'+data[0].stuid+'姓名为'+data[0].name+'的学生吗？',function(index){
+						layer.confirm('您要修改id为'+data[0].userid+'姓名为'+data[0].username+'的学生吗？',function(index){
 							 layer.close(layer.index);
 							//弹出窗口
 							layer.open({
 								type:2,
-								title:'编辑学生信息',
-								content:'student-edit.html?stuid='+data[0].stuid,
+								title:'编辑教师信息',
+								content:'teacher-edit.html?userid='+data[0].userid,
 								area:['600px','500px'],
 								maxmin:true
 							});
@@ -330,53 +270,8 @@
 		});
 		
 		
-		
 	</script>
-	<script type="text/javascript">
-		//回显下拉框
-		$(function() {
-			$.ajax({
-				type : 'get',
-				url : HOST_URL + 'list',
-				dataType : 'json',
-				success : function(data) {
-					var specialtys = '';//所属专业下拉框
-					var schoolarea = '';//所属院校下拉框
-					var edu = '';//文化水平下拉框
-					$.each(data, function(i, obj) {
-						$.each(obj, function(i, d) {
-							if (d.dicttype == 'specialty') {
-								specialtys += '<option value="'+d.dictid+'">'
-										+ d.dicname + '</option>'
-								$('#specialty').html(specialtys);
-							} else if (d.dicttype == 'school_area') {
-								schoolarea += '<option value="'+d.dictid+'">'
-										+ d.dicname + '</option>'
-								$('#schoolarea').html(schoolarea);
-							}
-						})
-					})
-				}
-			});
-			$.ajax({
-				type : 'get',
-				url : HOST_URL + 'clazzs',
-				dataType : 'json',
-				success : function(data) {
-					var clazz = '';//所属专业下拉框
 
-					$.each(data, function(i, a) {
-						clazz += '<option value="'+a.classid+'">' + a.code
-								+ '</option>'
-						$('#clazz').html(clazz);
-
-					});
-				}
-			});
-			
-
-		});
-	</script>
 
 	<script>
 		layui.use([ 'laydate', 'element', 'laypage', 'layer' ], function() {
@@ -387,17 +282,93 @@
 			layer = layui.layer;//弹出层
 		});
 
+		//批量删除提交
+		function delAll() {
+			layer.confirm('确认要删除吗？', function(index) {
+				//捉到所有被选中的，发异步进行删除
+				layer.msg('删除成功', {
+					icon : 1
+				});
+			});
+		}
 		/*添加*/
 		function admin_add(title, url, w, h) {
 			x_admin_show(title, url, w, h);
 		}
 
+		/*停用*/
+		function admin_stop(obj, id) {
+			layer
+					.confirm(
+							'确认要停用吗？',
+							function(index) {
+								//发异步把用户状态进行更改
+								$(obj)
+										.parents("tr")
+										.find(".td-manage")
+										.prepend(
+												'<a style="text-decoration:none" onClick="admin_start(this,id)" href="javascript:;" title="启用"><i class="layui-icon">&#xe62f;</i></a>');
+								$(obj)
+										.parents("tr")
+										.find(".td-status")
+										.html(
+												'<span class="layui-btn layui-btn-disabled layui-btn-mini">已停用</span>');
+								$(obj).remove();
+								layer.msg('已停用!', {
+									icon : 5,
+									time : 1000
+								});
+							});
+		}
+
+		/*启用*/
+		function admin_start(obj, id) {
+			layer
+					.confirm(
+							'确认要启用吗？',
+							function(index) {
+								//发异步把用户状态进行更改
+								$(obj)
+										.parents("tr")
+										.find(".td-manage")
+										.prepend(
+												'<a style="text-decoration:none" onClick="admin_stop(this,id)" href="javascript:;" title="停用"><i class="layui-icon">&#xe601;</i></a>');
+								$(obj)
+										.parents("tr")
+										.find(".td-status")
+										.html(
+												'<span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>');
+								$(obj).remove();
+								layer.msg('已启用!', {
+									icon : 6,
+									time : 1000
+								});
+							});
+		}
 		//编辑
 		function admin_edit(title, url, id, w, h) {
 			x_admin_show(title, url, w, h);
 		}
-
+		/*删除*/
+		function admin_del(obj, id) {
+			layer.confirm('确认要删除吗？', function(index) {
+				//发异步删除数据
+				$(obj).parents("tr").remove();
+				layer.msg('已删除!', {
+					icon : 1,
+					time : 1000
+				});
+			});
+		}
 	</script>
-
+	<!-- <script>
+		var _hmt = _hmt || [];
+		(function() {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script> -->
 </body>
 </html>
