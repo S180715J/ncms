@@ -66,7 +66,7 @@ public class TeacherService {
 		int index = (page.getCurPage() - 1) * limit;
 		params.put("index", index);
 		params.put("limit", limit);
-
+		System.out.println("params"+params);
 		// 查询数据库中的数据
 		List<Student> list = teacherMapper.queryStudent(params);
 		// 将数据集合放入page中

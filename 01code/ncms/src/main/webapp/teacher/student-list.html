@@ -18,6 +18,7 @@
 <script type="text/javascript" src="../js/x-layui.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="JS/teacher.js"></script>
 
 </head>
 <body style="margin-left: 20px">
@@ -31,7 +32,7 @@
 	<div class="demoTable">
 		姓名：
 		<div class="layui-inline">
-			<input class="layui-input" name="name" id="name" autocomplete="off">
+			<input class="layui-input" name="name" id="name" autocomplete="off" style="width: 130px">
 		</div>
 		所属校区：
 		<div class="layui-inline">
@@ -90,7 +91,7 @@
 			var table = layui.table;
 			table.render({
 				elem : '#table',
-				height : 450,
+				height : 430,
 				url :HOST_URL + 'queryStudent', //数据接口
 				page : true, //开启分页
 				limit : 5,
@@ -301,7 +302,7 @@
 			 + value);
 			 }); */
 
-			/*  var student={
+	/* 		 var student={
 					"name":name
 			};
 			student.specialty={
@@ -312,138 +313,85 @@
 			}
 			student.clazz={
 					"code":code
-			}  */
+			}   */
 
-		function query(){
-			 var name = $('#name').val();
-			var code = $('#code option:selected').text();
-			var specialty = $("#specialty option:selected").text();
-			var schoolarea = $("#schoolarea option:selected").text();
 			
-			$.ajax({
-				type : 'get',
-				url : HOST_URL + 'queryStudent',
-				data : {
-					"name" : name,
-					"specialty.dicname":specialty,
-				    "schoolarea.dicname":schoolarea,
-					"clazz.code":code  
-				},
-				dataType : 'json',
-				success : function(data) {
-				}
-			});
-			}
-			
-			// 点击获取数据
-			var active = {
-				reload : function() {
-					var name = $('#name').val();
+		/*  function query(){
+				  var name = $('#name').val();
 					var code = $('#code option:selected').text();
 					var specialty = $("#specialty option:selected").text();
 					var schoolarea = $("#schoolarea option:selected").text();
-					var index = layer.msg('查询中，请稍候...', {
+			$.ajax({
+				type : 'get',
+				url : HOST_URL + 'queryStudent',
+				 data : {
+					"name" : name,
+					'<div>{{d.specialty.dicname}}</div>':specialty
+				    /* "schoolarea.dicname":schoolarea,
+					"clazz.code":code  
+				}, 
+				dataType : 'json',
+				success : function(data) {
+					
+				}
+			});
+			}  */
+			
+ 			// 点击获取数据
+			var active = {
+				reload : function() {
+					    var name = $('#name').val();
+						var code = $('#code option:selected').text();
+						var specialty = $("#specialty option:selected").text();
+						var schoolarea = $("#schoolarea option:selected").text();
+						var index = layer.msg('查询中，请稍候...', {
 						icon : 16,
 						time : false,
 						shade : 0
 					});
 					setTimeout(function() {
 						table.reload('testReload', {
+							 url : HOST_URL + 'queryStudent',
+			                 method:'get',
 							page : {
 								curr : 1
 							},
+							
 							where : {
-								'name' : name
-							    ,'<div>{{d.clazz.code}}</div>':code
-							   ,'<div>{{d.specialty.dicname}}</div>':specialty
-							   ,'<div>{{d.schoolarea.dicname}}</div>':schoolarea  
+								"name" : name,
+								//"specialty.dicname":specialty,
+							    //"schoolarea.dicname":schoolarea,
+								"clazz.code":code 
 							}
 						});
 						layer.close(index);
 					}, 800);
 
 				}
-			}
+			} 
+			
+			
+			
+			
+			
 			$('.demoTable .layui-btn').on('click', function() {
-				temp=1;
-				query();
+				//query();
 				var type = $(this).data('type');
 				active[type] ? active[type].call(this) : '';
-				//temp=0;
 			});
 			
-			$('#exit').on('click', function() {
+			/* $('#exit').on('click', function() {
 				location.reload();
 			});
-			
+			 */
 
 		});
 	</script>
 
 
-	<script type="text/javascript">
-		//回显下拉框
-		$(function() {
-			$.ajax({
-				type : 'get',
-				url : HOST_URL + 'list',
-				dataType : 'json',
-				success : function(data) {
-					var specialtys = '<option selected="selected"  value=""></option>';//所属专业下拉框
-					var schoolarea = '<option selected="selected"  value=""></option>';//所属院校下拉框
-					var edu ='<option selected="selected"  value=""></option>';//文化水平下拉框
-					$.each(data, function(i, obj) {
-						$.each(obj, function(i, d) {
-							if (d.dicttype == 'specialty') {
-								specialtys += '<option value="'+d.dictid+'">'
-										+ d.dicname + '</option>'
-								$('#specialty').html(specialtys);
-							} else if (d.dicttype == 'school_area') {
-								schoolarea += '<option value="'+d.dictid+'">'
-										+ d.dicname + '</option>'
-								$('#schoolarea').html(schoolarea);
-							}
-						})
-					})
-				}
-			});
-			$.ajax({
-				type : 'get',
-				url : HOST_URL + 'clazzs',
-				dataType : 'json',
-				success : function(data) {
-					var clazz = '<option selected="selected"  value=""></option>';//所属专业下拉框
-
-					$.each(data, function(i, a) {
-						clazz += '<option value="'+a.classid+'">' + a.code
-								+ '</option>'
-						$('#code').html(clazz);
-
-					});
-				}
-			});
-
-		});
-	</script>
 
 	<script>
-		layui.use([ 'laydate', 'element', 'laypage', 'layer' ], function() {
-			$ = layui.jquery;//jquery
-			laydate = layui.laydate;//日期插件
-			//lement = layui.element();//面包导航
-			laypage = layui.laypage;//分页
-			layer = layui.layer;//弹出层
-		});
 
-		/*添加*/
-		function admin_add(title, url, w, h) {
-			x_admin_show(title, url, w, h);
-		}
-
-		//编辑
-		function admin_edit(title, url, id, w, h) {
-			x_admin_show(title, url, w, h);
-		}
 	</script>
 
 </body>

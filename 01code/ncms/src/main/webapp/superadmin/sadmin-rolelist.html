@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>
+			系统角色列表
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="../css/x-admin.css" media="all">
+	</head>
+	<body style="margin-left: 20px">
+		<div class="x-nav">
+		<span class="layui-breadcrumb"> <a><cite>首页</cite></a><a><cite>查看角色</cite></a>
+			<a><cite>查看系统角色</cite></a> 
+			<span class="x-right" style="line-height: 40px"></span>
+		</div>
+		<div class="x-body">
+			<table class="layui-table">
+				<thead>
+					<tr>
+						<th>
+							角色编号
+						</th>
+						<th>
+							角色名称
+						</th>
+						<th>
+							角色介绍
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<script src="../lib/layui/layui.js" charset="utf-8"></script>
+		<script src="../js/x-layui.js" charset="utf-8"></script>
+		<script src="../js/jquery.min.js"></script>
+		<script>
+		layui.use(['element'], function() {
+			lement = layui.element(); //面包导航
+		});
+	
+		const URL = "http://localhost:8080/ncms/roleList";
+		$(function() {
+			loadData();
+		});
+		
+		function loadData() {
+			console.info('开始加载数据...');
+			$.get(URL,function(data) {
+				console.info('data:' + data);
+				var tabs = '';
+				$.each(data,function(index, value) {
+					tabs += '<tr>';
+					tabs += '<td>' +value.roleid +'</td>';
+					tabs += '<td>' +value.rolename +'</td>';
+					tabs += '<td>' +value.roledesc +'</td>';
+					tabs += '</tr>';
+				});
+				$('tbody').append(tabs);
+				});
+			}
+		</script>
+	</body>
+
+</html>

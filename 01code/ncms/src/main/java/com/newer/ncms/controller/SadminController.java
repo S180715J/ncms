@@ -17,7 +17,11 @@ import com.newer.ncms.model.Page;
 import com.newer.ncms.pojo.Role;
 import com.newer.ncms.pojo.User;
 import com.newer.ncms.service.SadminService;
-
+/**
+ * 超级管理员模块控制层
+ * @author ZhangXin
+ *
+ */
 @RestController
 public class SadminController {
 	Logger log = LoggerFactory.getLogger(this.getClass());
@@ -58,5 +62,18 @@ public class SadminController {
 		}
 		return entity;
 	}
+
+	/**
+	 * .角色身份下拉框
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/identity", method = RequestMethod.GET)
+	public ResponseEntity<?> queryIdentity() {
+		List<Role> role = sadminService.queryIdentity();
+		return new ResponseEntity<>(role, HttpStatus.OK);
+	}
+	
+	
 
 }

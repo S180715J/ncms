@@ -59,15 +59,24 @@ public class TeacherController {
 	@RequestMapping(value = "/queryStudent", method = RequestMethod.GET)
 	public ResponseEntity<?> queryStudents(
 			@RequestParam(value = "page", required = false, defaultValue = "1") String page,
-			@RequestParam(value = "limit", required = false, defaultValue = "3") Integer limit, Student student) {
+			@RequestParam(value = "limit", required = false, defaultValue = "5") Integer limit, Student student) {
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("name", student.getName());
-     	//params.put("code",student.getClazz().getCode());
-		//params.put("schoolarea", student.getSchoolarea().getDicname());*/
-	
+		if (student.getName() != null) {
+			params.put("name", student.getName());
+		}
+
+		if (student.getSpecialty() != null) {
+			params.put("specialty", student.getSpecialty().getDicname());
+		}
+		if (student.getSchoolarea() != null) {
+			params.put("schoolarea", student.getSchoolarea().getDicname());
+		}
+		if (student.getClazz() != null) {
+			params.put("code", student.getClazz().getCode());
+		}
 
 		Page<Student> data = teacherService.queryStudent(params, page, limit);
-		System.out.println(data);
+		 System.out.println(student);
 		ResponseEntity<?> entity = null;
 		if (data != null) {
 			entity = new ResponseEntity<>(data, HttpStatus.OK);
