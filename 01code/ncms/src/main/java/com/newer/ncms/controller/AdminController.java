@@ -7,12 +7,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.newer.ncms.model.Page;
 import com.newer.ncms.pojo.Clazz;
 import com.newer.ncms.pojo.Dict;
@@ -90,6 +92,7 @@ public class AdminController {
 	@RequestMapping(value = "/role", method = RequestMethod.GET)
 	public ResponseEntity<?> role() {
 		List<Role> role = adminService.queryRole();
+		System.out.println(role);
 		return new ResponseEntity<>(role, HttpStatus.OK);
 		
 	}
@@ -99,50 +102,14 @@ public class AdminController {
 	 * @param userid
 	 * @return
 	 */
-	@RequestMapping(value = "/delTeacher", method = RequestMethod.DELETE)
-	public String delTeacher(String userid) {
-		String id[] = userid.split(",");
-		int[] arr = new int[id.length];
-		for (int i = 0; i < id.length; i++) {
-			arr[i] = Integer.parseInt(id[i]);
-			int delStudent = adminService.delTeacher(arr[i]);
-			if (delStudent <= 0) {
-				return "fail";
-			}
+	@DeleteMapping("/deleteTeacher/{userid}")
+	public  ResponseEntity<?> deleteTeacher(@PathVariable("userid") Integer userid){
+		if(userid == null) {
+			return new ResponseEntity<>("NOT FOUND:"+userid,HttpStatus.NO_CONTENT);
+		}else {
+			Integer i = adminService.deleteTeacher(userid);
+			return new ResponseEntity<String>(i>0?"ok":"nodata",HttpStatus.OK);
 		}
-
-		return "ok";
-
-	}
-	
-	/**
-	 * 修改教师
-	 * @param user
-	 * @return
-	 */
-	@RequestMapping(value = "/upTeacher", method = RequestMethod.PUT)
-	public String upTeacher(User user) {
-		int updStudent = adminService.upTeacher(user);
-		if (updStudent > 0) {
-			return "ok";
-		} else {
-			return "fail";
-		}
-	}
-	
-	/**
-	 * 修改教师回显数据
-	 * @param userid
-	 * @return
-	 */
-	@RequestMapping(value = "/showTeacher/{userid}", method = RequestMethod.GET)
-	public ResponseEntity<?> showTeacher(@PathVariable("userid")Integer userid) {
-		User showTeacher = adminService.showTeacher(userid);
-		if (showTeacher != null) {
-			return new ResponseEntity<>(showTeacher, HttpStatus.OK);
-		}
-		return null;
-
 	}
 	
 	/**
@@ -170,64 +137,11 @@ public class AdminController {
 	@RequestMapping(value = "/addClass", method = RequestMethod.POST)
 	public String addClass(Clazz clazz) {
 		int i = adminService.addClass(clazz);
+		System.out.println(clazz);
 		if (i > 0 ) {
 			return "ok";
 
 		}
 		return null;
-	}
-	
-	
-	/**
-	 * 删除班级
-	 * @param userid
-	 * @return
-	 */
-	@RequestMapping(value = "/delClass", method = RequestMethod.DELETE)
-	public String delClass(String classid) {
-		String id[] = classid.split(",");
-		int[] arr = new int[id.length];
-		for (int i = 0; i < id.length; i++) {
-			arr[i] = Integer.parseInt(id[i]);
-			int delCLass = adminService.delClass(arr[i]);
-			if (delCLass <= 0) {
-				return "fail";
-			}
-		}
-
-		return "ok";
-
-	}
-	
-	
-	/**
-	 * 修改班级
-	 * @param clazz
-	 * @return
-	 */
-	@RequestMapping(value = "/upClass", method = RequestMethod.PUT)
-	public String upClass(Clazz clazz) {
-		int updStudent = adminService.upClass(clazz);
-		System.out.println(clazz);
-		if (updStudent > 0) {
-			return "ok";
-		} else {
-			return "fail";
-		}
-	}
-	
-	/**
-	 * 修改班级回显数据
-	 * @param classid
-	 * @return
-	 */
-	@RequestMapping(value = "/showClass/{classid}", method = RequestMethod.GET)
-	public ResponseEntity<?> showClass(@PathVariable("classid")Integer classid) {
-		Clazz showClass = adminService.showClass(classid);
-		if (showClass != null) {
-			return new ResponseEntity<>(showClass, HttpStatus.OK);
-		}
-		return null;
-
 	}
 }

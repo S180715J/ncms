@@ -1,11 +1,13 @@
 package com.newer.ncms.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,12 +40,49 @@ public class TeacherController {
 	@RequestMapping(value = "/students", method = RequestMethod.GET)
 	public ResponseEntity<?> students(@RequestParam(value = "page", required = false, defaultValue = "1") String page,
 			@RequestParam(value = "limit", required = false, defaultValue = "3") Integer limit) {
+		System.out.println("students");
 		Page<Student> data = teacherService.students(page, limit);
 		ResponseEntity<?> entity = null;
 		if (data != null) {
 			entity = new ResponseEntity<>(data, HttpStatus.OK);
 		}
 		return entity;
+	}
+
+	/**
+	 * 返回所有学生信息
+	 * 
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	@RequestMapping(value = "/queryStudent", method = RequestMethod.GET)
+	public ResponseEntity<?> queryStudents(
+			@RequestParam(value = "page", required = false, defaultValue = "1") String page,
+			@RequestParam(value = "limit", required = false, defaultValue = "5") Integer limit, Student student) {
+		HashMap<String, Object> params = new HashMap<>();
+		if (student.getName() != null) {
+			params.put("name", student.getName());
+		}
+
+		if (student.getSpecialty() != null) {
+			params.put("specialty", student.getSpecialty().getDicname());
+		}
+		if (student.getSchoolarea() != null) {
+			params.put("schoolarea", student.getSchoolarea().getDicname());
+		}
+		if (student.getClazz() != null) {
+			params.put("code", student.getClazz().getCode());
+		}
+
+		Page<Student> data = teacherService.queryStudent(params, page, limit);
+		// System.out.println(data);
+		ResponseEntity<?> entity = null;
+		if (data != null) {
+			entity = new ResponseEntity<>(data, HttpStatus.OK);
+		}
+		return entity;
+
 	}
 
 	/**
@@ -117,12 +156,13 @@ public class TeacherController {
 
 	/**
 	 * 修改学生信息回显数据
+	 * 
 	 * @param stuid
 	 * @return
 	 */
 	@RequestMapping(value = "/showStudent/{stuid}", method = RequestMethod.GET)
-	public ResponseEntity<?> showStudent(@PathVariable("stuid")Integer stuid) {
-		
+	public ResponseEntity<?> showStudent(@PathVariable("stuid") Integer stuid) {
+
 		Student showStudent = teacherService.showStudent(stuid);
 		if (showStudent != null) {
 			return new ResponseEntity<>(showStudent, HttpStatus.OK);

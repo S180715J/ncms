@@ -2,6 +2,7 @@ package com.newer.ncms.mapper;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -53,6 +54,24 @@ public interface TeacherMapper {
 			@Result(property = "jobsal", column = "jobsal", javaType = Double.class),
 			@Result(property = "job", column = "job", javaType = String.class) })
 	List<Student> students(HashMap<String, Object> params);
+	
+	/**
+	 *查询学生信息 带条件查询的
+	 * @param params
+	 * @return
+	 */
+	List<Student> queryStudent(HashMap<String, Object> params);
+	
+	
+	/**
+	 * .带查询条件的，查询总记录数
+	 * @param params
+	 * @return
+	 */
+	int getTotalRecordNo(HashMap<String, Object> params);
+	
+	
+	
 
 	/**
 	 * 查询所有学生的总数
@@ -123,7 +142,7 @@ public interface TeacherMapper {
 			@Result(property = "stucode", column = "stucode", javaType = String.class),
 			@Result(property = "name", column = "name", javaType = String.class),
 			@Result(property = "pinying", column = "pinying", javaType = String.class),
-			@Result(property = "sex.dictid" , column = "sex", javaType = String.class),
+			@Result(property = "sex.dictid", column = "sex", javaType = String.class),
 			@Result(property = "clazz.classid", column = "classid", javaType = Integer.class),
 			@Result(property = "specialty.dictid", column = "specialty", javaType = String.class),
 			@Result(property = "schoolarea.dictid", column = "schoolarea", javaType = String.class),

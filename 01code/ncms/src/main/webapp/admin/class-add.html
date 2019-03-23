@@ -11,8 +11,7 @@
 
 </head>
 <body>
-
-	<form action="text-align:center" class="layui-form">
+	<form action="" class="layui-form">
 		<div class="layui-form-item">
 			<label class="layui-form-label">班级编号：</label>
 			<div class="layui-input-block">
@@ -164,7 +163,23 @@
 					});
 				}
 			});
-		
+			//显示职称下拉框
+			$.ajax({
+				type : 'get',
+				url : HOST_URL + 'role',
+				dataType : 'json',
+				success : function(data) {
+					//alert(data);
+					var role = '';
+					$.each(data, function(i, item) {
+						role += '<option value="'+item.roleid+'">'
+								+ item.rolename + '</option>';
+						$('#role').html(role);
+
+					});
+				}
+			});
+		});
 
 		//给添加按钮绑定单击事件
 		$("#add").click(function() {
