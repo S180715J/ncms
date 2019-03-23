@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.newer.ncms.mapper.TeacherMapper;
 import com.newer.ncms.model.Page;
 import com.newer.ncms.pojo.Clazz;
@@ -45,34 +46,6 @@ public class TeacherService {
 			return page;
 		}
 		return null;
-	}
-
-	/**
-	 * .查询含有员工数据集合的page对象
-	 * 
-	 * @return 根据查询的条件返回相应的page对象
-	 */
-	public Page<Student> queryStudent(HashMap<String, Object> params, String curPage, Integer limit) {
-
-		// 查询数据库中的总记录数
-		int totalRecordNo = teacherMapper.getTotalRecordNo(params);
-
-		// pageSize常量
-
-		// 创建page对象
-		Page<Student> page = new Page<>(curPage, totalRecordNo, limit);
-
-		// 先拿到修正后的pageNo
-		int index = (page.getCurPage() - 1) * limit;
-		params.put("index", index);
-		params.put("limit", limit);
-		System.out.println("params"+params);
-		// 查询数据库中的数据
-		List<Student> list = teacherMapper.queryStudent(params);
-		// 将数据集合放入page中
-		page.setList(list);
-
-		return page;
 	}
 
 	/**
