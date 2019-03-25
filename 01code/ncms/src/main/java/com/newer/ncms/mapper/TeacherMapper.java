@@ -1,5 +1,6 @@
 package com.newer.ncms.mapper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +14,10 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import com.newer.ncms.pojo.Channel;
 import com.newer.ncms.pojo.Clazz;
 import com.newer.ncms.pojo.Dict;
+import com.newer.ncms.pojo.Document;
 import com.newer.ncms.pojo.Student;
 
 /**
@@ -54,24 +57,22 @@ public interface TeacherMapper {
 			@Result(property = "jobsal", column = "jobsal", javaType = Double.class),
 			@Result(property = "job", column = "job", javaType = String.class) })
 	List<Student> students(HashMap<String, Object> params);
-	
+
 	/**
-	 *查询学生信息 带条件查询的
+	 * 查询学生信息 带条件查询的
+	 * 
 	 * @param params
 	 * @return
 	 */
 	List<Student> queryStudent(HashMap<String, Object> params);
-	
-	
+
 	/**
 	 * .带查询条件的，查询总记录数
+	 * 
 	 * @param params
 	 * @return
 	 */
 	int getTotalRecordNo(HashMap<String, Object> params);
-	
-	
-	
 
 	/**
 	 * 查询所有学生的总数
@@ -173,4 +174,62 @@ public interface TeacherMapper {
 	@Update("UPDATE t_student SET STUCODE=#{stucode},NAME=#{name},PINYING=#{pinying},SEX=#{sex.dictid},CLASSID=#{clazz.classid},SPECIALTY=#{specialty.dictid},SCHOOLAREA=#{schoolarea.dictid},NATION=#{nation},IDCARD=#{idcard},EDU=#{edu.dictid},ENDSCHOOL=#{endschool},CONTACT=#{contact},HOMECONTACT=#{homecontact},HOMEADDRESS=#{homeaddress},POSTCODE=#{postcode},QQ=#{qq},ISDEBT=#{isdebt.dictid},JOBCITY=#{jobcity},JOBCOMPANY=#{jobcompany},JOBSAL=#{jobsal},job=#{job},REMARK=#{remark},isdelete=#{isdelete.dictid} WHERE STUID=#{stuid}")
 	int updStudent(Student student);
 
+	/**
+	 * 查询所有文章列表
+	 * @return
+	 */
+	@Select("SELECT DOCID,DOCTITLE,c.`CHNLNAME`AS DOCCHANNEL,DOCVALID,u.`REALNAME`AS REALNAME,d1.`DICNAME` AS DOCSTATE,d2.`DICNAME` AS ISTOP,\r\n"
+			+ "d3.`DICNAME`AS ISHIGHLIGHT,d4.`DICNAME`AS TYPEID \r\n"
+			+ "FROM t_document d LEFT JOIN t_channel c ON d.`DOCCHANNEL`=c.`CHANNELID` \r\n"
+			+ "LEFT JOIN t_user u ON d.`USERID`=u.`USERID` \r\n"
+			+ "LEFT JOIN t_dict d1 ON d1.`DICTID`=d.`DOCSTATUS` AND d1.`DICTTYPE`='doc_state' \r\n"
+			+ "LEFT JOIN t_dict d2 ON d2.`DICTID`=d.`ISTOP` AND d2.`DICTTYPE`='doc_top' \r\n"
+			+ "LEFT JOIN t_dict d3 ON d3.`DICTID`=d.`ISHIGHLIGHT` AND d3.`DICTTYPE`='doc_highlight' \r\n"
+			+ "LEFT JOIN t_dict d4 ON d4.`DICTID`=d.`TYPEID` AND d4.`DICTTYPE`='doc_publish_type'  LIMIT #{index},#{limit}")
+	@Results({ @Result(column = "DOCID", property = "docid", javaType = Integer.class),
+			@Result(column = "DOCTITLE", property = "doctitle", javaType = String.class),
+			@Result(column = "DOCCHANNEL", property = "docchannel.chnlname", javaType = String.class),
+			@Result(column = "REALNAME", property = "user.realname", javaType = String.class),
+			@Result(column = "DOCVALID", property = "docvalid", javaType = Date.class),
+			@Result(column = "DOCSTATE", property = "docstatus.dicname", javaType = String.class),
+			@Result(column = "ISTOP", property = "istop.dicname", javaType = String.class),
+			@Result(column = "ISHIGHLIGHT", property = "ishighlight.dicname", javaType = String.class),
+			@Result(column = "TYPEID", property = "doctype.dicname", javaType = String.class), })
+	List<Document> documents(HashMap<String, Object> params);
+	
+	/**
+	 * 带条件查询文章
+	 * @param params
+	 * @return
+	 */
+	List<Document> queryDocument(HashMap<String, Object> params);
+	
+	/**
+	 * 带条件查询总数
+	 * @return
+	 */
+	int queryDocumentSum();
+	
+	/**
+	 * 查询文档总数
+	 * @return
+	 */
+	@Select("SELECT COUNT(*) FROM t_document")
+	int  documentSum();
+	
+	/**
+	 * 删除文档
+	 * @param docid
+	 * @return
+	 */
+	@Delete("DELETE FROM t_document WHERE DOCID=#{docid}")
+	int delDocument(Integer docid);
+	
+	/**
+	 * 查询频道
+	 * @return
+	 */
+	@Select("SELECT CHANNELID,CHNLNAME,PARENTID FROM t_channel")
+	List<Channel> channels();
+	
 }

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>文章信息列表</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="../css/x-admin.css" media="all">
+<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+
+<script src="../lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../layui/layui.js"></script>
+<script type="text/javascript" src="../js/x-layui.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+
+</head>
+<body style="margin-left: 20px">
+	<div class="x-nav">
+		<span class="layui-breadcrumb"> <a><cite>首页</cite></a> <a><cite>教师管理</cite></a>
+			<a><cite>文章</cite></a> <span class="x-right"
+			style="line-height: 40px" id="dataLength"></span>
+	</div>
+
+	<div class="demoTable">
+		标题：
+		<div class="layui-inline">
+			<input class="layui-input" name="doctitle" id="doctitle" autocomplete="off">
+		</div>
+		文章类型：
+		<div class="layui-inline">
+			<input class="layui-input" name="chnlname" id="chnlname" autocomplete="off">
+		</div>
+		发布人：
+		<div class="layui-inline">
+			<input class="layui-input" name="realname" id="realname" autocomplete="off">
+		</div>
+		<button class="layui-btn" data-type="reload">搜索</button>
+		<button class="layui-btn" id="exit">取消</button>
+	</div>
+
+
+
+	<!-- 添加工具条按钮-->
+	<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+		<button class="layui-btn"
+			onclick="article_add('添加文章','article-add.html','850','500')">
+			<i class="layui-icon">&#xe608;</i>添加
+		</button>
+
+		<button class="layui-btn layui-btn-danger" lay-event="delDocument" id="delStu">
+			<i class="layui-icon">&#xe640;</i>删除
+		</button>
+		<button class="layui-btn"
+			lay-event="editStu" id="editDocument">
+			<i class="layui-icon">&#xe642;</i>修改
+		</button>
+ </div>
+</script>
+	<table id="table" lay-filter="test"></table>
+<script>
+	layui.use('table',
+		function() {
+			var table = layui.table;
+			table.render({
+						elem : '#table',
+						height : 450,
+						url : HOST_URL + 'queryDocument', //数据接口
+						page : true, //开启分页
+						limit : 5,
+						toolbar : '#toolbarDemo',
+						totalRow : true,
+						cols : [ [ //表头
+								{
+									type : 'checkbox',
+									fixed : 'left'
+								},
+								{
+									field : 'docid',
+									title : '文章编号',
+									width : 100,
+									sort : true,
+									align : 'center',
+									style : 'font-size: 1px;'
+								},
+								{
+									field : 'doctitle',
+									title : '标题',
+									align : 'center',
+									sort : true,
+									width : 140,
+									style : 'font-size: 1px;',
+									edit : 'text'
+								},
+								{
+									templet : '<div>{{d.docchannel.chnlname}}</div>',
+									title : '文章所属类型',
+									width : 120,
+									align : 'center',
+									style : 'font-size: 1px;',
+									edit : 'text'
+								},
+								{
+									field : 'docvalid',
+									title : '发布时间',
+									width : 150,
+									align : 'center',
+									style : 'font-size: 1px;'
+								},
+								{
+									templet : '<div>{{d.user.realname}}</div>',
+									title : '发布人',
+									align : 'center',
+									width : 100,
+									style : 'font-size:10px;',
+									edit : 'text'
+								},
+								{
+									templet : '<div>{{d.docstatus.dicname}}</div>',
+									title : '状态',
+									align : 'center',
+									width : 90,
+									style : 'font-size: 1px;'
+								},
+								{
+									templet : '<div>{{d.istop.dicname}}</div>',
+									title : '是否置顶',
+									width : 100,
+									align : 'center',
+									sort : true,
+									style : 'font-size: 1px;'
+								},
+								{
+									templet : '<div>{{d.ishighlight.dicname}}</div>',
+									title : '是否加精',
+									width : 100,
+									align : 'center',
+									style : 'font-size: 1px;',
+									edit : 'text'
+								}, {
+									templet : '<div>{{d.doctype.dicname}}</div>',
+									title : '发布类型',
+									width : 100,
+									align : 'center',
+									sort : true,
+									style : 'font-size: 5px;',
+									edit : 'text'
+								}, {
+									title : '查看详情',
+									width : 100,
+									align : 'center',
+									sort : true,
+									style : 'font-size: 5px;',
+									edit : 'text'
+								}] ],
+								id : 'testReload',
+								parseData : function(res) { //将原始数据解析成 table 组件所规定的数据
+								return {
+								"code" : res.status, //解析接口状态
+								"count" : res.totalrows, //解析数据长度
+								"data" : res.list
+
+								//解析数据列表
+								};
+								},
+								skin : 'line', //行边框风格
+								even : true //开启隔行背景
+								,size : 'lg',
+								done : function(res, curr, count) {
+								//如果是异步请求数据方式，res即为你接口返回的信息。
+								//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+								//得到数据总量
+								$('th').css({
+								'background-color' : '#5792c6',
+								'color' : '#fff',
+								'font-weight' : 'bold'
+								});
+								$("#dataLength").text(
+									"共有数据：" + count + "条");
+								}
+								});
+
+								//工具栏事件
+							table.on('toolbar(test)',
+								function(obj) {
+								var checkStatus = table.checkStatus(obj.config.id);
+									switch (obj.event) {
+									case 'delDocument':
+									var data = checkStatus.data;
+									if (data != "") {
+										var ids = "";
+										for (var i = 0; i < data.length; i++) {
+											ids += data[i].docid
+													+ ",";
+										}
+									layer.confirm('确认要删除id为'+ ids+ '的文章吗',
+									function(index) {
+										$.ajax({
+												type : 'delete',
+												url : HOST_URL+ 'delDocument',
+												data : {
+													"ids" : ids
+												},
+												dataType : 'text',
+												success : function(data) {
+													if (data == "ok") {
+														layer.msg("删除成功！");
+														location.reload();
+													}else{
+														layer.msg("删除失败");
+													}
+													}
+													});
+													});
+													} else {
+													layer.msg("请选择要删除的文章",
+														{
+															icon : 5,
+															offset : 'auto',
+															anim : 0,
+															time : 1500,
+															shade : [0.8,'#393D49' ]
+														});
+														}
+														break;
+									case 'editDocument':
+										var data = checkStatus.data;
+										if (data.length != 1) {
+										layer.msg("请勾选一篇文章", {
+											icon : 7,
+											offset : 'auto',
+											anim : 0,
+											time : 1500,
+											shade : [ 0.8,
+													'#393D49' ]
+											});
+											} else {
+												layer.confirm('您要修改id为'+ data[0].docid+ '标题为'+ data[0].name+ '的文章吗？',
+												function(index) {
+												layer.close(layer.index);
+												//弹出窗口
+												layer.open({
+														type : 2,
+														title : '编辑文章信息',
+														content : 'article-edit.html?docid='+ data[0].docid,
+														area : [
+																'600px',
+																'500px' ],
+														maxmin : true
+													});
+										});
+									}
+									break;
+								}
+							});
+
+							// 点击获取数据
+							var active = {
+								reload : function() {
+									    var doctitle = $('#doctitle').val();
+										var realname = $('#realname').val();
+										var chnlname = $("#chnlname").val();
+										var index = layer.msg('查询中，请稍候...', {
+										icon : 16,
+										time : false,
+										shade : 0
+									});
+									setTimeout(function() {
+										table.reload('testReload', {
+											 url : HOST_URL + 'queryDocument',
+							                 method:'get',
+											page : {
+												curr : 1
+											},
+											
+											where : {
+												"doctitle" : doctitle,
+												"docchannel.chnlname":chnlname,
+											    "user.realname":realname,
+											}
+										});
+										layer.close(index);
+									}, 800);
+
+								}
+							} 
+			$('.demoTable .layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+			//刷新
+			$('#exit').on('click', function() {
+				location.reload();
+			});
+
+		});
+	</script>
+
+
+
+
+	<script>
+		layui.use([ 'laydate', 'element', 'laypage', 'layer' ], function() {
+			$ = layui.jquery;//jquery
+			laydate = layui.laydate;//日期插件
+			//lement = layui.element();//面包导航
+			laypage = layui.laypage;//分页
+			layer = layui.layer;//弹出层
+		});
+
+		/*添加*/
+		function article_add(title, url, w, h) {
+			x_admin_show(title, url, w, h);
+		}
+
+		//编辑
+		function article_edit(title, url, id, w, h) {
+			x_admin_show(title, url, w, h);
+		}
+	</script>
+
+</body>
+</html>

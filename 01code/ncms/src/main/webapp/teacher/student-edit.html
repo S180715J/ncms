@@ -23,7 +23,7 @@
 					class="x-red">*</span>学生&nbsp;&nbsp;&nbsp;ID
 				</label>
 				<div class="layui-input-inline">
-					<input type="text" id="stuid" name="stuid" required=""
+					<input readonly="readonly" type="text" id="stuid" name="stuid" required=""
 						lay-verify="required" autocomplete="off" class="layui-input">
 				</div>
 
@@ -288,53 +288,51 @@
 	<script type="text/javascript" src="../js/jquery.min.js"></script>
 	<script type="text/javascript" src="../js/common.js"></script>
 	<script type="text/javascript">
-		$(function() {
-			//显示所属专业、所属院校、文化水平下拉框
-			$.ajax({
-				type : 'get',
-				url : HOST_URL + 'list',
-				dataType : 'json',
-				success : function(data) {
-					var specialtys = '';//所属专业下拉框
-					var schoolarea = '';//所属院校下拉框
-					var edu = '';//文化水平下拉框
-					$.each(data, function(i, obj) {
-						$.each(obj, function(i, d) {
-							if (d.dicttype == 'specialty') {
-								specialtys += '<option value="'+d.dictid+'">'
-										+ d.dicname + '</option>'
-								$('#specialty').html(specialtys);
-							} else if (d.dicttype == 'school_area') {
-								schoolarea += '<option value="'+d.dictid+'">'
-										+ d.dicname + '</option>'
-								$('#schoolarea').html(schoolarea);
-							} else if (d.dicttype == 'education') {
-								edu += '<option value="'+d.dictid+'">'
-										+ d.dicname + '</option>'
-								$('#edu').html(edu);
-							}
-						})
-					})
-				}
+	//显示所属专业、所属院校、文化水平下拉框
+	$.ajax({
+		type : 'get',
+		url : HOST_URL + 'list',
+		dataType : 'json',
+		success : function(data) {
+			var specialtys = '';//所属专业下拉框
+			var schoolarea = '';//所属院校下拉框
+			var edu = '';//文化水平下拉框
+			$.each(data, function(i, obj) {
+				$.each(obj, function(i, d) {
+					if (d.dicttype == 'specialty') {
+						specialtys += '<option value="'+d.dictid+'">'
+								+ d.dicname + '</option>'
+						$('#specialty').html(specialtys);
+					} else if (d.dicttype == 'school_area') {
+						schoolarea += '<option value="'+d.dictid+'">'
+								+ d.dicname + '</option>'
+						$('#schoolarea').html(schoolarea);
+					} else if (d.dicttype == 'education') {
+						edu += '<option value="'+d.dictid+'">'
+								+ d.dicname + '</option>'
+						$('#edu').html(edu);
+					}
+				})
+			})
+		}
+	});
+	//显示班级下拉框
+	$.ajax({
+		type : 'get',
+		url : HOST_URL + 'clazzs',
+		dataType : 'json',
+		success : function(data) {
+			var clazz = '';//所属专业下拉框
+
+			$.each(data, function(i, a) {
+				clazz += '<option value="'+a.classid+'">' + a.code
+						+ '</option>'
+				$('#clazz').html(clazz);
+
 			});
-			//显示班级下拉框
-			$.ajax({
-				type : 'get',
-				url : HOST_URL + 'clazzs',
-				dataType : 'json',
-				success : function(data) {
-					var clazz = '';//所属专业下拉框
+		}
+	});
 
-					$.each(data, function(i, a) {
-						clazz += '<option value="'+a.classid+'">' + a.code
-								+ '</option>'
-						$('#clazz').html(clazz);
-
-					});
-				}
-			});
-
-		});
 
 		//用于获取页面加载所需要的数据
 		function loadStuById() {
@@ -357,20 +355,16 @@
 					name = $("#name").attr('value', data.name);
 					pinying = $("#pinying").attr('value', data.pinying);
 					sex = $("input[type=radio][name='sex'][value='"+ data.sex.dictid + "']").attr("checked", 'checked');
-					//clazz=$("#clazz").find("option[value='"+clazz.classid+"']").attr("selected",'true');
-					alert(data.specialty.dictid);
+					clazz=$("#clazz").find("option[value='"+data.clazz.classid+"']").attr("selected",true);
 					$('#specialty>option').each(function(i) {
 						var v = $(this).val();
-						alert(v);
-						if (v == specialty.dictid) {
+						if (v == data.specialty.dictid) {
 							$(this).attr('selected', 'selected');
 						}
 					});
-
-					//specialty=$("#specialty").find("option[value='"+specialty.dictid+"']").attr("selected",'selected');
-					schoolarea = $("#schoolarea option:selected").attr('value', data.schoolarea);
+					schoolarea=$("#schoolarea").find("option[value='"+data.schoolarea.dictid+"']").attr("selected",true);
 					nation = $("#nation").attr('value', data.nation);
-					edu = $("#edu option:selected").attr('value',data.edu.dicname);
+					edu=$("#edu").find("option[value='"+data.edu.dictid+"']").attr("selected",true);
 					idcard = $("#idcard").attr('value', data.idcard);
 					contact = $("#contact").attr('value', data.contact);
 					homecontact = $("#homecontact").attr('value',data.homecontact);

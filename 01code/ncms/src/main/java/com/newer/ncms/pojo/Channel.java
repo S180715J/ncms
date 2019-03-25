@@ -22,7 +22,7 @@ public class Channel implements Serializable {
 	private Integer channelid;// 频道编号
 	private String chnlname;// 频道名称（唯一标识）
 	private String chnldesc;// 描述
-	private String chanlnamepath;// 栏目路径
+	private String chnlnamepath;// 栏目路径
 	private Integer parentid;// 父栏目编号
 	private Integer chnlorder;// 排序号
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
@@ -54,12 +54,15 @@ public class Channel implements Serializable {
 	}
 
 	public String getChanlnamepath() {
-		return chanlnamepath;
+		return chnlnamepath;
 	}
 
 	public void setChanlnamepath(String chanlnamepath) {
-		this.chanlnamepath = chanlnamepath;
+		this.chnlnamepath = chanlnamepath;
 	}
+
+
+
 
 	public Integer getParentid() {
 		return parentid;
@@ -92,7 +95,7 @@ public class Channel implements Serializable {
 	@Override
 	public String toString() {
 		return "Channel [channelid=" + channelid + ", chnlname=" + chnlname + ", chnldesc=" + chnldesc
-				+ ", chanlnamepath=" + chanlnamepath + ", parentid=" + parentid + ", chnlorder=" + chnlorder
+				+ ", chanlnamepath=" + chnlnamepath + ", parentid=" + parentid + ", chnlorder=" + chnlorder
 				+ ", crtime=" + crtime + "]";
 	}
 

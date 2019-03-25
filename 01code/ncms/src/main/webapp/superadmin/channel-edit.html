@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>JAVA</title>
+<link rel="stylesheet" href="../layui/css/layui.css">
+<link rel="stylesheet" href="../css/x-admin.css">
+
+</head>
+<body>
+	<form action="" class="layui-form">
+		<div class="layui-form-item">
+			<label class="layui-form-label">频道编号：</label>
+			<div class="layui-input-block">
+				<input type="text" id="channelid" name="channelid"
+					placeholder="请输入频道编号" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">频道名称：</label>
+			<div class="layui-input-block">
+				<input type="text" id="chnlname" name="chnlname"
+					placeholder="请输入频道名称" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">频道描述：</label>
+			<div class="layui-input-block">
+				<input type="text" id="chnldesc" name="chnldesc"
+					placeholder="请输入频道描述" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">频道路径：</label>
+			<div class="layui-input-block">
+				<input type="text" id="chnlnamepath" name="chnlnamepath"
+					placeholder="请输入频道路径" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label for="L_email" class="layui-form-label">创建日期：</label>
+			<div class="layui-input-block">
+				<input class="layui-input time" id="crtime" name="crtime"
+					placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" id="edit" name="edit" type="button">修改</button>
+			</div>
+		</div>
+	</form>
+	<script src="../js/x-layui.js"></script>
+	<script src="../layui/layui.js"></script>
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/common.js"></script>
+
+	<script>
+		$(function() {
+			//显示父栏目下拉框
+			$.ajax({
+				type : 'get',
+				url : HOST_URL + 'queryClumn',
+				dataType : 'json',
+				success : function(data) {
+					//alert(data);
+					var parentid = '';
+					$.each(data, function(i, item) {
+						parentid += '<option value="'+item.channelid+'">'
+								+ item.chnlname + '</option>';
+						$('#parentid').html(parentid);
+
+					});
+				}
+			});
+
+			//用于获取页面加载所需要的数据
+			function loadStuById() {
+				var url = location.search; //h获取url中“？”后面的字符串
+				var channelid = -1;
+				if (url.indexOf("?") != -1) {
+					var str = url.substr(1);
+					var strs = str.split("=");
+					channelid = strs[1];
+				}
+				// 修改回显数据
+				if (channelid != -1) {
+					$.ajax({
+						type : "get",
+						url : HOST_URL+'byIdChannel/'+channelid,
+						dataType : 'json',
+						success : function(data) {
+							channelid = $("#channelid").attr('value',data.channelid);
+							chnlname = $("#chnlname").attr('value',data.chnlname);
+							chnldesc = $("#chnldesc").attr('value',data.chnldesc);
+							chnlnamepath = $("#chnlnamepath").attr('value',data.chnlnamepath);
+							crtime = $("#crtime").attr('value', data.crtime);
+						}
+
+					});
+
+				}
+
+			}
+			loadStuById();
+			//修改事件
+			$("#edit").click(function() {
+				var channelid = $("#channelid").val();
+				var chnlname = $("#chnlname").val();
+				var chnldesc = $("#chnldesc").val();
+				var chnlnamepath = $("#chnlnamepath").val();
+				var crtime = $("#crtime").val();
+
+				$.ajax({
+					type : 'put',
+					url : HOST_URL + 'updChannel',
+					data : {
+						"channelid" : channelid,
+						"chnlname" : chnlname,
+						"chnldesc" : chnldesc,
+						"chnlnamepath" : chnlnamepath,
+						"crtime" : crtime
+
+					},
+					dataType : 'text',
+					success : function(data) {
+						if (data == "ok") {
+							layer.msg('修改成功！', {
+								time : 2000,
+								icon : 1
+							});
+							parent.location.reload();
+						}
+					}
+				});
+
+			});
+		});
+	</script>
+		<script type="text/javascript">
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			//墨绿主题
+			laydate.render({
+				elem : '.time',
+				theme : 'molv',
+				format : 'yyyy-MM-dd HH:mm:ss',
+				type : 'datetime',
+				change : function(value, date) { //监听日期被切换
+					lay('.time').html(value);
+				}
+			});
+		});
+	</script>
+	<script>
+		layui.use('form', function() {
+			var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+
+			//……
+
+			//但是，如果你的HTML是动态生成的，自动渲染就会失效
+			//因此你需要在相应的地方，执行下述方法来手动渲染，跟这类似的还有 element.init();
+			// form.render();
+		});
+	</script>
+</body>
+</html>
+

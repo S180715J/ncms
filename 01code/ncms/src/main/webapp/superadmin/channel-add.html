@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>JAVA</title>
+<link rel="stylesheet" href="../layui/css/layui.css">
+<link rel="stylesheet" href="../css/x-admin.css">
+
+</head>
+<body>
+<form action="" class="layui-form">
+	<div class="layui-form-item">
+		<label class="layui-form-label">频道名称：</label>
+		<div class="layui-input-block">
+			<input type="text" id="chnlname" name="chnlname"
+				placeholder="请输入频道名称" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">频道描述：</label>
+		<div class="layui-input-block">
+			<input type="text" id="chnldesc" name="chnldesc"
+				placeholder="请输入频道描述" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">频道路径：</label>
+		<div class="layui-input-block">
+			<input type="text" id="chnlnamepath" name="chnlnamepath"
+				placeholder="请输入频道路径" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">父栏目：</label>
+		<div class="layui-input-block">
+			<select name="parentid" id="parentid" lay-verify="parentid">
+				<option value="">请选择父栏目</option>
+
+			</select>
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">排讯号：</label>
+		<div class="layui-input-block">
+			<input type="text" id="chnlorder" name="chnlorder"
+				placeholder="请输入排讯号" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label for="L_email" class="layui-form-label">创建日期：</label>
+		<div class="layui-input-block">
+			<input class="layui-input time" id="crtime" name="crtime"
+				placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn" id="add" type="button">立即提交</button>
+			<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		</div>
+	</div>
+	</form>
+	<script src="../js/x-layui.js"></script>
+	<script src="../layui/layui.js"></script>
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/common.js"></script>
+
+	<script>
+		$(function() {
+			//显示父栏目下拉框
+			$.ajax({
+				type : 'get',
+				url : HOST_URL + 'queryClumn',
+				dataType : 'json',
+				success : function(data) {
+					//alert(data);
+					var parentid = '';
+					$.each(data, function(i, item) {
+						parentid += '<option value="'+item.channelid+'">'
+								+ item.chnlname + '</option>';
+						$('#parentid').html(parentid);
+
+					});
+				}
+			});
+
+			$("#add").click(function() {
+				var chnlname = $("#chnlname").val();
+				var chnldesc = $("#chnldesc").val();
+				var chnlnamepath = $("#chnlnamepath").val();
+				var parentid =$("#parentid").val();
+				var chnlorder = $("#chnlorder").val();
+				var crtime = $("#crtime").val();
+
+				$.ajax({
+					type : 'post',
+					url : HOST_URL + 'addChannel',
+					data : {
+						'chnlname' : chnlname,
+						'chnldesc' : chnldesc,
+						'chnlnamepath' : chnlnamepath,
+						'parentid':parentid,
+						'chnlorder' : chnlorder,
+						'crtime' : crtime
+					},
+					dataType : 'text',
+					success : function(data) {
+						alert(data);
+						if (data == "ok") {
+							//layer.msg('添加成功！',{time:1000,icon: 1});
+							layer.confirm('您已成功添加频道信息，是否需要继续添加？', {
+								btn : [ '需要', '不需要' ]
+							//按钮
+							}, function() {
+								document.getElementById("form").reset();
+								layer.close(layer.index);
+							}, function() {
+								parent.location.reload();
+							});
+
+						}
+					}
+				});
+
+			});
+		});
+	</script>
+
+	<script type="text/javascript">
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			//墨绿主题
+			laydate.render({
+				elem : '.time',
+				theme : 'molv',
+				format : 'yyyy-MM-dd HH:mm:ss',
+				type : 'datetime',
+				change : function(value, date) { //监听日期被切换
+					lay('.time').html(value);
+				}
+			});
+		});
+	</script>
+
+<script>
+//Demo
+layui.use('form', function(){
+  var form = layui.form;
+  
+  //监听提交
+  form.on('submit(formDemo)', function(data){
+    layer.msg(JSON.stringify(data.field));
+    return false;
+  });
+});
+</script>
+	<script>
+		var _hmt = _hmt || [];
+		(function() {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+</body>
+
+</html>

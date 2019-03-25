@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.newer.ncms.pojo.Channel;
+import com.newer.ncms.pojo.Document;
 import com.newer.ncms.pojo.Role;
 import com.newer.ncms.pojo.User;
 /**
@@ -65,7 +66,7 @@ public interface SadminMapper {
 	 * 
 	 * @return
 	 */
-	@Select("SELECT CHANNELID,CHNLNAME,CHNLDESC,CHNLNAMEPATH,CRTIME FROM t_channel LIMIT #{index},#{limit}")
+	@Select("SELECT CHANNELID,CHNLNAME,CHNLDESC,CHNLNAMEPATH,CRTIME,PARENTID FROM t_channel LIMIT #{index},#{limit}")
 	List<Channel> channels(HashMap<String, Object> params);
 
 	/**
@@ -81,8 +82,8 @@ public interface SadminMapper {
 	 * 
 	 * @return
 	 */
-	@Insert("INSERT INTO t_channel(CHNLNAME,CHNLDESC,CHNLNAMEPATH,PARENTID,CRTIME)VALUES(#{chnlname},#{chnldesc},#{chnlnamepath},#{parentid},#{crtime}")
-	int addChannel(Channel channel);
+	@Insert("INSERT INTO t_channel(CHNLNAME,CHNLDESC,CHNLNAMEPATH,PARENTID,CHNLORDER,CRTIME)VALUES(#{chnlname},#{chnldesc},#{chnlnamepath},#{parentid},#{chnlorder},#{crtime})")
+	Integer addChannel(Channel channel);
 
 	/**
 	 * 根据id删除频道
@@ -98,7 +99,7 @@ public interface SadminMapper {
 	 * @param channel
 	 * @return
 	 */
-	@Update("UPDATE t_channel SET CHNLNAME=#{chnlname},CHNLDESC=#{chnldesc},CHNLNAMEPATH=#{chnlnamepath},PARENTID=#{parentid},CHNLORDER=#{chnlorder},CRTIME=#{crtime} WHERE CHANNELID=#{channelid}")
+	@Update("UPDATE t_channel SET CHANNELID=#{channelid},CHNLNAME=#{chnlname},CHNLDESC=#{chnldesc},CHNLNAMEPATH=#{chnlnamepath},PARENTID=#{parentid},CHNLORDER=#{chnlorder},CRTIME=#{crtime} WHERE CHANNELID=#{channelid}")
 	int updChannel(Channel channel);
 
 	/**
@@ -108,5 +109,32 @@ public interface SadminMapper {
 	 */
 	@Select("SELECT CHANNELID,CHNLNAME,CHNLDESC,CHNLNAMEPATH,PARENTID,CHNLORDER,CRTIME FROM t_channel WHERE CHANNELID=#{channelid}")
 	Channel byIdChannel(Integer channelid);
+	
+	/**
+	 * 查询父栏目
+	 * @return
+	 */
+	@Select("SELECT CHANNELID,CHNLNAME,CHNLDESC,CHNLNAMEPATH,PARENTID,CHNLORDER,CRTIME FROM t_channel")
+	List<Channel> queryClumn();
+	
+	/**
+	 * y 查询审核内容
+	 * @param dtrs
+	 * @return
+	 */
+	@Select("SELECT docid ,DOCTITLE,DOCHTMLCON,a.typeID,DOCRELTIME,\r\n" + 
+			"u.`username`,b.typename ,h.CHNLNAME FROM T_document AS a LEFT JOIN t_doctype AS b ON a.typeid=b.typeid \r\n" + 
+			"LEFT JOIN T_user AS u ON u.`USERID`=a.`USERID` \r\n" + 
+			"LEFT JOIN t_channel AS h ON h.`CHANNELID`=a.`CHANNELID`limit(0,2)")
+	@Results({ @Result(property="docid",column="docid",javaType=Integer.class),
+		@Result(property="doctitle",column="DOCTITLE",javaType=String.class),
+		@Result(property="dochtmlcon",column="DOCHTMLCON",javaType=String.class),
+		@Result(property="Doctype.typeid",column="typeid",javaType=Integer.class),
+		@Result(property="docreltime",column="DOCRELTIME",javaType=Date.class),
+		@Result(property="user.username",column="username",javaType=String.class),
+		@Result(property="doctype.typename",column="typename",javaType=String.class),
+		@Result(property="channel.chnlname",column="chnlname",javaType=String.class),				
+	})
+	public List<Document> dtr() ;
 
 }

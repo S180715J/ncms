@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.newer.ncms.mapper.SadminMapper;
 import com.newer.ncms.model.Page;
 import com.newer.ncms.pojo.Channel;
+import com.newer.ncms.pojo.Dict;
+import com.newer.ncms.pojo.Document;
 import com.newer.ncms.pojo.Role;
 import com.newer.ncms.pojo.User;
 
@@ -134,4 +136,22 @@ public class SadminService {
 		return sadminMapper.byIdChannel(channelid);
 	}
 
+	/**
+	 * 查询父栏目
+	 * @return
+	 */
+	public List<Channel> queryClumn() {
+		return  sadminMapper.queryClumn();
+	}
+	
+	
+	/**
+	 * y返回审核内容信息
+	 * 
+	 * @param dtrs
+	 * @return
+	 */
+	public List<Document> dtr() {
+		return sadminMapper.dtr();
+	}
 }

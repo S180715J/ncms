@@ -5,64 +5,150 @@
 <mapper namespace="com.newer.ncms.mapper.TeacherMapper">
 
 
-	<!-- 查询数据集合 -->
+	<!-- 带条件查询学生数据集合 -->
 	<select id="queryStudent" resultType="com.newer.ncms.pojo.Student">
 		SELECT s.STUID,s.STUCODE,s.NAME,d.`DICNAME`AS
-		"sex.dicname",c.`CODE`AS"clazz.code",
+		"sex.dicname",SEX,c.`CODE`AS"clazz.code",s.CLASSID,
 		d2.`DICNAME`AS
-		"specialty.dicname",d3.`DICNAME` AS
-		"schoolarea.dicname",s.`CONTACT`,d4.`DICNAME`As "isdebt.dicname",
-		s.`JOBCITY`,s.`JOBCOMPANY`,s.`JOBSAL`,s.`JOB` FROM t_student s
+		"specialty.dicname",s.SPECIALTY,d3.`DICNAME` AS
+		"schoolarea.dicname",s.SCHOOLAREA,s.`CONTACT`,d4.`DICNAME`AS
+		"isdebt.dicname",
+		s.`JOBCITY`,s.`JOBCOMPANY`,s.`JOBSAL`,s.`JOB` FROM
+		t_student s
 		LEFT
 		JOIN t_class c ON s.`CLASSID`=c.`CLASSID`
-		LEFT JOIN t_dict d ON
+		LEFT JOIN
+		t_dict d ON
 		s.`SEX`=d.`DICTID` AND d.`DICTTYPE`='sex'
+		LEFT JOIN T_DICT
+		d2 ON
+		s.`SPECIALTY`=d2.`DICTID` AND
+		d2.`DICTTYPE`='specialty'
+		LEFT JOIN
+		T_DICT
+		d3 ON s.`SCHOOLAREA`=d3.`DICTID` AND
+		d3.`DICTTYPE`='school_area'
+		LEFT
+		JOIN T_DICT d4 ON s.`ISDEBT`=d4.`DICTID` AND
+		d4.`DICTTYPE`='isdebt'
+		<where>
+			<if test="name != null and name!=''">
+				AND name LIKE '%${name}%'
+			</if>
+
+			<if test="schoolarea != null and schoolarea!=''">
+				AND s.SCHOOLAREA = #{schoolarea}
+			</if>
+			<if test="code != null and code!=''">
+				AND s.CLASSID = #{code}
+			</if>
+			<if test="specialty != null and specialty!=''">
+				AND s.SPECIALTY = #{specialty}
+			</if>
+		</where>
+		LIMIT #{index},#{limit}
+	</select>
+
+
+
+	<!-- 带条件查询学生总记录数 -->
+	<select id="getTotalRecordNo" resultType="int">
+		SELECT COUNT(*) FROM t_student s
+		LEFT
+		JOIN t_class c ON
+		s.`CLASSID`=c.`CLASSID`
+		LEFT JOIN t_dict d ON
+		s.`SEX`=d.`DICTID` AND
+		d.`DICTTYPE`='sex'
 		LEFT JOIN T_DICT d2 ON
 		s.`SPECIALTY`=d2.`DICTID` AND
 		d2.`DICTTYPE`='specialty'
 		LEFT JOIN T_DICT
-		d3 ON s.`SCHOOLAREA`=d3.`DICTID` AND
+		d3 ON
+		s.`SCHOOLAREA`=d3.`DICTID` AND
 		d3.`DICTTYPE`='school_area'
 		LEFT
-		JOIN T_DICT d4 ON s.`ISDEBT`=d4.`DICTID` AND d4.`DICTTYPE`='isdebt'
+		JOIN
+		T_DICT d4 ON s.`ISDEBT`=d4.`DICTID` AND d4.`DICTTYPE`='isdebt'
 		<where>
-			<if test="name != null">
-				name LIKE #{name}
+			<if test="name != null and name!=''">
+				AND name LIKE '%${name}%'
 			</if>
- 			<if test="code != null">
-				AND "clazz.code" = #{code}
-			</if>
-			<if test="schoolarea != null">
-				AND "schoolarea.dicname"= #{schoolarea}
-			</if>
-			<if test="specialty != null">
-				AND "specialty.dicname"= #{specialty}
-			</if>  
-		</where>
 
+			<if test="schoolarea != null and schoolarea!=''">
+				AND s.SCHOOLAREA = #{schoolarea}
+			</if>
+			<if test="code != null and code!=''">
+				AND s.CLASSID = #{code}
+			</if>
+			<if test="specialty != null and specialty!=''">
+				AND s.SPECIALTY = #{specialty}
+			</if>
+		</where>
+	</select>
+
+
+	<!-- 带条件查询文章数据集合 -->
+	<select id="queryDocument" resultType="com.newer.ncms.pojo.Document">
+		SELECT DOCID,DOCTITLE,c.`CHNLNAME`AS
+		"docchannel.chnlname",DOCVALID,u.`REALNAME`AS
+		"user.realname",d1.`DICNAME` AS "docstatus.dicname",d2.`DICNAME` AS
+		"istop.dicname",
+		d3.`DICNAME`AS "ishighlight.dicname",d4.`DICNAME`AS "doctype.dicname"
+		FROM t_document d LEFT JOIN t_channel c ON d.`DOCCHANNEL`=c.`CHANNELID`
+		LEFT JOIN t_user u ON d.`USERID`=u.`USERID`
+		LEFT JOIN t_dict d1 ON d1.`DICTID`=d.`DOCSTATUS` AND
+		d1.`DICTTYPE`='doc_state'
+		LEFT JOIN t_dict d2 ON d2.`DICTID`=d.`ISTOP` AND d2.`DICTTYPE`='doc_top'
+		LEFT JOIN t_dict d3 ON d3.`DICTID`=d.`ISHIGHLIGHT` AND
+		d3.`DICTTYPE`='doc_highlight'
+		LEFT JOIN t_dict d4 ON d4.`DICTID`=d.`TYPEID` AND
+		d4.`DICTTYPE`='doc_publish_type'
+		<where>
+			<if test="doctitle != null and doctitle !=''">
+				AND doctitle LIKE '%${doctitle}%'
+			</if>
+
+			<if test="chnlname != null and chnlname !=''">
+				AND c.`CHNLNAME` LIKE '%${chnlname}%'
+			</if>
+			<if test="realname != null and realname !=''">
+				AND u.`REALNAME` LIKE '%${realname}%'
+			</if>
+		</where>
 		LIMIT #{index},#{limit}
 	</select>
-	
-	
-	
-	<!-- 查询总记录数 -->
-	<select id="getTotalRecordNo" resultType="int">
-		SELECT COUNT(*) FROM T_STUDENT
-		<where>
-			<if test="name != null">
-				name LIKE #{name}
-			</if>
- 			<if test="code != null">
-				AND "clazz.code" = #{code}
-			</if>
-			<if test="schoolarea != null">
-				AND "schoolarea.dicname"= #{schoolarea}
-			</if>
-			<if test="specialty != null">
-				AND "specialty.dicname"= #{specialty}
-			</if>  
-		</where>
 
+
+
+	<!-- 带条件查询文章总记录数 -->
+	<select id="queryDocumentSum" resultType="int">
+		SELECT COUNT(*) FROM t_document d LEFT JOIN t_channel c ON
+		d.`DOCCHANNEL`=c.`CHANNELID`
+		LEFT JOIN t_user u ON d.`USERID`=u.`USERID`
+		LEFT JOIN t_dict d1 ON d1.`DICTID`=d.`DOCSTATUS` AND
+		d1.`DICTTYPE`='doc_state'
+		LEFT JOIN t_dict d2 ON d2.`DICTID`=d.`ISTOP` AND d2.`DICTTYPE`='doc_top'
+		LEFT JOIN t_dict d3 ON d3.`DICTID`=d.`ISHIGHLIGHT` AND
+		d3.`DICTTYPE`='doc_highlight'
+		LEFT JOIN t_dict d4 ON d4.`DICTID`=d.`TYPEID` AND
+		d4.`DICTTYPE`='doc_publish_type'
+		<where>
+			<if test="doctitle != null and doctitle !=''">
+				AND doctitle LIKE '%${doctitle}%'
+			</if>
+
+			<if test="chnlname != null and chnlname !=''">
+				AND c.`CHNLNAME` LIKE '%${chnlname}%'
+			</if>
+			<if test="realname != null and realname !=''">
+				AND u.`REALNAME` LIKE '%${realname}%'
+			</if>
+		</where>
 	</select>
+
+
+
+
 
 </mapper>
