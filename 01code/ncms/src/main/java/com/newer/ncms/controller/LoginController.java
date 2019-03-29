@@ -58,7 +58,6 @@ public class LoginController {
 	@RequestMapping(value = "/show", method = RequestMethod.POST)
 	public ResponseEntity<?> show(HttpServletRequest req) {
 		LinkedHashMap<String, Object> user = JwtTokenUtil.getObj(req);
-		// System.out.println("user=="+user);
 		if (user != null) {
 			User user2 = new User();
 			user2.setUsername((String) user.get("username"));

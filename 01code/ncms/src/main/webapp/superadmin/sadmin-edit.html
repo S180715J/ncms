@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>编辑管理员</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="../css/x-admin.css" media="all">
+<link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+
+<body>
+	<div class="x-body">
+		<form class="layui-form" id="signupForm">
+		<div class="layui-form-item">
+				<label for="username" class="layui-form-label"> <span
+					class="x-red">*</span>用户编号：
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" id="userid" name="userid" readonly="readonly"
+						lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-form-mid layui-word-aux">
+					<span class="x-red">*</span>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label for="username" class="layui-form-label"> <span
+					class="x-red">*</span>登&nbsp;录&nbsp;名&nbsp;&nbsp;：
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" id="username" name="username" required=""
+						lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-form-mid layui-word-aux">
+					<span class="x-red">*</span>
+				</div>
+			</div>
+
+		
+			<div class="layui-form-item">
+				<label for="username" class="layui-form-label"> <span
+					class="x-red">*</span>真实姓名：
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" id="realname" name="realname" required=""
+						lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label for="username" class="layui-form-label"> <span
+					class="x-red">*</span>昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" id="nickname" name="nickname" required=""
+						lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item" pane="">
+				<label class="layui-form-label">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</label>
+				<div class="layui-input-block">
+					<input type="radio" name="sex" id="sex" value="1" title="男"
+						checked=""> <input type="radio" name="sex" id="sex"
+						value="2" title="女">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label for="role" class="layui-form-label"> <span
+					class="x-red">*</span>所属校区：
+				</label>
+				<div class="layui-input-inline">
+					<select name="dept" id="dept">
+					
+					</select>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label for="role" class="layui-form-label"> <span
+					class="x-red">*</span>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色：
+				</label>
+				<div class="layui-input-inline">
+					<select id="role" name="role" required="required">
+					<option value=""></option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label for="L_email" class="layui-form-label"> <span
+					class="x-red">*</span>创建时间：
+				</label>
+				<div class="layui-input-inline">
+					<input class="layui-input time" id="crtime" name="crtime"
+						placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">联系电话：</label>
+					<div class="layui-input-inline">
+						<input type="tel" id="phone" name="phone"
+							lay-verify="required|phone" autocomplete="off"
+							class="layui-input">
+					</div>
+				</div>
+			</div>
+
+
+			<div class="layui-form-item">
+				<label for="username" class="layui-form-label"> <span
+					class="x-red">*</span>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱：
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" id="email" name="email" required=""
+						lay-verify="required|email" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+
+
+
+			<div class="layui-form-item">
+			<label class="layui-form-label">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态：</label>
+			<div class="layui-input-block">
+				<input type="radio" name="isdelete" value="1" title="是" >
+				<input type="radio" name="isdelete" value="0" title="否" checked>
+			</div>
+		</div>
+
+			<div class="layui-form-item">
+				<label for="L_repass" class="layui-form-label"> </label>
+				<button class="layui-btn"  id="edit" name="edit" lay-filter="add" lay-submit="">
+					修改</button>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../js/x-layui.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../layui/layui.js"></script>
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/common.js"></script>
+
+	<script>
+		$(function() {
+			// 显示所属校区下拉列表
+			$.ajax({
+				type : 'get',
+				url : HOST_URL + 'merge',
+				dataType : 'json',
+				success : function(data) {
+					var dept = '';
+					$.each(data, function(i, obj) {
+						$.each(obj, function(i, d) {
+							if (d.dicttype == 'school_area') {
+								dept += '<option value="'+d.dictid+'">'
+										+ d.dicname + '</option>'
+								$('#dept').html(dept);
+							}
+						});
+					});
+				}
+			});
+			
+			$.ajax({
+				type : 'get',
+				url : HOST_URL + 'roleList',
+				dataType : 'json',
+				success : function(data) {
+					var role = '';
+						$.each(data, function(i, d) {
+							role += '<option value="'+d.roleid+'">'
+										+ d.rolename + '</option>'
+								$('#role').html(role);
+						});
+				}
+			});
+
+			
+			
+			
+		
+
+			//用于获取页面加载所需要的数据
+			function loadStuById() {
+				var url = location.search; //h获取url中“？”后面的字符串
+				var userid = -1;
+				if (url.indexOf("?") != -1) {
+					var str = url.substr(1);
+					var strs = str.split("=");
+					userid = strs[1];
+				}
+				// 修改回显数据
+				if (userid != -1) {
+					$.ajax({
+						type : "get",
+						url : HOST_URL+'showSadmin/'+userid,
+						dataType : 'json',
+						success : function(data) {
+							userid=$("#userid").attr('value', data.userid);
+							username=$("#username").attr('value',data.username);
+							realname=$("#realname").attr('value', data.realname);
+							nickname=$("#nickname").attr('value', data.nickname);
+							sex=$("input[type=radio][name='sex'][value='"+data.sex.dictid+"']").attr("checked",'checked');
+							dept=$("#dept").find("option[value='"+data.dept.dictid+"']").attr("selected",true);
+							crtime=$("#crtime").attr('value', data.crtime);
+							phone=$("#phone").attr('value', data.phone);
+							email=$("#email").attr('value', data.email);
+							role=$("#role").find("option[value='"+data.role.roleid+"']").attr("selected",true);
+							isdelete=$("#isdelete").find("option[value='"+data.isdelete.dictid+"']").attr("selected",true);
+						}
+
+					});
+
+				}
+
+			}
+			loadStuById();
+			//修改事件
+			$("#edit").click(function() {
+				var userid = $("#userid").val();
+				var username = $("#username").val();
+				var password = $("#password").val();
+				var realname = $("#realname").val();
+				var nickname = $("#nickname").val();
+				var sex = $("input[name='sex']:checked").val();
+				var dept = $("#dept option:selected").val();
+				var role=$("#role option:selected").val();
+				var crtime = $("#crtime").val();
+				var phone = $("#phone").val();
+				var email = $("#email").val();
+				var isdelete = $("input[name='isdelete']:checked").val();
+
+				$.ajax({
+					type : 'put',
+					url : HOST_URL + 'upSadmin',
+					data : {
+						"userid":userid,
+						"username" : username,
+						"password" : password,
+						"realname" : realname,
+						"nickname" : nickname,
+						"sex.dictid" : sex,
+						"dept.dictid" : dept,
+						"role.roleid" : role,
+						"crtime" : crtime,
+						"phone" : phone,
+						"email" : email,
+						"isdelete.dictid" : isdelete
+
+					},
+					dataType : 'text',
+					success : function(data) {
+						if (data == "ok") {
+							layer.msg('修改成功！', {
+								time : 2000,
+								icon : 1
+							});
+							parent.location.reload();
+						}
+					}
+				});
+
+			});
+		});
+	</script>
+		<script type="text/javascript">
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			//墨绿主题
+			laydate.render({
+				elem : '.time',
+				theme : 'molv',
+				format : 'yyyy-MM-dd HH:mm:ss',
+				type : 'datetime',
+				change : function(value, date) { //监听日期被切换
+					lay('.time').html(value);
+				}
+			});
+		});
+	</script>
+	<script>
+		layui.use('form', function() {
+			var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+
+			//……
+
+			//但是，如果你的HTML是动态生成的，自动渲染就会失效
+			//因此你需要在相应的地方，执行下述方法来手动渲染，跟这类似的还有 element.init();
+			// form.render();
+		});
+	</script>
+</body>
+</html>
+

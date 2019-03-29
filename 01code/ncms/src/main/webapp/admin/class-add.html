@@ -181,6 +181,37 @@
 			});
 		});
 
+		
+	</script>
+	<script type="text/javascript">
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			//墨绿主题
+			laydate.render({
+				elem : '.time',
+				theme : 'molv',
+				format : 'yyyy-MM-dd HH:mm:ss',
+				type : 'datetime',
+				change : function(value, date) { //监听日期被切换
+					lay('.time').html(value);
+				}
+			});
+		});
+	</script>
+
+	<script>
+		layui.use('form', function() {
+			var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+
+			//……
+
+			//但是，如果你的HTML是动态生成的，自动渲染就会失效
+			//因此你需要在相应的地方，执行下述方法来手动渲染，跟这类似的还有 element.init();
+			// form.render();
+		});
+		
+		
+		
 		//给添加按钮绑定单击事件
 		$("#add").click(function() {
 			var code = $("#code").val();
@@ -228,33 +259,6 @@
 
 			});
 
-		});
-	</script>
-	<script type="text/javascript">
-		layui.use('laydate', function() {
-			var laydate = layui.laydate;
-			//墨绿主题
-			laydate.render({
-				elem : '.time',
-				theme : 'molv',
-				format : 'yyyy-MM-dd HH:mm:ss',
-				type : 'datetime',
-				change : function(value, date) { //监听日期被切换
-					lay('.time').html(value);
-				}
-			});
-		});
-	</script>
-
-	<script>
-		layui.use('form', function() {
-			var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
-
-			//……
-
-			//但是，如果你的HTML是动态生成的，自动渲染就会失效
-			//因此你需要在相应的地方，执行下述方法来手动渲染，跟这类似的还有 element.init();
-			// form.render();
 		});
 	</script>
 </body>

@@ -10,33 +10,32 @@
 <link rel="stylesheet" href="../css/x-admin.css">
 
 </head>
-<body>
+<body style="margin-top: 20px;margin-left: 50px">
 <form action="" class="layui-form">
 	<div class="layui-form-item">
 		<label class="layui-form-label">频道名称：</label>
-		<div class="layui-input-block">
+		<div class="layui-input-inline">
 			<input type="text" id="chnlname" name="chnlname"
 				placeholder="请输入频道名称" autocomplete="off" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">频道描述：</label>
-		<div class="layui-input-block">
+		<div class="layui-input-inline">
 			<input type="text" id="chnldesc" name="chnldesc"
 				placeholder="请输入频道描述" autocomplete="off" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label">频道路径：</label>
-		<div class="layui-input-block">
-			<input type="text" id="chnlnamepath" name="chnlnamepath"
+		<div class="layui-input-inline">
+			<input type="hidden" id="chnlnamepath"  name="chnlnamepath"
 				placeholder="请输入频道路径" autocomplete="off" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">父栏目：</label>
-		<div class="layui-input-block">
-			<select name="parentid" id="parentid" lay-verify="parentid">
+		<div class="layui-input-inline">
+			<select name="parentid" id="parentid" lay-verify="parentid" >
 				<option value="">请选择父栏目</option>
 
 			</select>
@@ -45,14 +44,14 @@
 
 	<div class="layui-form-item">
 		<label class="layui-form-label">排讯号：</label>
-		<div class="layui-input-block">
+		<div class="layui-input-inline">
 			<input type="text" id="chnlorder" name="chnlorder"
 				placeholder="请输入排讯号" autocomplete="off" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label for="L_email" class="layui-form-label">创建日期：</label>
-		<div class="layui-input-block">
+		<div class="layui-input-inline">
 			<input class="layui-input time" id="crtime" name="crtime"
 				placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off">
 		</div>
@@ -60,8 +59,7 @@
 
 	<div class="layui-form-item">
 		<div class="layui-input-block">
-			<button class="layui-btn" id="add" type="button">立即提交</button>
-			<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			<button class="layui-btn" id="add" type="button">立即添加</button>
 		</div>
 	</div>
 	</form>
@@ -71,28 +69,29 @@
 	<script src="../js/common.js"></script>
 
 	<script>
-		$(function() {
-			//显示父栏目下拉框
-			$.ajax({
-				type : 'get',
-				url : HOST_URL + 'queryClumn',
-				dataType : 'json',
-				success : function(data) {
-					//alert(data);
-					var parentid = '';
-					$.each(data, function(i, item) {
-						parentid += '<option value="'+item.channelid+'">'
-								+ item.chnlname + '</option>';
-						$('#parentid').html(parentid);
+	//显示父栏目下拉框
+	$.ajax({
+		type : 'get',
+		url : HOST_URL + 'queryClumn',
+		dataType : 'json',
+		success : function(data) {
+			//alert(data);
+			var parentid = '';
+			$.each(data, function(i, item) {
+				parentid += '<option value="'+item.channelid+'">'
+						+ item.chnlname + '</option>';
+				$('#parentid').html(parentid);
 
-					});
-				}
 			});
-
+		}
+	});
+	
+	
+		$(function() {
 			$("#add").click(function() {
 				var chnlname = $("#chnlname").val();
 				var chnldesc = $("#chnldesc").val();
-				var chnlnamepath = $("#chnlnamepath").val();
+				//var chnlnamepath = $("#chnlnamepath").val();
 				var parentid =$("#parentid").val();
 				var chnlorder = $("#chnlorder").val();
 				var crtime = $("#crtime").val();
@@ -103,14 +102,13 @@
 					data : {
 						'chnlname' : chnlname,
 						'chnldesc' : chnldesc,
-						'chnlnamepath' : chnlnamepath,
+						//'chnlnamepath' : chnlnamepath,
 						'parentid':parentid,
 						'chnlorder' : chnlorder,
 						'crtime' : crtime
 					},
 					dataType : 'text',
 					success : function(data) {
-						alert(data);
 						if (data == "ok") {
 							//layer.msg('添加成功！',{time:1000,icon: 1});
 							layer.confirm('您已成功添加频道信息，是否需要继续添加？', {

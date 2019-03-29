@@ -18,7 +18,7 @@
 		<div class="x-nav">
 		<span class="layui-breadcrumb"> <a><cite>首页</cite></a><a><cite>维护管理员</cite></a>
 			<a><cite>维护管理员</cite></a> <span class="x-right"
-			style="line-height: 40px" id="dataLength">共有数据：88 条</span>
+			style="line-height: 40px" id="dataLength"></span>
 		</div>
 		
 
@@ -26,7 +26,7 @@
 	<script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
 		<button class="layui-btn"
-			onclick="channel_add('添加频道','channel-add.html','600','500')">
+			onclick="channel_add('添加频道','channel-add.html','500','450')">
 			<i class="layui-icon">&#xe608;</i>添加
 		</button>
 
@@ -58,7 +58,7 @@
 				height : 500,
 				url : HOST_URL + 'channel', //数据接口
 				page : true, //开启分页
-				limit : 5,
+				limit : 6,
 				toolbar : '#toolbarDemo',
 				totalRow : true,
 				cols : [ [ //表头
@@ -91,7 +91,7 @@
 					style : 'font-size: 10px;',
 					edit : 'text'
 				}, {
-					field : 'chanlnamepath',
+					field : 'chnlnamepath',
 					title : '频道路径',
 					width : 240,
 					align : 'center',
@@ -140,17 +140,17 @@
 				case 'delStu':
 					var data = checkStatus.data;
 					if (data != "") {
-						var channelid = "";
+						var ids = "";
 						for (var i = 0; i < data.length; i++) {
-							channelid += data[i].channelid + ",";
+							ids += data[i].channelid + ",";
 						}
-						layer.confirm('确认要删除id为' + channelid + '的频道吗？',
+						layer.confirm('确认要删除id为' + ids + '的频道吗？',
 								function(index) {
 									$.ajax({
 										type : 'delete',
 										url : HOST_URL + 'delChannel',
 										data : {
-											"channelid" : channelid
+											"ids": ids
 										},
 										dataType : 'text',
 										success : function(data) {

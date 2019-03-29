@@ -4,4 +4,232 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.newer.ncms.mapper.SadminMapper">
 
+
+	<!-- 带条件查询管理员数据集合 -->
+	<select id="querySadmin" resultType="com.newer.ncms.pojo.User">
+		SELECT u.`USERID`,u.`USERNAME`,u.`REALNAME`,u.`NICKNAME`,d.`DICNAME`
+		AS "sex.dicname",R.`ROLENAME` AS
+		"role.rolename",u.`CRTIME`,d1.`DICNAME` AS
+		"dept.dicname",u.`PHONE`,u.`EMAIL`,d2.`DICNAME` AS "isdelete.dicname"
+		FROM t_user u
+		LEFT JOIN t_dict d ON u.`SEX`=d.`DICTID`AND
+		d.`DICTTYPE`='sex'
+		LEFT JOIN t_dict d1 ON u.`DEPT`=d1.`DICTID` AND
+		d1.`DICTTYPE`='school_area'
+		LEFT JOIN t_dict d2 ON
+		u.`ISDELETE`=d2.`DICTID` AND
+		d2.`DICTTYPE`='isdelete'
+		LEFT JOIN t_role r
+		ON r.`ROLEID`=u.`ROLEID`
+
+		<where>
+			u.`ROLEID`=7
+			<if test="username != null and username!=''">
+				AND username LIKE '%${username}%'
+			</if>
+
+			<if test="dept != null and dept!=''">
+				AND u.dept = #{dept}
+			</if>
+
+		</where>
+		LIMIT #{index},#{limit}
+	</select>
+
+	<!-- 带条件查询管理员总记录数 -->
+	<select id="getTotalSadmin" resultType="int">
+		SELECT COUNT(*) FROM t_user u
+		LEFT JOIN t_dict d ON
+		u.`SEX`=d.`DICTID`AND d.`DICTTYPE`='sex'
+		LEFT JOIN t_dict d1 ON
+		u.`DEPT`=d1.`DICTID` AND
+		d1.`DICTTYPE`='school_area'
+		LEFT JOIN t_dict d2
+		ON u.`ISDELETE`=d2.`DICTID` AND
+		d2.`DICTTYPE`='isdelete'
+		LEFT JOIN
+		t_role r ON r.`ROLEID`=u.`ROLEID`
+
+		<where>
+			u.`ROLEID`=7
+			<if test="username != null and username!=''">
+				AND realname LIKE '%${realname}%'
+			</if>
+
+			<if test="dept != null and dept!=''">
+				AND u.dept = #{dept}
+			</if>
+		</where>
+	</select>
+
+	<!-- 带条件待审核文章信息 -->
+	<select id="queryUncheck" resultType="com.newer.ncms.pojo.Document">
+		SELECT
+		DOCID,DOCTITLE,DOCABSTRACT,c.`CHNLNAMEPATH` AS
+		"docchannel.chnlnamepath",c.`CHNLNAME` AS
+		"docchannel.chnlname",docvalid
+		,u.`USERNAME` AS "user.username" FROM
+		t_document d
+		LEFT JOIN t_channel c ON d.`DOCCHANNEL`=c.`CHANNELID`
+		LEFT
+		JOIN t_user u ON d.`USERID`=u.`USERID`
+
+		<where>
+			docstatus=1
+			<if test="doctitle != null and doctitle !=''">
+				AND DOCTITLE LIKE '%${doctitle}%'
+			</if>
+
+			<if test="chnlname != null and chnlname !=''">
+				AND c.`CHNLNAME`LIKE '%${chnlname}%'
+			</if>
+
+			<if test="chnlnamepath != null and chnlnamepath !=''">
+				AND c.`CHNLNAMEPATH`LIKE '%${chnlnamepath}%'
+			</if>
+		</where>
+		LIMIT #{index},#{limit}
+	</select>
+
+	<!-- 带条件查询待审核文章总记录数 -->
+	<select id="unCheckSum" resultType="int">
+		SELECT COUNT(*) FROM t_document d
+		LEFT JOIN t_channel c ON
+		d.`DOCCHANNEL`=c.`CHANNELID`
+		LEFT JOIN t_user u ON
+		d.`USERID`=u.`USERID`
+		<where>
+			docstatus=1
+			<if test="doctitle != null and doctitle !=''">
+				AND DOCTITLE LIKE '%${doctitle}%'
+			</if>
+
+			<if test="chnlname != null and chnlname !=''">
+				AND c.`CHNLNAME`LIKE '%${chnlname}%'
+			</if>
+
+			<if test="chnlnamepath != null and chnlnamepath !=''">
+				AND c.`CHNLNAMEPATH`LIKE '%${chnlnamepath}%'
+			</if>
+		</where>
+	</select>
+
+
+
+
+
+
+
+
+	<!-- 带条件已审核文章信息 -->
+	<select id="queryCheckYet" resultType="com.newer.ncms.pojo.Document">
+		SELECT DOCID,DOCTITLE,DOCABSTRACT,c.`CHNLNAMEPATH` AS
+		"docchannel.chnlnamepath",c.`CHNLNAME` AS
+		"docchannel.chnlname",docvalid,checktime
+		,u.`USERNAME` AS
+		"user.username" FROM t_document d
+		LEFT JOIN t_channel c ON
+		d.`DOCCHANNEL`=c.`CHANNELID`
+		LEFT JOIN t_user u ON
+		d.`USERID`=u.`USERID`
+
+		<where>
+			docstatus=2
+			<if test="doctitle != null and doctitle !=''">
+				AND DOCTITLE LIKE '%${doctitle}%'
+			</if>
+
+			<if test="chnlname != null and chnlname !=''">
+				AND c.`CHNLNAME` LIKE '%${chnlname}%'
+			</if>
+
+			<if test="chnlnamepath != null and chnlnamepath !=''">
+				AND c.`CHNLNAMEPATH`LIKE '%${chnlnamepath}%'
+			</if>
+		</where>
+		LIMIT #{index},#{limit}
+	</select>
+
+
+	<!-- 带条件查询已审核文章总记录数 -->
+	<select id="unCheckYetSum" resultType="int">
+		SELECT COUNT(*) FROM t_document d
+		LEFT JOIN t_channel c ON
+		d.`DOCCHANNEL`=c.`CHANNELID`
+		LEFT JOIN t_user u ON
+		d.`USERID`=u.`USERID`
+
+		<where>
+			docstatus=2
+			<if test="doctitle != null and doctitle !=''">
+				AND DOCTITLE LIKE '%${doctitle}%'
+			</if>
+
+			<if test="chnlname != null and chnlname !=''">
+				AND c.`CHNLNAME`LIKE '%${chnlname}%'
+			</if>
+
+			<if test="chnlnamepath != null and chnlnamepath !=''">
+				AND c.`CHNLNAMEPATH`LIKE '%${chnlnamepath}%'
+			</if>
+		</where>
+	</select>
+
+
+
+	<!-- 带条件已驳回文章信息 -->
+	<select id="queryCheckReject" resultType="com.newer.ncms.pojo.Document">
+		SELECT DOCID,DOCTITLE,DOCABSTRACT,c.`CHNLNAMEPATH` AS
+		"docchannel.chnlnamepath",c.`CHNLNAME` AS
+		"docchannel.chnlname",docvalid,checktime
+		,u.`USERNAME` AS
+		"user.username" FROM t_document d
+		LEFT JOIN t_channel c ON
+		d.`DOCCHANNEL`=c.`CHANNELID`
+		LEFT JOIN t_user u ON
+		d.`USERID`=u.`USERID`
+
+		<where>
+			docstatus=3
+			<if test="doctitle != null and doctitle !=''">
+				AND DOCTITLE LIKE '%${doctitle}%'
+			</if>
+
+			<if test="chnlname != null and chnlname !=''">
+				AND c.`CHNLNAME`LIKE '%${chnlname}%'
+			</if>
+
+			<if test="chnlnamepath != null and chnlnamepath !=''">
+				AND c.`CHNLNAMEPATH`LIKE '%${chnlnamepath}%'
+			</if>
+		</where>
+		LIMIT #{index},#{limit}
+	</select>
+
+
+	<!-- 带条件查询已驳回文章总记录数 -->
+	<select id="unCheckRejectSum" resultType="int">
+		SELECT COUNT(*) FROM t_document d
+		LEFT JOIN t_channel c ON
+		d.`DOCCHANNEL`=c.`CHANNELID`
+		LEFT JOIN t_user u ON
+		d.`USERID`=u.`USERID`
+
+		<where>
+			docstatus=3
+			<if test="doctitle != null and doctitle !=''">
+				AND DOCTITLE LIKE '%${doctitle}%'
+			</if>
+
+			<if test="chnlname != null and chnlname !=''">
+				AND c.`CHNLNAME`LIKE '%${chnlname}%'
+			</if>
+
+			<if test="chnlnamepath != null and chnlnamepath !=''">
+				AND c.`CHNLNAMEPATH`LIKE '%${chnlnamepath}%'
+			</if>
+		</where>
+	</select>
+
+
 </mapper>

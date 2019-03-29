@@ -232,4 +232,19 @@ public interface TeacherMapper {
 	@Select("SELECT CHANNELID,CHNLNAME,PARENTID FROM t_channel")
 	List<Channel> channels();
 	
+	/**
+	 * 查询专业方向
+	 * 
+	 * @return List<Dict>
+	 */
+	@Select("SELECT DICTTYPE,DICTID,DICNAME,SORTNO,REMARK FROM t_dict WHERE DICTTYPE='doc_publish_type'")
+	List<Dict> types();
+	
+	/**
+	 * 添加文章
+	 * @return
+	 */
+	@Insert("INSERT INTO t_document(DOCCHANNEL,DOCTITLE,DOCSUBTITLE,DOCABSTRACT,DOCIMAGE,ISTOP,ISHIGHLIGHT,DOCAUTHOR,DOCVALID,DOCUNVALID,DOCSOURCE,URL,DOCHTMLCON,DOCRELTIME,USERID,TYPEID)VALUES(#{docchannel.channelid},#{doctitle},#{docsubtitle},#{docabstract},#{docimage},#{istop.dictid},#{ishighlight.dictid},#{docauthor},#{docvalid},#{docunvalid},#{docsource},#{url},#{dochtmlcon},#{docreltime},#{user.userid},#{doctype.dictid})")
+	int addArticle(Document document);
+	
 }

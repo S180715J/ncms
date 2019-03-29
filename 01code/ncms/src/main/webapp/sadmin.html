@@ -1,153 +1,157 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>
-            X-admin v1.0
-        </title>
-        <meta name="renderer" content="webkit">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="format-detection" content="telephone=no">
-        <link rel="stylesheet" href="./css/x-admin.css" media="all">
-    </head>
-    <body>
-        <div class="layui-layout layui-layout-admin">
-            <div class="layui-header header header-demo">
-                <div class="layui-main">
-                    <a class="logo" href="sadmin-index.html">
-                        牛耳官微NCMS平台
-                    </a>
-                    <ul class="layui-nav" lay-filter="">
-                      <li class="layui-nav-item">欢迎！【<span id="showrole"></span>】</li>
-                      <li class="layui-nav-item">
-                        <a href="javascript:;"><span id="showname"></span></a>
-                        <dl class="layui-nav-child"> <!-- 二级菜单 -->
-                          <dd><a href="">个人信息</a></dd>
-                          <dd><a href="">切换帐号</a></dd>
-                          <dd><a href="http://localhost:8080/ncms/login/login.html">退出</a></dd>
-                        </dl>
-                      </li>
-                      <!-- <li class="layui-nav-item">
+<head>
+<meta charset="utf-8">
+<title>牛耳官微NCMS超级管理员区</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="./css/x-admin.css" media="all">
+<script src="./lib/layui/layui.js" charset="utf-8"></script>
+<script src="./js/x-admin.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jwt.js"></script>
+
+
+
+<link rel="stylesheet" href="css/demo.css" type="text/css">
+<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css"
+	type="text/css">
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.ztree.core.js"></script>
+</head>
+<body>
+	<div class="layui-layout layui-layout-admin">
+		<div class="layui-header header header-demo">
+			<div class="layui-main">
+				<a class="logo" href="sadmin-index.html"> 牛耳官微NCMS平台 </a>
+				<ul class="layui-nav" lay-filter="">
+					<li class="layui-nav-item">欢迎！【<span id="showrole"></span>】
+					</li>
+					<li class="layui-nav-item"><a href="javascript:;"><span
+							id="showname"></span></a>
+						<dl class="layui-nav-child">
+							<!-- 二级菜单 -->
+							<dd>
+								<a href="">个人信息</a>
+							</dd>
+							<dd>
+								<a href="http://localhost:8080/ncms/login/login.html">退出</a>
+							</dd>
+						</dl></li>
+					<!-- <li class="layui-nav-item">
                         <a href="" title="消息">
                             <i class="layui-icon" style="top: 1px;">&#xe63a;</i>
                         </a>
                         </li> -->
-                      <li class="layui-nav-item x-index"><a href="/">前台首页</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="layui-side layui-bg-black x-side">
-                <div class="layui-side-scroll">
-                    <ul class="layui-nav layui-nav-tree site-demo-nav" lay-filter="side">
-                     
-                        <li class="layui-nav-item">
-                            <a class="javascript:;" href="javascript:;">
-                                <i class="layui-icon" style="top: 3px;">&#xe612;</i><cite>查看角色</cite>
-                            </a>
-                            <dl class="layui-nav-child">
-                                <dd class="">
-                                    <a href="javascript:;" _href="superadmin/sadmin-rolelist.html">
-                                        <cite>查看系统角色</cite>
-                                    </a>
-                                </dd>
-                                
-                            </dl>
-                        </li>
-                        <li class="layui-nav-item">
-                            <a class="javascript:;" href="javascript:;">
-                                <i class="layui-icon" style="top: 3px;">&#xe613;</i><cite>维护管理员</cite>
-                            </a>
-                            <dl class="layui-nav-child">
-                                <dd class="">
-                                    <a href="javascript:;" _href="superadmin/sadmin-list.html">
-                                        <cite>维护管理员</cite>
-                                    </a>
-                                </dd>
-                            </dl>
-                        </li>
-                     
-                       <li class="layui-nav-item">
-                            <a class="javascript:;" href="javascript:;">
-                                <i class="layui-icon" style="top: 3px;">&#xe613;</i><cite>审核内容</cite>
-                            </a>
-                            <dl class="layui-nav-child">
-                                <dd class="">
-                                    <a href="javascript:;" _href="superadmin/check-list.html">
-                                        <cite>待审核内容</cite>
-                                    </a>
-                                </dd>
-                                <dd class="">
-                                    <a href="javascript:;" _href="./admin-role.html">
-                                        <cite>已审核内容</cite>
-                                    </a>
-                                </dd>
-                                <dd class="">
-                                    <a href="javascript:;" _href="./admin-cate.html">
-                                        <cite>已驳回内容</cite>
-                                    </a>
-                                </dd>
-                            </dl>
-                        </li>
-                        
-                           <li class="layui-nav-item">
-                            <a class="javascript:;" href="javascript:;">
-                                <i class="layui-icon" style="top: 3px;">&#xe613;</i><cite>频道管理</cite>
-                            </a>
-                            <dl class="layui-nav-child">
-                                <dd class="">
-                                    <a href="javascript:;" _href="superadmin/channel-list.html">
-                                        <cite>技术文章</cite>
-                                    </a>
-                                </dd>
-                                <dd class="">
-                                    <a href="javascript:;" _href="./admin-role.html">
-                                        <cite>技术视频</cite>
-                                    </a>
-                                </dd>
-                             
-                            </dl>
-                        </li>
-                     
-                        <li class="layui-nav-item" style="height: 30px; text-align: center">
-                        </li>
-                    </ul>
-                </div>
+					<li class="layui-nav-item x-index"><a href="sadmin.html">刷新</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="layui-side layui-bg-black x-side">
+			<div class="layui-side-scroll">
+				<ul class="layui-nav layui-nav-tree site-demo-nav" lay-filter="side">
 
-            </div>
-            <div class="layui-tab layui-tab-card site-demo-title x-main" lay-filter="x-tab" lay-allowclose="true">
-                <div class="x-slide_left"></div>
-                <ul class="layui-tab-title">
-                    <li class="layui-this">
-                    	我的桌面
-                        <i class="layui-icon layui-unselect layui-tab-close">ဆ</i>
-                    </li>
-                </ul>
-                <div class="layui-tab-content site-demo site-demo-body">
-                    <div class="layui-tab-item layui-show">
-                        <iframe frameborder="0" src="welcome.html" class="x-iframe"></iframe>
-                    </div>
-                </div>
-            </div>
-            <div class="site-mobile-shade">
-            </div>
-        </div>
-         <script src="./lib/layui/layui.js" charset="utf-8"></script>
-        <script src="./js/x-admin.js"></script>
-                <script type="text/javascript" src="js/common.js"></script>
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/jwt.js"></script>
+					<li class="layui-nav-item"><a class="javascript:;"
+						href="javascript:;"> <i class="layui-icon" style="top: 3px;">&#xe612;</i><cite>查看角色</cite>
+					</a>
+						<dl class="layui-nav-child">
+							<dd class="">
+								<a href="javascript:;" _href="superadmin/sadmin-rolelist.html">
+									<cite>查看系统角色</cite>
+								</a>
+							</dd>
 
-        
-        <script type="text/javascript">
-      //显示用户名和角色名
+						</dl></li>
+					<li class="layui-nav-item"><a class="javascript:;"
+						href="javascript:;"> <i class="layui-icon" style="top: 3px;">&#xe613;</i><cite>维护管理员</cite>
+					</a>
+						<dl class="layui-nav-child">
+							<dd class="">
+								<a href="javascript:;" _href="superadmin/sadmin-list.html">
+									<cite>维护管理员</cite>
+								</a>
+							</dd>
+						</dl></li>
+
+					<li class="layui-nav-item"><a class="javascript:;"
+						href="javascript:;"> <i class="layui-icon" style="top: 3px;">&#xe613;</i><cite>审核内容</cite>
+					</a>
+						<dl class="layui-nav-child">
+							<dd class="">
+								<a href="javascript:;" _href="superadmin/uncheckdoc-list.html">
+									<cite>待审核内容</cite>
+								</a>
+							</dd>
+							<dd class="">
+								<a href="javascript:;" _href="superadmin/checkdoc-via.html">
+									<cite>已审核内容</cite>
+								</a>
+							</dd>
+							<dd class="">
+								<a href="javascript:;" _href="superadmin/checkdoc-reject.html">
+									<cite>已驳回内容</cite>
+								</a>
+							</dd>
+						</dl></li>
+
+					<li class="layui-nav-item"><a class="javascript:;"
+						href="javascript:;"> <i class="layui-icon" style="top: 3px;">&#xe613;</i><cite>频道管理</cite>
+					</a>
+						<dl class="layui-nav-child">
+							<dd class="">
+								<a href="javascript:;" _href="superadmin/channel-list.html">
+									<cite>频道管理</cite>
+								</a>
+							</dd>
+							<dd class="">
+								<a href="javascript:;" id="qh"
+									_href="teacher/article-list.html" onclick="show()"> <cite>技术文章</cite>
+								</a>
+							</dd>
+						</dl></li>
+
+				</ul>
+				<div class="content_wrap">
+					<div class="zTreeDemoBackground left">
+						<ul id="treeDemo" class="ztree" style="display: none;">
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="layui-tab layui-tab-card site-demo-title x-main"
+			lay-filter="x-tab" lay-allowclose="true">
+			<div class="x-slide_left"></div>
+			<ul class="layui-tab-title">
+				<li class="layui-this">我的桌面 <i
+					class="layui-icon layui-unselect layui-tab-close">ဆ</i>
+				</li>
+			</ul>
+			<div class="layui-tab-content site-demo site-demo-body">
+				<div class="layui-tab-item layui-show">
+					<iframe frameborder="0" src="welcome.html" class="x-iframe"></iframe>
+				</div>
+			</div>
+		</div>
+		<div class="site-mobile-shade"></div>
+	</div>
+
+
+
+	<script type="text/javascript">
+		//显示用户名和角色名
 		$(function() {
 			$.ajax({
 				type : 'post',
-				url:HOST_URL+'show',
+				url : HOST_URL + 'show',
 				headers : createAuthorizationTokenHeader(),
 				success : function(data) {
 					if (data != null || data != "") {
@@ -157,7 +161,61 @@
 				}
 			});
 		});
-		
-        </script>
-    </body>
+
+		function show() {
+			$("#treeDemo").toggle();
+		}
+	</script>
+	<SCRIPT type="text/javascript">
+		var zTreeObj;
+		//zTree配置
+		var setting = {
+			// 开启异步加载
+			async : {
+				enable : true, //开启异步加载功能，若异步则必写
+				type : 'get',
+				url : HOST_URL + 'channels', //url路径 返回json数据
+				headers : createAuthorizationTokenHeader(), //请求头
+				dataType : 'json' //返回的数据类型 
+			},
+			data : {
+				keep : {
+					leaf : true,
+					parent : true,
+				},
+				key : {
+					name : 'chnlname'
+				},
+				simpleData : {
+					enable : true,
+					idKey : "channelid",
+					pIdKey : "parentid",
+					rootPid : 0
+				}
+			},
+			callback : {
+				onClick : zTreeOnClick
+			},
+		/* 	 edit:{
+		 enable:true,
+		 showRemoveBtn: true,
+		 showRenameBtn: true
+		}, */
+		/*  		 view:{
+		 fontCss:
+		 color:'red'
+		 }  */
+		}
+
+		$(document).ready(function() {
+			zTreeObj = $.fn.zTree.init($("#treeDemo"), setting);
+		});
+
+		function zTreeOnClick(event, treeId, treeNode) {
+			//alert("ss");
+			/* $("#chnlname").val(treeNode.chnlname);
+			$("#channelid").val(treeNode.channelid); */
+		}
+	</SCRIPT>
+</body>
 </html>

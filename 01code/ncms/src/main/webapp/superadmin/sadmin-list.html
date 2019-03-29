@@ -1,92 +1,187 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>
-			X-admin v1.0
-		</title>
-		<meta name="renderer" content="webkit">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="format-detection" content="telephone=no">
-		<link rel="stylesheet" href="../css/x-admin.css" media="all">
-		<link rel="stylesheet" href="../layui/css/layui.css">
-	</head>
-	<body style="margin-left: 20px">
-		<div class="x-nav">
+<head>
+<meta charset="utf-8">
+<title>维护管理员</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="../css/x-admin.css" media="all">
+<link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+<body style="margin-left: 20px">
+	<div class="x-nav">
 		<span class="layui-breadcrumb"> <a><cite>首页</cite></a><a><cite>维护管理员</cite></a>
 			<a><cite>维护管理员</cite></a> <span class="x-right"
-			style="line-height: 40px" id="dataLength">共有数据：88 条</span>
-		</div>
-		
-		<div class="demoTable">
-		真实姓名：
-		<div class="layui-inline">
-			<input class="layui-input" name="id" id="demoReload"
-				autocomplete="off">
-		</div>
-		昵称：
-		<div class="layui-inline">
-			<input class="layui-input" name="id" id="demoReload"
-				autocomplete="off">
-		</div>
-		<button class="layui-btn" data-type="reload">搜索</button>
-		</div>
-		
-			<table  id="demo" lay-filter="test"></table>
-			<script type="text/html" id="toolbarDemo">
+			style="line-height: 40px" id="dataLength"></span>
+			</span>
+	</div>
 
-  			<div class="layui-btn-container">
-				<button class="layui-btn"
-					onclick="admin_add('添加管理员','sadmin-add.html','600','500')">
-					<i class="layui-icon">&#xe608;</i>添加
-				</button>
-				<button class="layui-btn layui-btn-danger"
-					onclick="admin_del('删除管理员','600','500')">
-					<i class="layui-icon">&#xe640;</i>删除
-				</button>
-				<button class="layui-btn"
-					onclick="admin_edit('修改管理员','sadmin-edit.html','600','500')">
-					<i class="layui-icon">&#xe608;</i>修改
-				</button>
-			</div>
-			</script>
-			
-			<script type="text/html" id="button">
-				<input type="checkbox" name="switch" lay-skin="switch">
-			</script>
+<div class="demoTable">
+		用户名：
+		<div class="layui-inline">
+			<input class="layui-input" name="username" id="username"
+				autocomplete="off">
+		</div>
+		所属校区：
+		<div class="layui-inline">
+			<select id="dept" name="dept" autocomplete="off"
+				style="width: 175px; height: 40px; align: center;"></select>
+		</div>
 		
-		<script src="../layui/layui.js" charset="utf-8"></script>
-		<script src="../js/x-layui.js" charset="utf-8"></script>
-		<script src="../js/jquery.min.js"></script>
-		<script>
-			layui.use(['element'], function() {
-				lement = layui.element(); //面包导航
+		<button class="layui-btn" data-type="reload">搜索</button>
+		<button class="layui-btn" id="exit">取消</button>
+	</div>
+
+	<!-- 添加工具条按钮-->
+	<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+		<button class="layui-btn"
+			onclick="admin_add('添加管理员','sadmin-add.html','600','500')">
+			<i class="layui-icon">&#xe608;</i>添加
+		</button>
+
+		<button class="layui-btn layui-btn-danger" lay-event="delStu" id="delStu">
+			<i class="layui-icon">&#xe640;</i>删除
+		</button>
+		<button class="layui-btn"
+			lay-event="editStu" id="editStu">
+			<i class="layui-icon">&#xe642;</i>修改
+		</button>
+	
+ </div>
+</script>
+
+	<table id="table"  name="table" lay-filter="test"></table>
+
+
+
+	<script src="../layui/layui.js" charset="utf-8"></script>
+	<script src="../js/x-layui.js" charset="utf-8"></script>
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/common.js"></script>
+
+	<script>
+	// 显示部门下拉列表
+	$.ajax({
+		type : 'get',
+		url : HOST_URL + 'merge',
+		dataType : 'json',
+		success : function(data) {
+			var dept = '<option selected="selected"  value=""></option>';
+			$.each(data, function(i, obj) {
+				$.each(obj, function(i, d) {
+					if (d.dicttype == 'school_area') {
+						dept += '<option value="'+d.dictid+'">'
+								+ d.dicname + '</option>'
+						$('#dept').html(dept);
+					}
+				});
 			});
-		
-			layui.use('table', function(){
-				  var table = layui.table;
+		}
+	});
+	
+	
+		layui.use('table', function() {
+			var table = layui.table;
 			table.render({
-			    elem: '#demo',
-			    height: 300,
-			    url: 'http://localhost:8080/ncms/userlist',//数据接口
-			    page: true, //开启分页
-			    toolbar : '#toolbarDemo',
-			    cols: [[ //表头
-			      {type: 'checkbox', fixed: 'left'},
-			      {field: 'userid', title: '用户编号', width:100, sort: true},
-			      {field: 'username', title: '登录名'},
-			      {field: 'realname', title: '真实姓名'},
-			      {field: 'crtime', title: '创建时间', sort: true},
-			      {templet:'<div>{{d.role.rolename}}</div>',title: '身份'},
-			      {templet:'<div>{{d.isdelete.dicname}}</div>',title: '状态', sort: true},
-			      {field: 'experience',templet:'#button', title: '修改状态'}
-			    ]],
+				elem : '#table',
+				height : 500,
+				url : HOST_URL + 'querySadmin', //数据接口
+				page : true, //开启分页
+				limit : 6,
+				toolbar : '#toolbarDemo',
+				totalRow : true,
+				cols : [ [ //表头
+
+				{
+					checkbox : true,
+					fixed : true,
+					width : 100
+				}, {
+					field : 'userid',
+					title : '用户编号',
+					width : 120,
+					sort : true,
+					align : 'center',
+					style : 'font-size: 10px;'
+				}, {
+					field : 'username',
+					title : '用户名',
+					align : 'center',
+					sort : true,
+					width : 120,
+					style : 'font-size: 10px;',
+				}, {
+					field : 'realname',
+					title : '真实姓名',
+					width : 120,
+					align : 'center',
+					style : 'font-size: 10px;',
+					
+				}, {
+					field : 'nickname',
+					title : '昵称',
+					width : 120,
+					align : 'center',
+					style : 'font-size: 10px;',
+				}, {
+					templet : '<div>{{d.sex.dicname}}</div>',
+					title : '性别',
+					align : 'center',
+					width : 100,
+					style : 'font-size:10px;',
+					
+				}, {
+					templet : '<div>{{d.dept.dicname}}</div>',
+					title : '所属校区',
+					align : 'center',
+					width : 100,
+					style : 'font-size:10px;',
+				}, {
+					templet : '<div>{{d.role.rolename}}</div>',
+					title : '角色',
+					align : 'center',
+					width : 130,
+					style : 'font-size:10px;',
+					
+				}, {
+					field : 'crtime',
+					title : '创建时间',
+					width : 150,
+					align : 'center',
+					style : 'font-size: 10px;',
+					
+				}, {
+					field : 'phone',
+					title : '联系电话',
+					width : 130,
+					align : 'center',
+					style : 'font-size: 10px;',
+					
+				}, {
+					field : 'email',
+					title : '邮箱',
+					width : 130,
+					align : 'center',
+					style : 'font-size: 10px;',
+					
+				}, {
+					templet : '<div>{{d.isdelete.dicname}}</div>',
+					title : '状态',
+					width : 100,
+					align : 'center',
+					style : 'font-size: 10px;'
+					
+				} ] ],
+				id : 'testReload',
 				parseData : function(res) { //将原始数据解析成 table 组件所规定的数据
 					return {
-						"code" : 0, //解析接口状态
+						"code" : res.status, //解析接口状态
 						"count" : res.totalrows, //解析数据长度
 						"data" : res.list
 
@@ -110,31 +205,134 @@
 					});
 					$("#dataLength").text("共有数据：" + count + "条");
 				}
-
-			  });
-			  
 			});
-			
-			/*添加*/
-			function admin_add(title, url, w, h) {
-				x_admin_show(title, url, w, h);
-			}
-			//编辑
-			function admin_edit(title, url, id, w, h) {
-				x_admin_show(title, url, w, h);
-			}
-			/*删除*/
-			function admin_del(obj, id) {
-				layer.confirm('确认要删除吗？', function(index) {
-					//发异步删除数据
-					$(obj).parents("tr").remove();
-					layer.msg('已删除!', {
-						icon : 1,
-						time : 1000
-					});
+
+			//工具栏事件
+			table.on('toolbar(test)', function(obj) {
+				var checkStatus = table.checkStatus(obj.config.id);
+				switch (obj.event) {
+				case 'delStu':
+					var data = checkStatus.data;
+					if (data != "") {
+						var userid = "";
+						for (var i = 0; i < data.length; i++) {
+							userid += data[i].userid + ",";
+						}
+						layer.confirm('确认要删除id为' + userid + '的用户吗？', function(
+								index) {
+							$.ajax({
+								type : 'delete',
+								url : HOST_URL + 'delSadmin',
+								data : {
+									"userid" : userid
+								},
+								dataType : 'text',
+								success : function(data) {
+									if (data == "ok") {
+										layer.msg("删除成功！");
+										location.reload();
+									}
+								}
+							});
+						});
+					} else {
+						layer.msg("请选择要删除的用户", {
+							icon : 5,
+							offset : 'auto',
+							anim : 0,
+							time : 1500,
+							shade : [ 0.8, '#393D49' ]
+						});
+					}
+					break;
+				case 'editStu':
+					var data = checkStatus.data;
+					if (data.length != 1) {
+						layer.msg("请勾选一位管理员", {
+							icon : 7,
+							offset : 'auto',
+							anim : 0,
+							time : 1500,
+							shade : [ 0.8, '#393D49' ]
+						});
+					} else {
+						layer.confirm('您要修改id为' + data[0].userid + '用户名为'
+								+ data[0].username + '的管理员吗？', function(index) {
+							layer.close(layer.index);
+							//弹出窗口
+							layer.open({
+								type : 2,
+								title : '编辑管理员信息',
+								content : 'sadmin-edit.html?userid='+ data[0].userid,
+								area : [ '600px', '500px' ],
+								maxmin : true
+							});
+
+						});
+					}
+					break;
+				}
+
+			});
+
+		
+		
+
+			// 搜索点击获取数据
+		var active = {
+			reload : function() {
+				    var username = $('#username').val();
+					var dept = $("#dept option:selected").val();
+					
+					var index = layer.msg('查询中，请稍候...', {
+					icon : 16,
+					time : false,
+					shade : 0
 				});
+				setTimeout(function() {
+					table.reload('testReload', {
+						 url : HOST_URL + 'querySadmin',
+		                 method:'get',
+						page : {
+							curr : 1
+						},
+						
+						where : {
+							"username" : username,
+							"dept.dictid":dept
+						    
+						}
+					});
+					layer.close(index);
+				}, 800);
+
 			}
-		</script>
-	</body>
+		} 
+		
+		$('.demoTable .layui-btn').on('click', function() {
+			var type = $(this).data('type');
+			active[type] ? active[type].call(this) : '';
+		});
+		
+		 $('#exit').on('click', function() {
+			location.reload();
+		 });
+		});
+		 
+		
+		/*添加*/
+		function admin_add(title, url, w, h) {
+			x_admin_show(title, url, w, h);
+		}
+
+		//编辑
+		function admin_edit(title, url, id, w, h) {
+			x_admin_show(title, url, w, h);
+		}
+	
+</script>
+
+
+</body>
 
 </html>

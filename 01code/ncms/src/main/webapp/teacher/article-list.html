@@ -18,6 +18,7 @@
 <script type="text/javascript" src="../js/x-layui.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/jquery.cookie.js"></script>
 
 </head>
 <body style="margin-left: 20px">
@@ -50,7 +51,7 @@
 	<script type="text/html" id="toolbarDemo">
   <div class="layui-btn-container">
 		<button class="layui-btn"
-			onclick="article_add('添加文章','article-add.html','850','500')">
+			onclick="article_add('添加文章','article-add.html','600','500')">
 			<i class="layui-icon">&#xe608;</i>添加
 		</button>
 
@@ -65,15 +66,16 @@
 </script>
 	<table id="table" lay-filter="test"></table>
 <script>
+
 	layui.use('table',
 		function() {
 			var table = layui.table;
 			table.render({
 						elem : '#table',
-						height : 450,
+						height : 480,
 						url : HOST_URL + 'queryDocument', //数据接口
 						page : true, //开启分页
-						limit : 5,
+						limit : 6,
 						toolbar : '#toolbarDemo',
 						totalRow : true,
 						cols : [ [ //表头
@@ -324,6 +326,8 @@
 		function article_edit(title, url, id, w, h) {
 			x_admin_show(title, url, w, h);
 		}
+		
+		
 	</script>
 
 </body>

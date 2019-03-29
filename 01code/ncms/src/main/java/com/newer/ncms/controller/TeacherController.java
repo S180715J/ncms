@@ -1,39 +1,54 @@
 package com.newer.ncms.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.print.Doc;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.xml.crypto.Data;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 /**
  * 教师模块控制层
  * @author ZhangXin
  *
  */
+import org.springframework.web.multipart.MultipartFile;
 
 import com.newer.ncms.model.Page;
 import com.newer.ncms.pojo.Channel;
 import com.newer.ncms.pojo.Clazz;
 import com.newer.ncms.pojo.Dict;
 import com.newer.ncms.pojo.Document;
+import com.newer.ncms.pojo.Role;
 import com.newer.ncms.pojo.Student;
+import com.newer.ncms.pojo.User;
 import com.newer.ncms.service.TeacherService;
+import com.newer.ncms.utils.JwtTokenUtil;
+import com.newer.ncms.utils.LoadUtils;
 
 @RestController
 public class TeacherController {
 
 	@Autowired
 	private TeacherService teacherService;
+	
+	@Autowired
+	private JwtTokenUtil JwtTokenUtil;
 
 	/**
 	 * 返回所有学生信息
@@ -44,8 +59,7 @@ public class TeacherController {
 	 */
 	@RequestMapping(value = "/students", method = RequestMethod.GET)
 	public ResponseEntity<?> students(@RequestParam(value = "page", required = false, defaultValue = "1") String page,
-			@RequestParam(value = "limit", required = false, defaultValue = "3") Integer limit) {
-		// System.out.println("students");
+			@RequestParam(value = "limit", required = false, defaultValue = "6") Integer limit) {
 		Page<Student> data = teacherService.students(page, limit);
 		ResponseEntity<?> entity = null;
 		if (data != null) {
@@ -81,7 +95,6 @@ public class TeacherController {
 		}
 
 		Page<Student> data = teacherService.queryStudent(params, page, limit);
-		System.out.println(data);
 		ResponseEntity<?> entity = null;
 		if (data != null) {
 			entity = new ResponseEntity<>(data, HttpStatus.OK);
@@ -104,7 +117,6 @@ public class TeacherController {
 		list.add(specialtys);
 		list.add(schoolareas);
 		list.add(educations);
-		// System.out.println(list);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
@@ -127,9 +139,7 @@ public class TeacherController {
 	 */
 	@RequestMapping(value = "/addStudent", method = RequestMethod.POST)
 	public String addStudent(Student student) {
-		System.out.println("addstudent===" + student);
 		int addStudent = teacherService.addStudent(student);
-		System.err.println("控制层" + addStudent);
 		if (addStudent > 0) {
 			return "ok";
 		}
@@ -142,9 +152,9 @@ public class TeacherController {
 	 * @param stuid
 	 * @return
 	 */
+	@Transactional
 	@RequestMapping(value = "/delStudent", method = RequestMethod.DELETE)
 	public String delStudent(String ids) {
-		// System.out.println(ids);
 		String id[] = ids.split(",");
 		int[] arr = new int[id.length];
 		for (int i = 0; i < id.length; i++) {
@@ -185,7 +195,6 @@ public class TeacherController {
 	@RequestMapping(value = "/updStudent", method = RequestMethod.PUT)
 	public String updStudent(Student student) {
 		int updStudent = teacherService.updStudent(student);
-		System.out.println(student);
 		if (updStudent > 0) {
 			return "ok";
 		} else {
@@ -235,7 +244,6 @@ public class TeacherController {
 		}
 
 		Page<Document> data = teacherService.queryDocument(params, page, limit);
-		System.out.println(data);
 		ResponseEntity<?> entity = null;
 		if (data != null) {
 			entity = new ResponseEntity<>(data, HttpStatus.OK);
@@ -266,11 +274,66 @@ public class TeacherController {
 		return "ok";
 	}
 
-	@RequestMapping(value="/channels",method=RequestMethod.GET)
-	public ResponseEntity<?> channels(){
+	@RequestMapping(value = "/channels", method = RequestMethod.GET)
+	public ResponseEntity<?> channels() {
 		List<Channel> channels = teacherService.channels();
-		if(channels!=null) {
-			return new ResponseEntity<>(channels,HttpStatus.OK);
+		if (channels != null) {
+			return new ResponseEntity<>(channels, HttpStatus.OK);
+		}
+		return null;
+	}
+
+	/**
+	 * 文章类型下拉框
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/types", method = RequestMethod.GET)
+	public ResponseEntity<?> types() {
+		List<Dict> types = teacherService.types();
+		return new ResponseEntity<>(types, HttpStatus.OK);
+	}
+
+	/**
+	 * 添加文章
+	 * 
+	 * @param student
+	 * @return
+	 * @throws IOException
+	 * @throws IllegalStateException
+	 */
+	@RequestMapping(value = "/addArticle", method = RequestMethod.POST)
+	@ResponseBody
+	public String addArticle(Document document,HttpServletRequest request){
+		LinkedHashMap<String, Object> user = JwtTokenUtil.getObj(request);
+		if (user != null) {
+			Integer userid = (Integer) user.get("userid");
+			User user2=new User();
+			user2.setUserid(userid);
+		//设置发布人
+		document.setUser(user2);
+		}
+		document.setDocreltime(new Date());
+		int addArticle = teacherService.addArticle(document);
+		if (addArticle > 0) {
+			return "ok";
+		}
+		return null;
+	}
+
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request)
+			throws IllegalStateException, IOException {
+		LinkedHashMap<String, Object> user = JwtTokenUtil.getObj(request);
+		if (user != null) {
+			String username = (String) user.get("username");
+		if (!file.isEmpty()) {
+			// 获取文件名字
+			String fileName = file.getOriginalFilename();
+			
+			String filePath = LoadUtils.upload(file, request,username);
+			return filePath;
+		}
 		}
 		return null;
 	}

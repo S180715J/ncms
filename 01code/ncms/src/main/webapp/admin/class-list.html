@@ -16,24 +16,29 @@
 <body style="margin-left: 20px">
 <div class="x-nav">
 		<span class="layui-breadcrumb"> <a><cite>首页</cite></a> <a><cite>教师管理</cite></a>
-			<a><cite>教师列表</cite></a> <span class="x-right"
+			<a><cite>班级列表</cite></a> <span class="x-right"
 			style="line-height: 40px" id="dataLength">共有数据：88 条</span>
 			</span>
 	</div>
 <div class="demoTable">
-		姓名：
+		班级编号：
 		<div class="layui-inline">
-			<input class="layui-input" name="id" id="demoReload"
+			<input class="layui-input" name="code" id="code"
 				autocomplete="off">
 		</div>
 		所属校区：
 		<div class="layui-inline">
-			<select id="schoolarea" name="id" autocomplete="off"
+			<select id="schoolarea" name="schoolarea" autocomplete="off"
+				style="width: 175px; height: 40px; align: center;"></select>
+		</div>
+		专业方向：
+		<div class="layui-inline">
+			<select id="specialty" name="specialty" autocomplete="off"
 				style="width: 175px; height: 40px; align: center;"></select>
 		</div>
 		<button class="layui-btn" data-type="reload">搜索</button>
+		<button class="layui-btn" id="exit">取消</button>
 	</div>
-		</div>
 		
 
 <!-- 添加工具条按钮-->
@@ -65,14 +70,44 @@
 	<script src="../js/common.js"></script>
 
 	<script>
+	//显示下拉框
+	$.ajax({
+		type : 'get',
+		url : HOST_URL + 'merge',
+		dataType : 'json',
+		success : function(data) {
+			var specialty = '<option selected="selected"  value=""></option>';//所属专业方向下拉框
+			var schoolarea = '<option selected="selected"  value=""></option>';//所属院校下拉框
+			var status = '<option selected="selected"  value=""></option>';//班级状态下拉框
+			//alert(specialty);
+			$.each(data, function(i, obj) {
+				$.each(obj, function(i, d) {
+					if (d.dicttype == 'specialty') {
+						specialty += '<option value="'+d.dictid+'">'
+								+ d.dicname + '</option>'
+						$('#specialty').html(specialty);
+					} else if (d.dicttype == 'school_area') {
+						schoolarea += '<option value="'+d.dictid+'">'
+								+ d.dicname + '</option>'
+						$('#schoolarea').html(schoolarea);
+					} else if (d.dicttype == 'class_status') {
+						status += '<option value="'+d.dictid+'">'
+								+ d.dicname + '</option>'
+						$('#status').html(status);
+					}
+				});
+			});
+		}
+	});
+	
 		layui.use('table', function() {
 			var table = layui.table;
 			table.render({
 				elem : '#table',
-				height : 450,
-				url : HOST_URL + 'clazz', //数据接口
+				height : 480,
+				url : HOST_URL + 'queryClass', //数据接口
 				page : true, //开启分页
-				limit : 5,
+				limit : 6,
 				toolbar : '#toolbarDemo',
 				totalRow : true,
 				cols : [ [ //表头
@@ -82,7 +117,7 @@
 				}, {
 					field : 'classid',
 					title : '班级id',
-					width : 150,
+					width : 100,
 					sort : true,
 					align : 'center',
 					style : 'font-size: 1px;'
@@ -91,102 +126,89 @@
 					title : '班级编号',
 					align : 'center',
 					sort : true,
-					width : 150,
+					width : 100,
 					style : 'font-size: 1px;',
-					edit : 'text'
 
 				}, {
 					templet : '<div>{{d.schoolarea.dicname}}</div>',
 					title : '所属校区',
-					width : 150,
+					width : 100,
 					align : 'center',
 					style : 'font-size: 1px;',
-					edit : 'text'
 				}, {
 					templet : '<div>{{d.specialty.dicname}}</div>',
 					title : '专业方向',
-					width : 150,
+					width : 130,
 					align : 'center',
 					style : 'font-size: 1px;',
-					edit : 'text'
 				}, {
 					field : 'begindate',
 					title : '开课日期',
 					width : 120,
 					align : 'center',
 					style : 'font-size: 1px;',
-					edit : 'text'
 				}, {
 					field : 'enddate',
 					title : '结课日期',
 					width : 120,
 					align : 'center',
 					style : 'font-size: 1px;',
-					edit : 'text'
 				}, {
 					field : 'initcount',
 					title : '开班人数',
-					width : 120,
+					width : 100,
 					align : 'center',
 					style : 'font-size: 1px;',
-					edit : 'text'
 				}, {
 					field : 'onlinecount',
 					title : '在读人数',
 					align : 'center',
-					width : 170,
+					width : 100,
 					style : 'font-size: 1px;',
-					edit : 'text'
 				}, {
 					templet : '<div>{{d.status.dicname}}</div>',
 					title : '班级状态',
 					align : 'center',
-					width : 170,
+					width : 100,
 					style : 'font-size: 1px;',
-					edit : 'text'
 				}, {
 					field : 'endcount',
 					title : '结课人数',
 					align : 'center',
-					width : 152,
+					width : 100,
 					style : 'font-size:10px;',
-					edit : 'text'
 				}, {
 					field : 'examcount',
 					title : '考试人数',
 					align : 'center',
-					width : 170,
+					width : 100,
 					style : 'font-size: 1px;',
-					edit : 'text'
 				}, {
 					field : 'passcount',
 					title : '考试通过率',
 					align : 'center',
-					width : 170,
+					width : 100,
 					style : 'font-size: 1px;',
-					edit : 'text'
 				}, {
 					field : 'jobcount',
 					title : '就业人数',
 					align : 'center',
-					width : 170,
+					width : 100,
 					style : 'font-size: 1px;',
-					edit : 'text'
 				}, {
 					field : 'praisecount',
 					title : '口碑人数',
 					align : 'center',
-					width : 170,
+					width : 100,
 					style : 'font-size: 1px;',
-					edit : 'text'
 				}, {
 					field : 'misscount',
 					title : '流失人数',
 					align : 'center',
-					width : 152,
+					width : 100,
 					style : 'font-size:10px;',
-					edit : 'text'
 				} ] ],
+				id : 'testReload',
 				parseData : function(res) { //将原始数据解析成 table 组件所规定的数据
 					return {
 						"code" : res.status, //解析接口状态
@@ -285,46 +307,53 @@
 				
 			});
 
-/* 			//监听单元格编辑
-			table.on('edit(test)', function(obj) {
-				var value = obj.value //得到修改后的值
-				, data = obj.data //得到所在行所有键值
-				, field = obj.field; //得到字段
-				layer.msg('[ID: ' + data.stuid + '] ' + field + ' 字段更改为：'
-						+ value);
-			}); */
-			
+
 			
 
-			//搜索
-			var $ = layui.$, active = {
-				    reload: function(){
-				      var demoReload = $('#demoReload');
-				      
-				      //执行重载
-				      table.reload('testReload', {
-				        page: {
-				          curr: 1 //重新从第 1 页开始
-				        }
-				        ,where: {
-				          key: {
-				            id: demoReload.val()
-				          }
-				        }
-				      });
-				    }
-				  };
-				  
-				  $('.demoTable .layui-btn').on('click', function(){
-				    var type = $(this).data('type');
-				    active[type] ? active[type].call(this) : '';
-				  });
+ 			// 搜索点击获取数据
+			var active = {
+				reload : function() {
+					    var code = $('#code').val();
+						var schoolarea = $("#schoolarea option:selected").val();
+						var specialty = $("#specialty option:selected").val();
+						
+						var index = layer.msg('查询中，请稍候...', {
+						icon : 16,
+						time : false,
+						shade : 0
+					});
+					setTimeout(function() {
+						table.reload('testReload', {
+							 url : HOST_URL + 'queryClass',
+			                 method:'get',
+							page : {
+								curr : 1
+							},
+							
+							where : {
+								"code" : code,
+								"schoolarea.dictid":schoolarea,
+								"specialty.dictid":specialty
+							    
+							}
+						});
+						layer.close(index);
+					}, 800);
+
+				}
+			} 
 			
+			$('.demoTable .layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
 			
+			 $('#exit').on('click', function() {
+				location.reload();
+			});
+			 
 
 		});
-		
-		
 	</script>
 
 	

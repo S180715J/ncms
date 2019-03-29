@@ -53,16 +53,17 @@ public class Channel implements Serializable {
 		this.chnldesc = chnldesc;
 	}
 
-	public String getChanlnamepath() {
+	
+
+
+
+	public String getChnlnamepath() {
 		return chnlnamepath;
 	}
 
-	public void setChanlnamepath(String chanlnamepath) {
-		this.chnlnamepath = chanlnamepath;
+	public void setChnlnamepath(String chnlnamepath) {
+		this.chnlnamepath = chnlnamepath;
 	}
-
-
-
 
 	public Integer getParentid() {
 		return parentid;

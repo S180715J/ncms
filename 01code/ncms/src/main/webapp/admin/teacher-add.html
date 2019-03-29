@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="css/x-admin.css">
 
 </head>
-<body>
+<body style="margin-top: 30px">
 	<form action="" class="layui-form">
 		<div class="layui-form-item">
 			<label class="layui-form-label">用户名</label>
@@ -51,7 +51,6 @@
 			<label class="layui-form-label">部门：</label>
 			<div class="layui-input-block">
 				<select name="dept" id="dept" lay-filter="aihao">
-					<option value="">请选择部门</option>
 
 				</select>
 			</div>
@@ -59,23 +58,22 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">联系电话</label>
 			<div class="layui-input-block">
-				<input type="text" name="phone" placeholder="请输入" autocomplete="off"
+				<input type="text" name="phone"id="phone" placeholder="请输入" autocomplete="off"
 					class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">邮箱：</label>
 			<div class="layui-input-block">
-				<input type="text" name="email" placeholder="请输入" autocomplete="off"
+				<input type="text" name="email" id="email" placeholder="请输入" autocomplete="off"
 					class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">职称：</label>
 			<div class="layui-input-block">
-				<select name="role" id="role" lay-filter="aihao">
-					<option value="">请选择您的职称</option>
-
+				<!-- <input type="text" name="role" id="role" class="layui-input" readonly="readonly" value="教师" /> -->
+				 <select name="role" id="role" lay-filter="aihao">
 				</select>
 			</div>
 		</div>
@@ -113,7 +111,7 @@
 				}
 			});
 
-			$.ajax({
+		 	$.ajax({
 				type : 'get',
 				url : HOST_URL + 'role',
 				dataType : 'json',
@@ -124,10 +122,32 @@
 						role += '<option value="'+item.roleid+'">'
 								+ item.rolename + '</option>';
 						$('#role').html(role);
-
 					});
 				}
-			});
+			}); 
+		 	
+	/* 	 	//验证用户名
+			$("#username").change(function(){
+				var username=$("#username").val();
+				$.ajax({
+					type:'post',
+					url:HOST_URL+'check',
+					dataType:'text',
+					data:{
+						"username":username
+					}
+					success:function(data){
+						if(data!="ok"){
+							layer.msg('用户名已经存在！', {
+								time : 2000,
+								icon : 2
+							});
+							$("#username").val("");
+							$("#username").focus();
+						}
+					}
+				});
+		}); */
 
 			//给添加按钮绑定单击事件
 			$("#add").click(function() {
@@ -140,7 +160,6 @@
 				var phone = $("#phone").val();
 				var email = $("#email").val();
 				var role = $("#role option:selected").val();
-				//alert(role);
 				$.ajax({
 					type : 'post',
 					url : HOST_URL + 'addTeacher',

@@ -1,5 +1,6 @@
 package com.newer.ncms.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class SadminService {
 	private SadminMapper sadminMapper;
 
 	/**
-	 * .返回所有角色信息
+	 * 查询管理员信息
 	 * 
 	 * @return
 	 */
@@ -62,6 +63,33 @@ public class SadminService {
 	}
 
 	/**
+	 * .带条件查询管理员数据集合的page对象 
+	 * 
+	 * @return 根据查询的条件返回相应的page对象
+	 */
+	public Page<User> querySadmin(HashMap<String, Object> params, String curPage, Integer limit) {
+
+		// 查询数据库中的总记录数
+		int getTotalRecordNo = sadminMapper.getTotalSadmin(params);
+
+
+		// 创建page对象
+		Page<User> page = new Page<>(curPage, getTotalRecordNo, limit);
+
+		// 先拿到修正后的pageNo
+		int index = (page.getCurPage() - 1) * limit;
+		params.put("index", index);
+		params.put("limit", limit);
+		// 查询数据库中的数据
+		List<User> list = sadminMapper.querySadmin(params);
+		// 将数据集合放入page中
+		page.setList(list);
+
+		return page;
+	}
+	
+	
+	/**
 	 * .回显角色身份
 	 * 
 	 * @return
@@ -69,6 +97,60 @@ public class SadminService {
 	public List<Role> queryIdentity() {
 		return sadminMapper.selectIdentity();
 	}
+	
+	
+	/**
+	 * 添加管理员
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public Integer addSadmin(User user) {
+		return sadminMapper.addSadmin(user);
+
+	}
+	
+	/**
+	 * 检验用户名是否存在
+	 * @param string
+	 * @return
+	 */
+	public String check(String username) {
+		return sadminMapper.check(username);
+	}
+
+	/**
+	 * 删除管理员
+	 * 
+	 * @param userid
+	 * @return
+	 */
+	public int delSdmin(Integer userid) {
+		return sadminMapper.delSadmin(userid);
+	}
+
+	/**
+	 * 修改教师
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public int upSadmin(User user) {
+		return sadminMapper.upSadmin(user);
+	}
+
+	/**
+	 * 根据id修改回显教师信息
+	 * 
+	 * @param userid
+	 * @return
+	 */
+	public User showSadmin(Integer userid) {
+		return sadminMapper.showSadmin(userid);
+	}
+
+	
+	
 
 	/**
 	 * 查询所有频道信息
@@ -104,6 +186,15 @@ public class SadminService {
 	 */
 	public int addChannel(Channel channel) {
 		return sadminMapper.addChannel(channel);
+	}
+	
+	/**
+	 * 查询父路径
+	 * @param channelid
+	 * @return
+	 */
+	public String chnlnamepath(Integer channelid) {
+		return sadminMapper.chnlnamepath(channelid);
 	}
 
 	/**
@@ -146,12 +237,93 @@ public class SadminService {
 	
 	
 	/**
-	 * y返回审核内容信息
+	 * .带条件查询待审核文章数据集合的page对象 
 	 * 
-	 * @param dtrs
+	 * @return 根据查询的条件返回相应的page对象
+	 */
+	public Page<Document> queryUncheck(HashMap<String, Object> params, String curPage, Integer limit) {
+
+		// 查询数据库中的总记录数
+		int unCheckSum = sadminMapper.unCheckSum(params);
+		System.out.println(unCheckSum);
+
+		// 创建page对象
+		Page<Document> page = new Page<>(curPage, unCheckSum, limit);
+
+		// 先拿到修正后的pageNo
+		int index = (page.getCurPage() - 1) * limit;
+		params.put("index", index);
+		params.put("limit", limit);
+		// 查询数据库中的数据
+		List<Document> list = sadminMapper.queryUncheck(params);
+		// 将数据集合放入page中
+		page.setList(list);
+
+		return page;
+	}
+	
+	/**
+	 * 跟新文章状态
+	 * @param docid
 	 * @return
 	 */
-	public List<Document> dtr() {
-		return sadminMapper.dtr();
+	public int updateStatus(Integer docid,Integer status,Date checktime) {
+		return sadminMapper.updateStatus(docid,status,checktime);
 	}
+	
+	/**
+	 * .带条件查询已审核文章数据的page对象 
+	 * 
+	 * @return 根据查询的条件返回相应的page对象
+	 */
+	public Page<Document> queryCheckYet(HashMap<String, Object> params, String curPage, Integer limit) {
+
+		// 查询数据库中的总记录数
+		int unCheckYetSum = sadminMapper.unCheckYetSum(params);
+
+
+		// 创建page对象
+		Page<Document> page = new Page<>(curPage, unCheckYetSum, limit);
+
+		// 先拿到修正后的pageNo
+		int index = (page.getCurPage() - 1) * limit;
+		params.put("index", index);
+		params.put("limit", limit);
+		// 查询数据库中的数据
+		List<Document> list = sadminMapper.queryCheckYet(params);
+		// 将数据集合放入page中
+		page.setList(list);
+
+		return page;
+	}
+	
+	/**
+	 * .带条件查询已驳回文章数据的page对象 
+	 * 
+	 * @return 根据查询的条件返回相应的page对象
+	 */
+	public Page<Document> queryCheckReject(HashMap<String, Object> params, String curPage, Integer limit) {
+
+		// 查询数据库中的总记录数
+		int unCheckRejectSum = sadminMapper.unCheckRejectSum(params);
+
+
+		// 创建page对象
+		Page<Document> page = new Page<>(curPage,unCheckRejectSum, limit);
+
+		// 先拿到修正后的pageNo
+		int index = (page.getCurPage() - 1) * limit;
+		params.put("index", index);
+		params.put("limit", limit);
+		// 查询数据库中的数据
+		List<Document> list = sadminMapper.queryCheckReject(params);
+		// 将数据集合放入page中
+		page.setList(list);
+
+		return page;
+	}
+
+	
+	
+
 }

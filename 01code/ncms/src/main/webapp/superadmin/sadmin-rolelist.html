@@ -22,7 +22,7 @@
 		<div class="x-body">
 			<table class="layui-table">
 				<thead>
-					<tr>
+					<tr style="background: #5792c6">
 						<th>
 							角色编号
 						</th>
@@ -54,7 +54,6 @@
 		function loadData() {
 			console.info('开始加载数据...');
 			$.get(URL,function(data) {
-				console.info('data:' + data);
 				var tabs = '';
 				$.each(data,function(index, value) {
 					tabs += '<tr>';

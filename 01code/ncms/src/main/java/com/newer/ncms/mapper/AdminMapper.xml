@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.ncms.mapper.AdminMapper">
+
+
+	<!-- 带条件查询教师数据集合 -->
+	<select id="queryTeacher" resultType="com.newer.ncms.pojo.User">
+		SELECT u.`USERID`,u.`USERNAME`,u.`REALNAME`,d.`DICNAME`AS
+		"sex.dicname",
+		d1.`DICNAME` AS "dept.dicname",u.`PHONE`,u.`EMAIL` FROM
+		t_user u
+		LEFT JOIN t_dict d ON u.`SEX`=d.`DICTID`AND d.`DICTTYPE`='sex'
+		LEFT JOIN t_dict d1 ON u.`DEPT`=d1.`DICTID` AND
+		d1.`DICTTYPE`='school_area'
+
+		<where>
+		u.`ROLEID`=8
+			<if test="realname != null and realname!=''">
+				AND realname LIKE '%${realname}%'
+			</if>
+
+			<if test="dept != null and dept!=''">
+				AND u.dept = #{dept}
+			</if>
+
+		</where>
+		LIMIT #{index},#{limit}
+	</select>
+
+
+
+	<!-- 带条件查询学生总记录数 -->
+	<select id="getTotalRecordNo" resultType="int">
+		SELECT COUNT(*) FROM t_user u
+		LEFT JOIN t_dict d ON u.`SEX`=d.`DICTID`AND d.`DICTTYPE`='sex'
+		LEFT JOIN t_dict d1 ON u.`DEPT`=d1.`DICTID` AND
+		d1.`DICTTYPE`='school_area'
+
+		<where>
+			u.`ROLEID`=8
+			<if test="realname != null and realname!=''">
+				AND realname LIKE '%${realname}%'
+			</if>
+
+			<if test="dept != null and dept!=''">
+				AND u.dept = #{dept}
+			</if>
+		</where>
+	</select>
+
+	<!-- 带条件查询班级数据集合 -->
+	<select id="queryClass" resultType="com.newer.ncms.pojo.Clazz">
+		SELECT c.`CLASSID`,c.`CODE`,d.`DICNAME` AS "schoolarea.dicname",d1.`DICNAME` AS
+		"specialty.dicname",c.`BEGINDATE`,c.`ENDDATE`,c.`INITCOUNT`,c.`ONLINECOUNT`,d2.`DICNAME` AS
+		"status.dicname",c.`ENDCOUNT`,c.`EXAMCOUNT`,c.`PASSCOUNT`,c.`JOBCOUNT`,c.`PRAISECOUNT`,c.`MISSCOUNT`,
+		d3.`DICNAME` AS "isdelete.dicname" FROM t_class c
+		LEFT JOIN t_dict d ON c.`SCHOOLAREA`=d.`DICTID` AND
+		d.`DICTTYPE`='school_area'
+		LEFT JOIN t_dict d1 ON c.`SPECIALTY`=d1.`DICTID` AND
+		d1.`DICTTYPE`='specialty'
+		LEFT JOIN t_dict d2 ON c.`STATUS`=d2.`DICTID` AND
+		d2.`DICTTYPE`='class_status'
+		LEFT JOIN t_dict d3 ON c.`ISDELETE`=d3.`DICTID` AND
+		d3.`DICTTYPE`='isdelete'
+
+		<where>
+			<if test="code != null and code!=''">
+				AND code LIKE '%${code}%'
+			</if>
+
+			<if test="schoolarea != null and schoolarea!=''">
+				AND c.schoolarea = #{schoolarea}
+			</if>
+
+			<if test="specialty != null and specialty!=''">
+				AND c.specialty = #{specialty}
+			</if>
+		</where>
+		LIMIT #{index},#{limit}
+	</select>
+
+	<!-- 带条件查询班级总记录数 -->
+	<select id="getTotalClassRecords" resultType="int">
+		SELECT COUNT(*) FROM t_class c
+		LEFT JOIN t_dict d on c.`SCHOOLAREA`=d.`DICTID` and
+		d.`DICTTYPE`='school_area'
+		LEFT JOIN t_dict d1 ON c.`SPECIALTY`=d1.`DICTID` AND
+		d1.`DICTTYPE`='specialty'
+		LEFT JOIN t_dict d2 ON c.`STATUS`=d2.`DICTID` and
+		d2.`DICTTYPE`='class_status'
+		LEFT JOIN t_dict d3 ON c.`ISDELETE`=d3.`DICTID` AND
+		d3.`DICTTYPE`='isdelete'
+
+		<where>
+			<if test="code != null and code!=''">
+				AND code LIKE '%${code}%'
+			</if>
+
+			<if test="schoolarea != null and schoolarea!=''">
+				AND c.schoolarea = #{schoolarea}
+			</if>
+
+			<if test="specialty != null and specialty!=''">
+				AND c.specialty = #{specialty}
+			</if>
+		</where>
+	</select>
+
+
+
+</mapper>

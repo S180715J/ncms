@@ -2,19 +2,18 @@ package com.newer.ncms.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.newer.ncms.model.Page;
 import com.newer.ncms.pojo.Clazz;
 import com.newer.ncms.pojo.Dict;
@@ -37,7 +36,7 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/teacher", method = RequestMethod.GET)
 	public ResponseEntity<?> teacher(@RequestParam(value = "page", required = false, defaultValue = "1") String page,
-			@RequestParam(value = "limit", required = false, defaultValue = "3") Integer limit) {
+			@RequestParam(value = "limit", required = false, defaultValue = "6") Integer limit) {
 		Page<User> data = adminService.teacher(page, limit);
 		ResponseEntity<?> entity = null;
 		if (data != null) {
@@ -47,6 +46,34 @@ public class AdminController {
 	}
 
 
+	
+	/**
+	 * 带条件返回所有教师信息
+	 * 
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	@RequestMapping(value = "/queryTeacher", method = RequestMethod.GET)
+	public ResponseEntity<?> queryTeacher(
+			@RequestParam(value = "page", required = false, defaultValue = "1") String page,
+			@RequestParam(value = "limit", required = false, defaultValue = "6") Integer limit, User user) {
+		HashMap<String, Object> params = new HashMap<>();
+		if (user.getRealname() != null) {
+			params.put("realname", user.getRealname());
+		}
+
+		if (user.getDept() != null) {
+			params.put("dept", user.getDept().getDictid());
+		}
+		Page<User> data = adminService.queryTeacher(params, page, limit);
+		ResponseEntity<?> entity = null;
+		if (data != null) {
+			entity = new ResponseEntity<>(data, HttpStatus.OK);
+		}
+		return entity;
+
+	}
 	
 	
 	/**
@@ -59,7 +86,6 @@ public class AdminController {
 	public String addTescher(User user) {
 		user.setCrtime(new Date());
 		int i = adminService.addTeacher(user);
-		System.out.println(user);
 		if (i > 0 ) {
 			return "ok";
 
@@ -92,7 +118,6 @@ public class AdminController {
 	@RequestMapping(value = "/role", method = RequestMethod.GET)
 	public ResponseEntity<?> role() {
 		List<Role> role = adminService.queryRole();
-		System.out.println(role);
 		return new ResponseEntity<>(role, HttpStatus.OK);
 		
 	}
@@ -102,14 +127,50 @@ public class AdminController {
 	 * @param userid
 	 * @return
 	 */
-	@DeleteMapping("/deleteTeacher/{userid}")
-	public  ResponseEntity<?> deleteTeacher(@PathVariable("userid") Integer userid){
-		if(userid == null) {
-			return new ResponseEntity<>("NOT FOUND:"+userid,HttpStatus.NO_CONTENT);
-		}else {
-			Integer i = adminService.deleteTeacher(userid);
-			return new ResponseEntity<String>(i>0?"ok":"nodata",HttpStatus.OK);
+	@RequestMapping(value = "/delTeacher", method = RequestMethod.DELETE)
+	public String delTeacher(String userid) {
+		String id[] = userid.split(",");
+		int[] arr = new int[id.length];
+		for (int i = 0; i < id.length; i++) {
+			arr[i] = Integer.parseInt(id[i]);
+			int delStudent = adminService.delTeacher(arr[i]);
+			if (delStudent <= 0) {
+				return "fail";
+			}
 		}
+
+		return "ok";
+
+	}
+	
+	/**
+	 * 修改教师
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(value = "/upTeacher", method = RequestMethod.PUT)
+	public String upTeacher(User user) {
+		int updStudent = adminService.upTeacher(user);
+		if (updStudent > 0) {
+			return "ok";
+		} else {
+			return "fail";
+		}
+	}
+	
+	/**
+	 * 修改教师回显数据
+	 * @param userid
+	 * @return
+	 */
+	@RequestMapping(value = "/showTeacher/{userid}", method = RequestMethod.GET)
+	public ResponseEntity<?> showTeacher(@PathVariable("userid")Integer userid) {
+		User showTeacher = adminService.showTeacher(userid);
+		if (showTeacher != null) {
+			return new ResponseEntity<>(showTeacher, HttpStatus.OK);
+		}
+		return null;
+
 	}
 	
 	/**
@@ -130,6 +191,38 @@ public class AdminController {
 	}
 	
 	/**
+	 * 带条件返回所有班级信息
+	 * 
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	@RequestMapping(value = "/queryClass", method = RequestMethod.GET)
+	public ResponseEntity<?> queryClass(
+			@RequestParam(value = "page", required = false, defaultValue = "1") String page,
+			@RequestParam(value = "limit", required = false, defaultValue = "6") Integer limit, Clazz clazz) {
+		HashMap<String, Object> params = new HashMap<>();
+		if (clazz.getCode() != null) {
+			params.put("code", clazz.getCode());
+		}
+
+		if (clazz.getSchoolarea() != null) {
+			params.put("schoolarea", clazz.getSchoolarea().getDictid());
+		}
+		if (clazz.getSpecialty() != null) {
+			params.put("specialty", clazz.getSpecialty().getDictid());
+		}
+		Page<Clazz> data = adminService.queryClass(params, page, limit);
+		ResponseEntity<?> entity = null;
+		if (data != null) {
+			entity = new ResponseEntity<>(data, HttpStatus.OK);
+		}
+		return entity;
+
+	}
+	
+	
+	/**
 	 * 添加班级
 	 * @param clazz
 	 * @return
@@ -137,11 +230,63 @@ public class AdminController {
 	@RequestMapping(value = "/addClass", method = RequestMethod.POST)
 	public String addClass(Clazz clazz) {
 		int i = adminService.addClass(clazz);
-		System.out.println(clazz);
 		if (i > 0 ) {
 			return "ok";
 
 		}
 		return null;
+	}
+	
+	
+	/**
+	 * 删除班级
+	 * @param userid
+	 * @return
+	 */
+	@RequestMapping(value = "/delClass", method = RequestMethod.DELETE)
+	public String delClass(String classid) {
+		String id[] = classid.split(",");
+		int[] arr = new int[id.length];
+		for (int i = 0; i < id.length; i++) {
+			arr[i] = Integer.parseInt(id[i]);
+			int delCLass = adminService.delClass(arr[i]);
+			if (delCLass <= 0) {
+				return "fail";
+			}
+		}
+
+		return "ok";
+
+	}
+	
+	
+	/**
+	 * 修改班级
+	 * @param clazz
+	 * @return
+	 */
+	@RequestMapping(value = "/upClass", method = RequestMethod.PUT)
+	public String upClass(Clazz clazz) {
+		int updStudent = adminService.upClass(clazz);
+		if (updStudent > 0) {
+			return "ok";
+		} else {
+			return "fail";
+		}
+	}
+	
+	/**
+	 * 修改班级回显数据
+	 * @param classid
+	 * @return
+	 */
+	@RequestMapping(value = "/showClass/{classid}", method = RequestMethod.GET)
+	public ResponseEntity<?> showClass(@PathVariable("classid")Integer classid) {
+		Clazz showClass = adminService.showClass(classid);
+		if (showClass != null) {
+			return new ResponseEntity<>(showClass, HttpStatus.OK);
+		}
+		return null;
+
 	}
 }

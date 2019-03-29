@@ -1,337 +1,220 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
-<title>发布文章</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<link href="resources/css/jquery-ui-themes.css" type="text/css"
-	rel="stylesheet" />
-<link href="resources/css/axure_rp_page.css" type="text/css"
-	rel="stylesheet" />
+<meta charset="utf-8">
+<title>文章添加</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="../css/x-admin.css" media="all">
 <link href="data/styles.css" type="text/css" rel="stylesheet" />
 <link href="files/home/styles.css" type="text/css" rel="stylesheet" />
-<link rel="stylesheet" href="../css/demo.css" type="text/css">
-<link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css"
-	type="text/css">
+<link rel="stylesheet" href="css/demo.css" type="text/css">
+<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css"
+	type="text/css" />
+<script type="text/javascript" src="../lib/layui/layui.js"></script>
 <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<!-- <script type="text/javascript" src="../js/jquery.min.js"></script> -->
 <script type="text/javascript" src="../js/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
 <script type="text/javascript" src="../js/jwt.js"></script>
-
 </head>
+
 <body>
-	<div id="base" class="">
-
-		<div id="u0" class="ax_paragraph">
-			<img id="u0_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u1" class="text">
-				<p>
-					<span>标</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;
-					</span><span>&nbsp;</span><span>&nbsp;</span><span>题</span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u2" class="ax_text_field">
-			<input id="u2_input" type="text" value="" />
-		</div>
-
-		<div id="u3" class="ax_paragraph">
-			<img id="u3_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u4" class="text">
-				<p>
-					<span>副标题</span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u5" class="ax_text_field">
-			<input id="u5_input" type="text" value="" />
-		</div>
-
-		<div id="u6" class="ax_paragraph">
-			<img id="u6_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u7" class="text">
-				<p>
-					<span>所属频道</span>
-				</p>
-			</div>
-		</div>
-
-
-		<div id="u6" class="ax_paragraph">
-			<img id="u6_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u7" class="text">
-				<p>
-				<ul id="treeDemo" class="ztree" style="display:none;margin-left:550px;margin-top:-10px" ></ul>	
-				</p>
-			</div>
-		</div>
-		
-
-		<div id="u8" class="ax_text_field">
-			<input id="chnlname"  readonly
-			 type="text" value="" />
-			<input id="id" type="hidden" value="" />
-		</div>
-
-		<div id="u9" class="ax_html_button">
-			<input id="clearBtn" type="button" value="清除已选频道" />
-		</div>
-
-		<div id="u10" class="ax_html_button">
-			<input id="channelBtn" type="button" value="选择更多频道" />
-		</div>
-
-		<div id="u11" class="ax_paragraph">
-			<img id="u11_img" class="img " src="resources/images/transparent.gif" />
-			<!-- Unnamed () -->
-			<div id="u12" class="text">
-				<p>
-					<span>摘</span><span>&nbsp; &nbsp;&nbsp; </span><span>要</span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u13" class="ax_text_area">
-			<textarea id="u13_input"></textarea>
-		</div>
-
-		<div id="u14" class="ax_paragraph">
-			<img id="u14_img" class="img " src="resources/images/transparent.gif" />
-			<!-- Unnamed () -->
-			<div id="u15" class="text">
-				<p>
-					<span>生效时间</span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u16" class="ax_paragraph">
-			<img id="u16_img" class="img " src="resources/images/transparent.gif" />
-			<!-- Unnamed () -->
-			<div id="u17" class="text">
-				<p>
-					<span>失效时间</span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u18" class="ax_text_field">
-			<input id="u18_input" type="text" value="" />
-		</div>
-
-		<div id="u19" class="ax_text_field">
-			<input id="u19_input" type="text" value="" />
-		</div>
-
-		<div id="u20" class="ax_paragraph">
-			<img id="u20_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u21" class="text">
-				<p>
-					<span>文章来源</span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u22" class="ax_text_field">
-			<input id="u22_input" type="text" value="" />
-		</div>
-
-		<div id="u23" class="ax_droplist">
-			<select id="u23_input">
-			</select>
-		</div>
-
-		<div id="u24" class="ax_paragraph">
-			<img id="u24_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u25" class="text">
-				<p>
-					<span>发布类型</span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u26" class="ax_paragraph">
-			<img id="u26_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u27" class="text">
-				<p>
-					<span>正</span><span>&nbsp; &nbsp; &nbsp; </span><span>文</span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u28" class="ax_paragraph">
-			<img id="u28_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u29" class="text">
-				<p>
-					<span></span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u30" class="ax_paragraph">
-			<img id="u30_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u31" class="text">
-				<p>
-					<span>外部URL </span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u32" class="ax_text_field">
-			<input id="u32_input" type="text" value="" />
-		</div>
-
-		<div id="u33" class="ax_paragraph">
-			<img id="u33_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u34" class="text">
-				<p>
-					<span>文章分类</span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u35" class="ax_text_field">
-			<input id="u35_input" type="text" value="" />
-		</div>
-
-		<div id="u36" class="ax_paragraph">
-			<img id="u36_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u37" class="text">
-				<p>
-					<span>添加微缩图</span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u38" class="ax_text_field">
-			<input id="u38_input" type="text" value="" />
-		</div>
-
-		<div id="u39" class="ax_html_button">
-			<input id="u39_input" type="submit" value="选择" />
-		</div>
-
-		<div id="u40" class="ax_html_button">
-			<input id="u40_input" type="submit" value="上传" />
-		</div>
-
-		<div id="u41" class="ax_image">
-			<div id="u42" class="text">
-				<p>
-					<span></span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u43" class="ax_paragraph">
-			<img id="u43_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u44" class="text">
-				<p>
-					<span>微缩图</span><span>地址</span>
-				</p>
-			</div>
-		</div>
-
-	<div id="u44" class="ax_paragraph">
-			<img id="u36_img" class=
-			"img " src="resources/images/transparent.gif" />
-			<div id="u37" class="text">
-				<p>
-					<span>文章作者</span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u45" class="ax_text_field">
-			<input id="u45_input" type="text" value="" />
-		</div>
-
-		<div id="u46" class="ax_paragraph">
-			<img id="u46_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u47" class="text">
-				<p>
-					<span>是否置顶</span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u48" class="ax_text_field">
-			<input id="u48_input" type="text" value="" />
-		</div>
-
-		<div id="u49" class="ax_paragraph">
-			<img id="u49_img" class="img " src="resources/images/transparent.gif" />
-			<div id="u50" class="text">
-				<p>
-					<span>是否加精</span>
-				</p>
-			</div>
-		</div>
-
-		<div id="u51" class="ax_radio_button">
-			<label for="u51_input"> <!-- Unnamed () -->
-				<div id="u52" class="text">
-					<p>
-						<span>是</span>
-					</p>
+	<div class="x-body">
+		<form class="layui-form layui-form-pane">
+			<div class="layui-form-item">
+				<label for="L_title" class="layui-form-label"> 标题 </label>
+				<div class="layui-input-block">
+					<input type="text" name="doctitle" id="doctitle" autocomplete="off"
+						class="layui-input" lay-verify="required">
 				</div>
-			</label> <input id="u51_input" type="radio" value="radio" name="u51" />
-		</div>
+			</div>
 
-		<div id="u53" class="ax_radio_button">
-			<label for="u53_input">
-				<div id="u54" class="text">
-					<p>
-						<span>否</span>
-					</p>
+			<div class="layui-form-item">
+				<label for="L_title" class="layui-form-label"> 副标题 </label>
+				<div class="layui-input-block">
+					<input type="text" id="docsubtitle" name="docsubtitle"
+						autocomplete="off" class="layui-input" lay-verify="required">
 				</div>
-			</label> <input id="u53_input" type="radio" value="radio" name="u53" checked />
-		</div>
+			</div>
 
-		<div id="u55" class="ax_radio_button">
-			<label for="u55_input">
-				<div id="u56" class="text">
-					<p>
-						<span>是</span>
-					</p>
+			<div class="layui-form-item">
+				<label for="L_title" class="layui-form-label"> 所属频道 </label>
+				<div class="layui-input-block">
+					<input type="text" id="chnlname" readonly name="chnlname"
+						autocomplete="off" class="layui-input" lay-verify="required">
+					<input id=channelid type="hidden" value="" />
 				</div>
-			</label> <input id="u55_input" type="radio" value="radio" name="u55" />
-		</div>
+			</div>
 
-		<div id="u57" class="ax_radio_button">
-			<label for="u57_input">
-				<div id="u58" class="text">
-					<p>
-						<span>否</span>
-					</p>
-				</div>
-			</label> <input id="u57_input" type="radio" value="radio" name="u57" checked />
-		</div>
 
-		<div id="u59" class="ax_html_button">
-			<input id="u59_input" type="submit" value="保存" />
-		</div>
+					<button class="layui-btn" id="clearBtn" type="button">清空已选频道</button>
+				<input class="layui-btn" id="channelBtn" type="button" value="选择更多频道" />
 
-		<div id="u60" class="ax_html_button">
-			<input id="u60_input" type="submit" value="提交" />
+
+
+	<div class="layui-form-item">
+			<ul id="treeDemo" class="ztree"
+				style="margin-left: 270px; margin-top: -320px;display: none;"></ul>
+	</div>
+
+
+
+	<div class="layui-form-item">
+		<label for="L_title" class="layui-form-label"> 摘要</label>
+		<div class="layui-input-block">
+			<textarea rows="10" cols="50" id="docabstract"></textarea>
 		</div>
 	</div>
-	<script src="../lib/layui/layui.js" charset="utf-8"></script>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">生效时间</label>
+		<div class="layui-input-block">
+			<input type="date" id="docvalid" value="" placeholder="请输入生效时间"
+				lay-verify="required|date"
+				onclick="layui.laydate({elem: this,max: laydate.now(),type:'datetime'})"
+				class="layui-input time">
+		</div>
+	</div>
+
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">失效时间</label>
+		<div class="layui-input-block">
+			<input type="date" value="" id="docunvalid" placeholder="请输入失效时间"
+				lay-verify="required|date"
+				onclick="layui.laydate({elem: this,max: laydate.now()})"
+				class="layui-input time">
+		</div>
+	</div>
+
+
+	<div class="layui-form-item">
+		<label for="L_title" class="layui-form-label"> 文章来源</label>
+		<div class="layui-input-block">
+			<input type="text" id="docsource" name="docsource" autocomplete="off"
+				class="layui-input" lay-verify="required">
+		</div>
+	</div>
+
+
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label"> 发布类型 </label>
+			<div class="layui-input-block">
+				<select lay-verify="required" name="doctype" id="doctype">
+
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="layui-form-item layui-form-text">
+		<div class="layui-input-block">
+			<textarea id="dochtml" name="dochtml" placeholder="请输入内容"
+				class="layui-textarea fly-editor" style="height: 260px;"></textarea>
+		</div>
+
+	</div>
+
+	<div class="site-demo-button" style="margin-top: 20px;">
+		<button class="layui-btn site-demo-layedit" type="button"
+			data-type="text">获取编辑器纯文本内容</button>
+	</div>
+
+	<input id="dochtmlcon" type="hidden" value="">
+
+
+	<div class="layui-form-item">
+		<label for="L_title" class="layui-form-label"> 外部URL地址</label>
+		<div class="layui-input-block">
+			<input type="text" id="url" name="url" autocomplete="off"
+				class="layui-input" lay-verify="required">
+		</div>
+	</div>
+
+	<p>
+		<input type="file" name="file" id="inputBox" />
+
+	</p>
+	<br/>
+	<button type="button" class="layui-btn"  id="uploadFile">上传</button>
+
+	<div class="layui-form-item">
+		<div id="previewImage" style="height: 100px; margin-left: 250px"></div>
+	</div>
+
+	<div class="layui-form-item">
+		<label for="L_title" class="layui-form-label"> 微缩图地址</label>
+		<div class="layui-input-block">
+			<input type="text" id="docimage" name="docimage" readonly="readonly"
+				autocomplete="off" class="layui-input" lay-verify="required">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label for="L_title" class="layui-form-label"> 文章作者</label>
+		<div class="layui-input-block">
+			<input type="text" id="docauthor" name="docauthor" autocomplete="off"
+				class="layui-input" lay-verify="required">
+		</div>
+	</div>
+
+
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label"> 是否置顶 </label>
+			<div class="layui-input-block">
+				<input type="radio" name="istop" id="istop" value="1" title="是"
+					checked=""> <input type="radio" name="istop" id="istop"
+					value="0" title="否">
+			</div>
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label"> 是否加精</label>
+			<div class="layui-input-block">
+				<input type="radio" name="ishighlight" id="ishighlight" value="1"
+					title="是" checked=""> <input type="radio"
+					name="ishighlight" id="ishighlight" value="0" title="否">
+			</div>
+		</div>
+	</div>
+
+
+	<!-- <div class="layui-form-item">
+				<button class="layui-btn"  id="add">立即发布
+				</button>
+			</div> -->
+
+	<div class="layui-form-item">
+		<button class="layui-btn" lay-filter="add" lay-submit id="add">立即发布
+		</button>
+	</div>
+
+
+	</form>
+	</div>
+
+
 	<SCRIPT type="text/javascript">
-	//获取频道值
-		$("#channelBtn").click(function() {
-			 $("#treeDemo").toggle();
-			
-		});
+	$(function(){
+		//清空所选频道的值
 		$("#clearBtn").click(function() {
 			$("#chnlname").val("");
-			 $("#id").val("");
-			
+			$("#channelid").val("");
 		});
-
+		$("#channelBtn").click(function() {
+			$("#treeDemo").toggle();
+		});
 		var zTreeObj;
 		//zTree配置
 		var setting = {
@@ -358,9 +241,9 @@
 					rootPid : 0
 				}
 			},
-		 		 callback:{
-		 onClick:zTreeOnClick
-		},
+			callback : {
+				onClick : zTreeOnClick
+			},
 		/*	edit:{
 		 enable:true,
 		 showRemoveBtn: true,
@@ -371,19 +254,232 @@
 		 color:'red'
 		 }  */
 		}
-
 		$(document).ready(function() {
 			zTreeObj = $.fn.zTree.init($("#treeDemo"), setting);
 		});
-		
-		 function zTreeOnClick(event, treeId, treeNode) {
-			 $("#chnlname").val(treeNode.chnlname);
-			 $("#id").val(treeNode.channelid);
+		function zTreeOnClick(event, treeId, treeNode) {
+			$("#chnlname").val(treeNode.chnlname);
+			$("#channelid").val(treeNode.channelid);
 		}
 		
+		//富文本编辑器
+		layui.use([ 'form', 'layer', 'layedit' ],
+				function() {
+					$ = layui.jquery;
+					var form = layui.form(), layer = layui.layer, layedit = layui.layedit;
+
+					layedit.set({
+						uploadImage : {
+							url : "./upimg.json" //接口url
+							,
+							type : 'post' //默认post
+						}
+					})
+
+					//创建一个编辑器
+					editIndex = layedit.build('dochtml');
+
+					var active = {
+						text : function() {
+
+							//alert(layedit.getText(editIndex)); //获取编辑器纯文本内容
+							document.getElementById("dochtmlcon").value = layedit
+									.getText(editIndex);
+						}
+					};
+
+					$('.site-demo-layedit').on('click', function() {
+						var type = $(this).data('type');
+						active[type] ? active[type].call(this) : '';
+					});
+				});
+
+layui.use('laydate', function() {
+	var laydate = layui.laydate;
+	/*  //日期时间选择器
+	laydate.render({ 
+	  elem: '.time'
+	  ,type: 'datetime'
+	});  */
+});
+		
+		
+//回显文章类型下拉列表
+$.ajax({
+	type : 'get',
+	url : HOST_URL + 'types',
+	dataType : 'json',
+	success : function(data) {
+		var types = '';//文章类型下拉框
+
+		$.each(data, function(i, a) {
+			types += '<option value="'+a.dictid+'">' + a.dicname
+					+ '</option>'
+			$('#doctype').html(types);
+
+		});
+	}
+});
+
+layui.use([ 'form', 'layer' ], function() {
+	$ = layui.jquery;
+	var form = layui.form(), layer = layui.layer;
+
+});
+
+var inputBox = document.getElementById("inputBox");
+var img = document.getElementById("img");
+inputBox
+		.addEventListener(
+				"change",
+				function() {
+
+					var fileName = inputBox.value;
+					//alert(fileName);
+					if (fileName == "")
+						return;
+					//检查文件类型
+					var reader = new FileReader();
+					reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+					var exName = fileName.substr(
+							fileName.lastIndexOf(".") + 1)
+							.toUpperCase()
+					if (exName == "JPG" || exName == "BMP"
+							|| exName == "GIF") {
+
+						reader.onload = function() {
+							//读取完成后，将结果赋值给img的src
+							// img.src = this.result;
+							// alert(this.result);
+							document.getElementById("previewImage").innerHTML = '<img src=\''+this.result+'\' width=100 height=100 >';
+						}
+						//document.getElementById("myimg").src=fileName;
+
+					} else if (exName == "SWF") {
+						reader.onload = function() {
+							document.getElementById("previewImage").innerHTML = '<embed src=\''+this.result+'\' width=\'100\' height=\'100\' quality=\'high\' bgcolor=\'#f5f5f5\' ></embed>';
+
+						}
+					} else if (exName == "WMV" || exName == "MPEG"
+							|| exName == "ASF" || exName == "AVI") {
+
+						reader.onload = function() {
+							//alert(this.result);
+							var strcode = '<embed src=\''+this.result+'\' border=\'0\' width=\'100\' height=\'100\'  quality=\'high\' ';
+		            strcode+=' autoStart=\'1\' playCount=\'0\' enableContextMenu=\'0\' type=\'application/x-mplayer2\'></embed>';
+							var strcode = '<embed src=\''+this.result+'\' controls=\'controls\'></video>'
+
+							document.getElementById("previewImage").innerHTML = strcode;
+
+						}
+					} else {
+						layer.msg("请选择正确的文件", {
+							icon : 5,
+							offset : 'auto',
+							anim : 0,
+							time : 1500,
+							shade : [ 0.8, '#393D49' ]
+						});
+						document.getElementById("inputBox").value = "";
+					}
+
+					/* 			  var reader = new FileReader();
+					 reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+					 reader.onload = function(){
+					 //读取完成后，将结果赋值给img的src
+					 img.src = this.result;
+					
+					 } */
+				});
+
+//上传文件
+$("#uploadFile").click(function() {
+	var formData = new FormData();
+	formData.append('file', $('#inputBox')[0].files[0]);
+	$.ajax({
+		url : HOST_URL + '/upload',
+		type : 'POST',
+		cache : false,
+		data : formData,
+		processData : false,
+		contentType : false,
+		headers : createAuthorizationTokenHeader(),
+		success : function(data) {
+			//alert("data"+data);
+			$("#docimage").val(data);
+		}
+	}).done(function(res) {
+	}).fail(function(res) {
+	});
+});
+		
+		
+//添加的单击事件
+$("#add").click(function() {
+	var doctitle = $("#doctitle").val();//文章标题
+	var docsubtitle = $("#docsubtitle").val();//文章副标题
+	var channelid = $("#channelid").val();//所属频道id
+	var docabstract = $("#docabstract").val();//摘要
+	var docvalid = $("#docvalid").val();//生效时间
+	var docunvalid = $("#docunvalid").val();//失效时间
+	var docsource = $("#docsource").val();//文章来源
+	var doctype = $("#doctype option:selected").val();//发布类型
+	var dochtmlcon = $("#dochtmlcon").val();//正文
+	var url = $("#url").val();//外部URL
+	var docimage = $("#docimage").val()//微缩图地址
+	var docauthor = $("#docauthor").val();//文章作者
+	var istop = $("input[name='istop']:checked").val();//是否置顶
+	var ishighlight = $("input[name='ishighlight']:checked").val();
+	$.ajax({
+		type : 'post',
+		url : HOST_URL + 'addArticle',
+		headers : createAuthorizationTokenHeader(),
+		//contentType:'application/json;charset=utf-8',
+		data : {
+			"doctitle" : doctitle,
+			"docsubtitle" : docsubtitle,
+			"docchannel.channelid" : channelid,
+			"docabstract" : docabstract,
+			"docvalid" : docvalid,
+			"docunvalid" : docunvalid,
+			"docsource" : docsource,
+			"doctype.dictid" : doctype,
+			"dochtmlcon" : dochtmlcon,
+			"url" : url,
+			"docimage" : docimage,
+			"docauthor" : docauthor,
+			"istop.dictid" : istop,
+			"ishighlight.dictid" : ishighlight
+		},
+		dataType : 'text',
+		success : function(data) {
+			if (data == "ok") {
+				//alert(data);
+				parent.location.reload();
+
+				//layer.msg('添加成功！',{time:1000,icon: 1});
+				/* 	layer.confirm('您已成功提交文章信息，是否需要继续提交？', {
+						btn : [ '需要', '不需要' ]
+					//按钮
+					}, function() {
+						document.getElementById("form").reset();
+						layer.close(layer.index);
+					}, function() {
+						parent.location.reload();
+					}
+				); */
+			} else {
+				layer.msg("提交失败");
+			}
+		}
+	});
+
+});	
+		
+		
+		
+	});
 	</SCRIPT>
-
-
-
 </body>
+
 </html>

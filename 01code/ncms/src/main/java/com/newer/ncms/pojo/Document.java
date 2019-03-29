@@ -2,8 +2,6 @@ package com.newer.ncms.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -30,11 +28,11 @@ public class Document implements Serializable {
 	private Dict istop;// 是否置顶 1是 0否
 	private Dict ishighlight;// 是否加精 1是 0否
 	private String docauthor; // 作者
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date docvalid;// 生效时间
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date docunvalid;// 失效时间
 	private String docsource;// 文档来源
 	private String url;// 外部链接地址
@@ -46,7 +44,9 @@ public class Document implements Serializable {
 	private Dict docstatus;// 文档状态
 	private Dict isdelete;// 是否已删除
 	private Dict doctype;// 发布类型
-
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date checktime;// 审核时间
 	public Integer getDocid() {
 		return docid;
 	}
@@ -202,6 +202,15 @@ public class Document implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+
+	public Date getChecktime() {
+		return checktime;
+	}
+
+	public void setChecktime(Date checktime) {
+		this.checktime = checktime;
+	}
 
 	@Override
 	public String toString() {
@@ -210,7 +219,8 @@ public class Document implements Serializable {
 				+ ", ishighlight=" + ishighlight + ", docauthor=" + docauthor + ", docvalid=" + docvalid
 				+ ", docunvalid=" + docunvalid + ", docsource=" + docsource + ", url=" + url + ", dochtmlcon="
 				+ dochtmlcon + ", docreltime=" + docreltime + ", user=" + user + ", docstatus=" + docstatus
-				+ ", isdelete=" + isdelete + ", doctype=" + doctype + "]";
+				+ ", isdelete=" + isdelete + ", doctype=" + doctype + ", checktime=" + checktime + "]";
 	}
+
 
 }
